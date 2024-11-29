@@ -1130,15 +1130,50 @@ button:hover {
 .estimate-section {
     padding: 80px var(--side-padding);
     background: var(--light-bg);
+    color: #000000;
+}
+
+.show-calculator-btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 24px;
+}
+
+.show-calculator-btn:hover {
+    background: #15395d;
 }
 
 .calculator-container {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 40px auto 0;
     padding: 40px;
     background: white;
     border-radius: 20px;
     box-shadow: var(--box-shadow);
+    display: none;
+}
+
+.calculator-container.show {
+    display: block !important;
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .estimate-form {
@@ -1155,7 +1190,7 @@ button:hover {
 
 .form-group label {
     font-weight: 600;
-    color: var(--text-color);
+    color: #000000;
 }
 
 .form-group input,
@@ -1165,6 +1200,7 @@ button:hover {
     border-radius: 10px;
     font-size: 16px;
     transition: border-color 0.3s ease;
+    color: #000000;
 }
 
 .form-group input:focus,
@@ -1184,6 +1220,7 @@ button:hover {
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    color: #000000;
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -1216,6 +1253,10 @@ button:hover {
     text-align: center;
 }
 
+.estimate-result h3 {
+    color: #000000;
+}
+
 .total-cost {
     font-size: 48px;
     font-weight: 700;
@@ -1224,7 +1265,7 @@ button:hover {
 }
 
 .estimate-note {
-    color: var(--light-text);
+    color: #666666;
     font-size: 14px;
     margin-top: 8px;
 }

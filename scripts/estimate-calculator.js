@@ -21,6 +21,19 @@ const PRICING = {
 document.addEventListener('DOMContentLoaded', function() {
     const calculator = document.getElementById('gutterCalculator');
     const resultDiv = document.getElementById('estimateResult');
+    const showCalculatorBtn = document.getElementById('showCalculator');
+    const calculatorWrapper = document.getElementById('calculatorWrapper');
+
+    // Show/Hide Calculator
+    if (showCalculatorBtn && calculatorWrapper) {
+        showCalculatorBtn.addEventListener('click', function() {
+            calculatorWrapper.style.display = 'block';
+            calculatorWrapper.classList.add('show');
+            showCalculatorBtn.style.display = 'none';
+            // Smooth scroll to calculator
+            calculatorWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
 
     if (calculator) {
         calculator.addEventListener('submit', function(e) {
