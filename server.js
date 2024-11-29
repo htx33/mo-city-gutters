@@ -4,17 +4,20 @@ const cors = require('cors');
 const path = require('path');
 const compression = require('compression');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
 const winston = require('winston');
-const https = require('https');
-const fs = require('fs');
+const mongoose = require('mongoose');
 
 const securityConfig = require('./config/security');
 const securityMiddleware = require('./middleware/security');
+const apiRoutes = require('./routes/api');
+const estimatesRoutes = require('./routes/estimates');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.NODE_ENV === 'production' ? (process.env.PORT || 443) : 3000;
 const isProduction = process.env.NODE_ENV === 'production';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mo-city-gutters';
 
 // Logger configuration
 const logger = winston.createLogger({
@@ -35,14 +38,26 @@ if (!isProduction) {
     }));
 }
 
-// Apply security middleware
-app.use(securityMiddleware.helmetConfig);
-app.use(securityMiddleware.generalLimiter);
-app.use('/api', securityMiddleware.apiLimiter);
-app.use('/api/contact', securityMiddleware.loginLimiter);
+// Connect to MongoDB
+mongoose.connect(MONGODB_URI)
+    .then(() => {
+        logger.info('Connected to MongoDB successfully');
+    })
+    .catch((err) => {
+        logger.error('MongoDB connection error:', err);
+    });
+
+// Basic middleware
+app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.SESSION_SECRET));
 
 // CORS configuration
-app.use(cors(isProduction ? securityConfig.corsConfig.production : securityConfig.corsConfig.development));
+app.use(cors({
+    origin: isProduction ? process.env.PRODUCTION_DOMAIN : 'http://localhost:3000',
+    credentials: true
+}));
 
 // Session configuration
 const sessionConfig = {
@@ -60,16 +75,12 @@ if (isProduction) {
 
 app.use(session(sessionConfig));
 
-// CSRF protection
-app.use(csrf());
-
-// Compression
-app.use(compression());
-
-// Body parser with size limits and sanitization
-app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+// Security middleware
+app.use(securityMiddleware.helmetConfig);
 app.use(securityMiddleware.sanitizeData);
+app.use(securityMiddleware.generalLimiter);
+app.use('/api', securityMiddleware.apiLimiter);
+app.use('/api/contact', securityMiddleware.loginLimiter);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public'), {
@@ -78,10 +89,50 @@ app.use(express.static(path.join(__dirname, 'public'), {
     lastModified: true
 }));
 
-// CSRF token middleware
-app.use((req, res, next) => {
-    res.locals.csrfToken = req.csrfToken();
-    next();
+// Initialize CSRF protection
+const csrfProtection = csrf({
+    cookie: {
+        key: '_csrf',
+        path: '/',
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: 'Lax'
+    }
+});
+
+// CSRF Token endpoint (no CSRF protection here)
+app.get('/api/csrf-token', (req, res) => {
+    csrfProtection(req, res, () => {
+        res.json({ csrfToken: req.csrfToken() });
+    });
+});
+
+// Apply CSRF protection to API routes except the token endpoint
+app.use('/api', (req, res, next) => {
+    if (req.path === '/csrf-token') {
+        return next();
+    }
+    csrfProtection(req, res, next);
+});
+
+// API Routes
+app.use('/api', apiRoutes);
+app.use('/api/estimates', estimatesRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    if (err.code === 'EBADCSRFTOKEN') {
+        logger.error('CSRF token validation failed');
+        return res.status(403).json({
+            message: 'Form has expired. Please refresh the page.',
+            error: err.message
+        });
+    }
+    logger.error('Server error:', err);
+    res.status(500).json({
+        message: 'Something went wrong!',
+        error: isProduction ? null : err.message
+    });
 });
 
 // Contact form endpoint with validation
@@ -110,13 +161,14 @@ app.use(securityMiddleware.errorHandler);
 // Start server
 if (isProduction && securityConfig.sslConfig.production.enabled) {
     // HTTPS server for production
-    const httpsOptions = {
-        key: fs.readFileSync(path.join(__dirname, 'ssl', 'private.key')),
-        cert: fs.readFileSync(path.join(__dirname, 'ssl', 'certificate.crt')),
-        ...securityConfig.sslConfig.production.options
-    };
-
-    https.createServer(httpsOptions, app).listen(PORT, () => {
+    const https = require('https');
+    const fs = require('fs');
+    const privateKey = fs.readFileSync(path.join(__dirname, 'ssl', 'private.key'), 'utf8');
+    const certificate = fs.readFileSync(path.join(__dirname, 'ssl', 'certificate.crt'), 'utf8');
+    const credentials = { key: privateKey, cert: certificate };
+    
+    const httpsServer = https.createServer(credentials, app);
+    httpsServer.listen(PORT, () => {
         logger.info(`HTTPS Server running on port ${PORT}`);
     });
 
