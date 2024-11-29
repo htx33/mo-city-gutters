@@ -7,11 +7,19 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
-    <!-- Estimate Tool Widget -->
-<!-- Scripts -->
-<script src="scripts/testimonials.js"></script>
-<script src="scripts/estimate-calculator.js"></script>      
+    <!-- Scripts -->
+    <script src="scripts/testimonials.js"></script>
+    <script src="scripts/estimate-calculator.js"></script>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PTPWBZ31SY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PTPWBZ31SY');
+</script>
 <body>
     <header>
         <nav>
@@ -20,46 +28,11 @@
             </a>
             <div class="nav-links">
                 <a href="#services">Services</a>
-                <a href="#gallery">Our Work</a>
-                <a href="#testimonials">Reviews</a>
+                <a href="#gallery">Gallery</a>
                 <a href="#contact">Contact</a>
             </div>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
         </nav>
-        <div class="mobile-menu">
-            <a href="#services">Services</a>
-            <a href="#gallery">Our Work</a>
-            <a href="#testimonials">Reviews</a>
-            <a href="#contact">Contact</a>
-            <div class="mobile-contact">
-                <a href="tel:+12818279457" class="mobile-cta">
-                    <i class="fas fa-phone"></i> Call Now
-                </a>
-                <a href="sms:+12818279457" class="mobile-cta">
-                    <i class="fas fa-comment-dots"></i> Text Us
-                </a>
-            </div>
-        </div>
     </header>
-
-    <section class="hero">
-        <img src="images/hero-home.jpg" alt="Beautiful home with quality gutters" class="hero-background">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>Professional Gutter Solutions</h1>
-            <p>Transform your home with Professional Seamless Gutters and Expert Remodeling Solutions.</p>
-            <a href="#contact" class="cta-button">Get a Free Quote</a>
-        </div>
-    </section>
-
-    <section class="mission">
-        <div class="mission-content">
-            <h2>Our Mission</h2>
-            <p>At Mo City Gutters and Remodeling, our mission is to enhance and protect homes with top-quality seamless gutters and exceptional exterior remodeling services. Rooted in faith, we are committed to serving our community with integrity, craftsmanship, and care, honoring God in every project while providing solutions that bring lasting value and peace of mind to our customers.</p>
-        </div>
-    </section>
 
     <section id="services" class="services">
         <div class="section-header">
@@ -67,87 +40,26 @@
             <p>Professional gutter solutions and home improvements with integrity and excellence</p>
         </div>
         <div class="services-grid">
-            <!-- Seamless Gutters -->
             <div class="service-card">
-                <div class="service-symbol">
-                    <i class="fa-solid fa-water"></i>
-                </div>
-                <h3>Seamless Gutters</h3>
-                <p>Custom-fit seamless gutters designed and installed to protect your home from water damage.</p>
-                <ul class="service-features">
-                    <li>On-site custom fabrication</li>
-                    <li>Professional installation</li>
-                    <li>Various colors and styles</li>
-                    <li>Weather-resistant materials</li>
-                </ul>
+                <i class="fas fa-home"></i>
+                <h3>Gutter Installation</h3>
+                <p>Professional installation of 5" and 6" seamless gutters for residential and commercial properties.</p>
             </div>
-
-            <!-- Gutter Cleaning -->
             <div class="service-card">
-                <div class="service-symbol">
-                    <i class="fa-solid fa-broom"></i>
-                </div>
-                <h3>Gutter Cleaning</h3>
-                <p>Thorough cleaning and maintenance to ensure your gutters function properly year-round.</p>
-                <ul class="service-features">
-                    <li>Debris removal</li>
-                    <li>Downspout cleaning</li>
-                    <li>System inspection</li>
-                    <li>Preventive maintenance</li>
-                </ul>
-            </div>
-
-            <!-- Home Remodeling -->
-            <div class="service-card">
-                <div class="service-symbol">
-                    <i class="fa-solid fa-hammer"></i>
-                </div>
-                <h3>Home Remodeling</h3>
-                <p>Quality home improvements and renovations to enhance your living space.</p>
-                <ul class="service-features">
-                    <li>Kitchen & bath remodeling</li>
-                    <li>Interior renovations</li>
-                    <li>Exterior upgrades</li>
-                    <li>Custom solutions</li>
-                </ul>
-            </div>
-
-            <!-- Gutter Guards -->
-            <div class="service-card">
-                <div class="service-symbol">
-                    <i class="fa-solid fa-shield-alt"></i>
-                </div>
-                <h3>Gutter Guards</h3>
-                <p>Advanced protection systems to keep debris out while letting water flow freely.</p>
-                <ul class="service-features">
-                    <li>Premium materials</li>
-                    <li>Professional installation</li>
-                    <li>Leaf & debris protection</li>
-                    <li>Reduced maintenance</li>
-                </ul>
-            </div>
-
-            <!-- Gutter Repair -->
-            <div class="service-card">
-                <div class="service-symbol">
-                    <i class="fa-solid fa-wrench"></i>
-                </div>
+                <i class="fas fa-tools"></i>
                 <h3>Gutter Repair</h3>
-                <p>Expert repair services to fix leaks, sagging, and other gutter system issues.</p>
-                <ul class="service-features">
-                    <li>Leak detection & repair</li>
-                    <li>Sagging correction</li>
-                    <li>Joint sealing</li>
-                    <li>System restoration</li>
-                </ul>
+                <p>Expert repair services for damaged or malfunctioning gutters to ensure proper water drainage.</p>
             </div>
-        </div>
-    </section>
-
-    <section class="bible-verse-banner">
-        <div class="bible-verse-content" id="verse-display">
-            <p class="verse-text">Commit to the LORD whatever you do, and he will establish your plans.</p>
-            <p class="verse-reference">- Proverbs 16:3</p>
+            <div class="service-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Gutter Guards</h3>
+                <p>High-quality gutter guard installation to prevent debris buildup and reduce maintenance.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-broom"></i>
+                <h3>Gutter Cleaning</h3>
+                <p>Thorough cleaning services to remove debris and ensure optimal gutter performance.</p>
+            </div>
         </div>
     </section>
 
@@ -156,27 +68,21 @@
         <div class="gallery-grid">
             <div class="gallery-item">
                 <img src="images/gallery/IMG_3815.jpg" alt="Professional gutter installation" loading="lazy">
-                <div class="gallery-caption">Seamless Gutter Installation</div>
             </div>
             <div class="gallery-item">
-                <img src="images/gallery/IMG_3895.jpg" alt="Custom gutter work" loading="lazy">
-                <div class="gallery-caption">Custom Gutter Solutions</div>
+                <img src="images/gallery/IMG_3816.jpg" alt="Seamless gutter system" loading="lazy">
             </div>
             <div class="gallery-item">
-                <img src="images/gallery/IMG_3897.jpg" alt="Home exterior with new gutters" loading="lazy">
-                <div class="gallery-caption">Complete Home Gutter System</div>
+                <img src="images/gallery/IMG_3817.jpg" alt="Gutter guard installation" loading="lazy">
             </div>
             <div class="gallery-item">
-                <img src="images/gallery/IMG_3902.jpg" alt="Detailed gutter installation" loading="lazy">
-                <div class="gallery-caption">Professional Installation</div>
+                <img src="images/gallery/IMG_3818.jpg" alt="Gutter repair service" loading="lazy">
             </div>
             <div class="gallery-item">
-                <img src="images/gallery/IMG_3903.jpg" alt="Modern gutter system" loading="lazy">
-                <div class="gallery-caption">Modern Gutter Solutions</div>
+                <img src="images/gallery/IMG_3819.jpg" alt="Commercial gutter project" loading="lazy">
             </div>
             <div class="gallery-item">
-                <img src="images/gallery/IMG_3907.jpg" alt="Quality gutter work" loading="lazy">
-                <div class="gallery-caption">Quality Craftsmanship</div>
+                <img src="images/gallery/IMG_3820.jpg" alt="Residential gutter installation" loading="lazy">
             </div>
         </div>
     </section>
@@ -265,84 +171,33 @@
                 <h2>Get in Touch</h2>
                 <p>Ready to protect your home with professional gutter solutions? Contact us today for a free consultation and quote.</p>
                 <div class="contact-details">
-                    <p><i class="fas fa-phone"></i> (281) 827-9457</p>
-                    <p><i class="fas fa-envelope"></i> info@mocitygutters.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Missouri City, TX</p>
-                    <a href="sms:+12818279457" class="text-cta">
-                        <i class="fas fa-comment-dots"></i> Text Us for Quick Response
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+18327593402">(832) 759-3402</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:mocitygutters@gmail.com">mocitygutters@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Missouri City, TX</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/MoCityGutters" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.instagram.com/mocitygutters" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
                     </a>
                 </div>
             </div>
-            <form class="contact-form" id="contactForm" onsubmit="return validateForm(event)">
-                <div class="form-group">
-                    <input type="text" id="name" name="name" placeholder="Your Name" required 
-                           pattern="[A-Za-z\s]{2,50}" 
-                           title="Please enter a valid name (2-50 characters, letters only)">
-                </div>
-                <div class="form-group">
-                    <input type="email" id="email" name="email" placeholder="Email Address" required
-                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                           title="Please enter a valid email address">
-                </div>
-                <div class="form-group">
-                    <input type="tel" id="phone" name="phone" placeholder="Phone Number"
-                           pattern="[\d\-\(\)\s]{10,}"
-                           title="Please enter a valid phone number">
-                </div>
-                <div class="form-group">
-                    <textarea id="message" name="message" placeholder="Tell us about your project" rows="5" required
-                            maxlength="1000"></textarea>
-                </div>
-                <!-- Hidden honeypot field to prevent spam -->
-                <div class="form-group" style="display: none;">
-                    <input type="text" name="honeypot" id="honeypot" tabindex="-1" autocomplete="off">
-                </div>
-                <input type="hidden" name="csrf_token" id="csrf_token">
-                <button type="submit" id="submitBtn">Send Message</button>
-            </form>
         </div>
     </section>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p>Missouri City, TX</p>
-                <p>Phone: (281) 827-9457</p>
-                <p><i class="fas fa-envelope"></i> info@mocitygutters.com</p>
-            </div>
-            
-            <div class="footer-section">
-                <h3>Our Services</h3>
-                <a href="#services">Seamless Gutters</a>
-                <a href="#services">Gutter Guards</a>
-                <a href="#services">Gutter Cleaning</a>
-                <a href="#services">Home Remodeling</a>
-            </div>
-            
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <a href="#gallery">Our Work</a>
-                <a href="#testimonials">Reviews</a>
-                <a href="#contact">Get a Quote</a>
-            </div>
-
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 Mo City Gutters. All rights reserved.</p>
-        </div>
+        <p>&copy; 2024 Mo City Gutters. All rights reserved.</p>
     </footer>
-
-    <script src="scripts/main.js"></script>
-    <script src="scripts/estimate-calculator.js"></script>
 </body>
 </html>
