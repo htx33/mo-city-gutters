@@ -919,6 +919,38 @@ button:hover {
     font-size: 1.2em;
 }
 
+/* Estimate Tool Styles */
+.estimate-tool {
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+    margin: 40px 0;
+}
+
+.estimate-tool .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.estimate-tool .section-header h2 {
+    color: #2c5282;
+    margin-bottom: 15px;
+    font-size: 2.5em;
+}
+
+.estimate-tool .section-header p {
+    color: #4a5568;
+    font-size: 1.2em;
+}
+
+.estimate-tool #estimate-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
 /* Security-related styles */
 .g-recaptcha {
     margin: 20px 0;
