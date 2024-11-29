@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
+    <!-- Estimate Tool Widget -->
+<script src="widget/embed.js"></script>
+<!-- Testimonials Script -->
+<script src="scripts/testimonials.js"></script>       
 </head>
 <body>
     <header>
@@ -191,264 +195,69 @@
             </div>
         </div>
     </section>
-    import React, { useState } from 'react';
-    import { Input } from '@/components/ui/input';
-    import { Button } from '@/components/ui/button';
-    import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-    
-    // Pricing Configuration
-    const PRICING_CONFIG = {
-      baseRate: 10,
-      premiumMultiplier: 1.5,
-      additionalServices: {
-        cleaningService: 150,
-        gutterGuards: 500,
-        specialRoofTypes: 250
-      }
-    };
-    
-    const GutterEstimateApp = () => {
-      const [step, setStep] = useState(1);
-      const [formData, setFormData] = useState({
-        name: '',
-        phone: '',
-        email: '',
-        address: '',
-        homeLength: '',
-        gutterType: 'standard',
-        additionalServices: []
-      });
-      const [estimate, setEstimate] = useState(null);
-      const [validationErrors, setValidationErrors] = useState({});
-    
-      // Basic Form Validation
-      const validateForm = () => {
-        const errors = {};
-        
-        if (!formData.name || formData.name.length < 2) {
-          errors.name = "Name is required and must be at least 2 characters";
-        }
-        
-        const phoneRegex = /^\d{10}$/;
-        if (!formData.phone || !phoneRegex.test(formData.phone)) {
-          errors.phone = "Invalid phone number (10 digits required)";
-        }
-        
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!formData.email || !emailRegex.test(formData.email)) {
-          errors.email = "Invalid email address";
-        }
-        
-        if (!formData.address || formData.address.length < 5) {
-          errors.address = "Address is required";
-        }
-    
-        setValidationErrors(errors);
-        return Object.keys(errors).length === 0;
-      };
-    
-      const calculateEstimate = () => {
-        if (!validateForm()) return;
-    
-        const baseEstimate = PRICING_CONFIG.baseRate * 
-          parseFloat(formData.homeLength) * 
-          (formData.gutterType === 'premium' ? PRICING_CONFIG.premiumMultiplier : 1);
-    
-        const additionalServicesCost = formData.additionalServices.reduce(
-          (total, service) => total + PRICING_CONFIG.additionalServices[service], 
-          0
-        );
-    
-        const totalEstimate = baseEstimate + additionalServicesCost;
-        
-        setEstimate(totalEstimate.toFixed(2));
-        setStep(3);
-      };
-    
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-          ...prev,
-          [name]: value
-        }));
-      };
-    
-      const handleServiceChange = (service) => {
-        setFormData(prev => ({
-          ...prev,
-          additionalServices: prev.additionalServices.includes(service)
-            ? prev.additionalServices.filter(s => s !== service)
-            : [...prev.additionalServices, service]
-        }));
-      };
-    
-      const renderStep = () => {
-        switch(step) {
-          case 1:
-            return (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Customer Information</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <Input
-                        name="name"
-                        placeholder="Full Name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                      />
-                      {validationErrors.name && (
-                        <p className="text-red-500 text-sm">{validationErrors.name}</p>
-                      )}
-                    </div>
-                    <div>
-                      <Input
-                        name="phone"
-                        placeholder="Phone Number (10 digits)"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required
-                      />
-                      {validationErrors.phone && (
-                        <p className="text-red-500 text-sm">{validationErrors.phone}</p>
-                      )}
-                    </div>
-                    <div>
-                      <Input
-                        name="email"
-                        placeholder="Email Address"
-                        value={formData.email}
-                        onChange={handleChange}
-                        type="email"
-                        required
-                      />
-                      {validationErrors.email && (
-                        <p className="text-red-500 text-sm">{validationErrors.email}</p>
-                      )}
-                    </div>
-                    <div>
-                      <Input
-                        name="address"
-                        placeholder="Property Address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        required
-                      />
-                      {validationErrors.address && (
-                        <p className="text-red-500 text-sm">{validationErrors.address}</p>
-                      )}
-                    </div>
-                    <Button 
-                      onClick={() => {
-                        if (validateForm()) {
-                          setStep(2);
-                        }
-                      }}
-                    >
-                      Next: Gutter Details
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          case 2:
-            return (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Gutter Measurement</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <Input
-                      name="homeLength"
-                      placeholder="Total Home Length (linear feet)"
-                      value={formData.homeLength}
-                      onChange={handleChange}
-                      type="number"
-                      required
-                    />
-                    <select
-                      name="gutterType"
-                      value={formData.gutterType}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded"
-                    >
-                      <option value="standard">Standard Gutters</option>
-                      <option value="premium">Premium Gutters</option>
-                    </select>
-                    
-                    <div className="space-y-2">
-                      <h3 className="font-semibold">Additional Services</h3>
-                      {Object.keys(PRICING_CONFIG.additionalServices).map(service => (
-                        <div key={service} className="flex items-center">
-                          <input
-                            type="checkbox"
-                            id={service}
-                            checked={formData.additionalServices.includes(service)}
-                            onChange={() => handleServiceChange(service)}
-                            className="mr-2"
-                          />
-                          <label htmlFor={service}>
-                            {service.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} 
-                            (+${PRICING_CONFIG.additionalServices[service]})
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-    
-                    <div className="flex space-x-4">
-                      <Button variant="outline" onClick={() => setStep(1)}>
-                        Back
-                      </Button>
-                      <Button 
-                        onClick={calculateEstimate}
-                        disabled={!formData.homeLength}
-                      >
-                        Get Estimate
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          case 3:
-            return (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Your Estimate</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center space-y-4">
-                    <p className="text-2xl font-bold">Estimated Cost: ${estimate}</p>
-                    <p>We'll contact you soon to confirm details!</p>
-                    <div className="space-y-2">
-                      <p><strong>Name:</strong> {formData.name}</p>
-                      <p><strong>Phone:</strong> {formData.phone}</p>
-                      <p><strong>Email:</strong> {formData.email}</p>
-                    </div>
-                    <Button onClick={() => setStep(1)}>
-                      Start Over
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          default:
-            return null;
-        }
-      };
-    
-      return (
-        <div className="max-w-md mx-auto mt-10">
-          {renderStep()}
+
+    <section id="estimate" class="estimate-section">
+        <div class="section-header">
+            <h2>Calculate Your Gutter Cost</h2>
+            <p>Get an instant estimate for your gutter project</p>
         </div>
-      );
-    };
-    
-    export default GutterEstimateApp;
+        <div class="calculator-container">
+            <form id="gutterCalculator" class="estimate-form">
+                <div class="form-group">
+                    <label for="homeLength">Total Length of Gutters Needed (feet):</label>
+                    <input type="number" id="homeLength" name="homeLength" required min="1" 
+                           placeholder="Enter total linear feet">
+                </div>
+
+                <div class="form-group">
+                    <label for="gutterType">Gutter Type:</label>
+                    <select id="gutterType" name="gutterType" required>
+                        <option value="">Select Gutter Type</option>
+                        <option value="standard">5-inch Standard (K-Style)</option>
+                        <option value="premium">6-inch Premium (K-Style)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="stories">Home Stories:</label>
+                    <select id="stories" name="stories" required>
+                        <option value="1">Single Story</option>
+                        <option value="2">Two Story</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="downspouts">Number of Downspouts Needed:</label>
+                    <input type="number" id="downspouts" name="downspouts" required min="0" 
+                           placeholder="Enter number of downspouts">
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Services:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="additionalServices" value="guards"> Gutter Guards
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="additionalServices" value="cleaning"> Gutter Cleaning
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="calculate-btn">Calculate Estimate</button>
+            </form>
+
+            <div id="estimateResult" class="estimate-result" style="display: none;">
+                <h3>Your Estimate</h3>
+                <div class="estimate-breakdown">
+                    <p class="total-cost">Estimated Cost: <span id="totalCost">$0</span></p>
+                </div>
+                <p class="estimate-note">* This is an approximate estimate. Final cost may vary based on specific requirements and inspection.</p>
+                <button type="button" class="contact-btn" onclick="location.href='#contact'">Request Official Quote</button>
+            </div>
+        </div>
+    </section>
+
     <section id="contact">
         <div class="contact-container">
             <div class="contact-info">
@@ -456,7 +265,7 @@
                 <p>Ready to protect your home with professional gutter solutions? Contact us today for a free consultation and quote.</p>
                 <div class="contact-details">
                     <p><i class="fas fa-phone"></i> (281) 827-9457</p>
-                    <p><i class="fas fa-envelope"></i> mocityclean@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> info@mocitygutters.com</p>
                     <p><i class="fas fa-map-marker-alt"></i> Missouri City, TX</p>
                     <a href="sms:+12818279457" class="text-cta">
                         <i class="fas fa-comment-dots"></i> Text Us for Quick Response
@@ -499,7 +308,7 @@
                 <h3>Contact Us</h3>
                 <p>Missouri City, TX</p>
                 <p>Phone: (281) 827-9457</p>
-                <p>Email: info@mocitygutters.com</p>
+                <p><i class="fas fa-envelope"></i> info@mocitygutters.com</p>
             </div>
             
             <div class="footer-section">
@@ -533,5 +342,6 @@
     </footer>
 
     <script src="scripts/main.js"></script>
+    <script src="scripts/estimate-calculator.js"></script>
 </body>
 </html>
