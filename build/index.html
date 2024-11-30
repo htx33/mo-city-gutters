@@ -7,10 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
-    <!-- Estimate Tool Widget -->
-<!-- Testimonials Script -->
-<script src="scripts/testimonials.js"></script>   
-<script src="scripts/estimate-calculator.js"></script>    
+    <script src="/widget/embed.js"></script>
 </head>
 <body>
     <header>
@@ -195,69 +192,30 @@
             </div>
         </div>
     </section>
+<!-- Instant Estimate Calculator -->
+<section class="estimate-tool" id="estimate">
+    <div class="section-header">
+        <h2>Get Your Instant Estimate</h2>
+        <p>Calculate your gutter project cost in seconds</p>
+    </div>
+    <div id="estimate-container"></div>
+    <script>
+        window.addEventListener('load', function() {
+            const estimateTool = new MoCityGuttersEstimate('estimate-container', {
+                width: '100%',
+                height: '800px',
+                onSubmit: function(data) {
+                    console.log('Estimate submitted:', data);
+                    alert('Thank you! Your estimate has been submitted. We will contact you shortly.');
+                }
+            });
+        });
+    </script>
+</section><script src="/widget/embed.js"></script>    </section> <!-- End of testimonials section -->
 
-    <section id="estimate" class="estimate-section">
-        <div class="section-header">
-            <h2>Calculate Your Gutter Cost</h2>
-            <p>Get an instant estimate for your gutter project</p>
-        </div>
-        <div class="calculator-container">
-            <form id="gutterCalculator" class="estimate-form">
-                <div class="form-group">
-                    <label for="homeLength">Total Length of Gutters Needed (feet):</label>
-                    <input type="number" id="homeLength" name="homeLength" required min="1" 
-                           placeholder="Enter total linear feet">
-                </div>
+    <!-- Add the estimate tool section here -->
 
-                <div class="form-group">
-                    <label for="gutterType">Gutter Type:</label>
-                    <select id="gutterType" name="gutterType" required>
-                        <option value="">Select Gutter Type</option>
-                        <option value="standard">5-inch Standard (K-Style)</option>
-                        <option value="premium">6-inch Premium (K-Style)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="stories">Home Stories:</label>
-                    <select id="stories" name="stories" required>
-                        <option value="1">Single Story</option>
-                        <option value="2">Two Story</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="downspouts">Number of Downspouts Needed:</label>
-                    <input type="number" id="downspouts" name="downspouts" required min="0" 
-                           placeholder="Enter number of downspouts">
-                </div>
-
-                <div class="form-group">
-                    <label>Additional Services:</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="additionalServices" value="guards"> Gutter Guards
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="additionalServices" value="cleaning"> Gutter Cleaning
-                        </label>
-                    </div>
-                </div>
-
-                <button type="submit" class="calculate-btn">Calculate Estimate</button>
-            </form>
-
-            <div id="estimateResult" class="estimate-result" style="display: none;">
-                <h3>Your Estimate</h3>
-                <div class="estimate-breakdown">
-                    <p class="total-cost">Estimated Cost: <span id="totalCost">$0</span></p>
-                </div>
-                <p class="estimate-note">* This is an approximate estimate. Final cost may vary based on specific requirements and inspection.</p>
-                <button type="button" class="contact-btn" onclick="location.href='#contact'">Request Official Quote</button>
-            </div>
-        </div>
-    </section>
-
+    <section id="contact"> <!-- Start of contact section -->
     <section id="contact">
         <div class="contact-container">
             <div class="contact-info">
@@ -265,7 +223,7 @@
                 <p>Ready to protect your home with professional gutter solutions? Contact us today for a free consultation and quote.</p>
                 <div class="contact-details">
                     <p><i class="fas fa-phone"></i> (281) 827-9457</p>
-                    <p><i class="fas fa-envelope"></i> info@mocitygutters.com</p>
+                    <p><i class="fas fa-envelope"></i> mocityclean@gmail.com</p>
                     <p><i class="fas fa-map-marker-alt"></i> Missouri City, TX</p>
                     <a href="sms:+12818279457" class="text-cta">
                         <i class="fas fa-comment-dots"></i> Text Us for Quick Response
@@ -308,7 +266,7 @@
                 <h3>Contact Us</h3>
                 <p>Missouri City, TX</p>
                 <p>Phone: (281) 827-9457</p>
-                <p><i class="fas fa-envelope"></i> info@mocitygutters.com</p>
+                <p>Email: mocityclean@gmail.com</p>
             </div>
             
             <div class="footer-section">
@@ -342,6 +300,5 @@
     </footer>
 
     <script src="scripts/main.js"></script>
-    <script src="scripts/estimate-calculator.js"></script>
 </body>
 </html>
