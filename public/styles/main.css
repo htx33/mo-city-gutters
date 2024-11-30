@@ -313,70 +313,41 @@ nav {
         flex: 1 1 100%;  /* Full width cards on mobile */
         max-width: 100%;
         margin: 1rem 0;
+        width: 100%;  /* Ensure consistent width */
+        min-width: 100%;  /* Prevent narrowing */
+        box-sizing: border-box;  /* Include padding in width calculation */
     }
 
-    .services {
-        padding: 2rem 1rem;
+    .service-cards-container {
+        padding: 0 1rem;  /* Add consistent padding */
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;  /* Ensure cards stretch full width */
     }
 
-    .hero-content {
-        width: 95%;
-        padding: 1.5rem;
+    .review-dots {
+        gap: 4px;  /* Reduce gap between dots */
     }
 
-    .hero-content h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
+    .review-dot {
+        width: 4px;  /* Make dots much smaller */
+        height: 4px;
+        margin: 0 1px;
+        position: relative;
     }
 
-    .hero-content p {
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
+    /* Remove the large touch target area */
+    .review-dot::before {
+        display: none;
     }
 
-    .cta-button {
-        font-size: 1rem;
-        padding: 0.875rem 1.75rem;
-        width: 100%;  /* Full width button on mobile */
-        text-align: center;
-    }
-
-    .calculator-container {
-        width: 95%;
-        padding: 1.5rem;
-    }
-
-    .estimate-section {
-        padding: 2rem 1rem;
-    }
-
-    .show-calculator-btn {
-        width: 100%;  /* Full width button on mobile */
-        margin: 1rem 0;
-    }
-
-    /* Improve form fields on mobile */
-    .calculator-form input[type="number"],
-    .calculator-form select {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 1rem;
-    }
-
-    /* Adjust review cards for mobile */
-    .review-card {
-        padding: 1rem;
-    }
-
-    .reviewer-avatar {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-    }
-
-    .review-text {
-        font-size: 0.9rem;
-        line-height: 1.4;
+    /* Add padding to the container instead for touch area */
+    .review-dots {
+        margin-top: 0.5rem;
+        padding: 8px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
