@@ -1594,22 +1594,51 @@ footer {
 
 .review-dots {
     display: flex;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1rem;
 }
 
 .review-dot {
-    width: 6px;
-    height: 6px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: #e7e7e7;
-    border: none;
-    padding: 0;
+    background-color: #ccc;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .review-dot.active {
-    background: var(--primary-color);
+    background-color: #4285f4;
+}
+
+/* Mobile adjustments for review dots */
+@media screen and (max-width: 767px) {
+    .review-dots {
+        gap: 6px;  /* Reduce gap between dots on mobile */
+    }
+
+    .review-dot {
+        width: 6px;  /* Smaller dots on mobile */
+        height: 6px;
+        margin: 0 2px;  /* Add small margin for better touch targets */
+    }
+
+    /* Increase the touch target area while keeping the visual size small */
+    .review-dot::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+    }
+
+    /* Adjust dots container spacing */
+    .review-dots {
+        margin-top: 0.75rem;
+        padding: 10px 0;  /* Add padding to increase touch area */
+    }
 }
 
 /* Google Reviews Widget */
