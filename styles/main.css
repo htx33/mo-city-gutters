@@ -1128,52 +1128,42 @@ button:hover {
 
 /* Estimate Calculator Styles */
 .estimate-section {
-    padding: 80px var(--side-padding);
+    padding: var(--section-spacing) var(--side-padding);
     background: var(--light-bg);
-    color: #000000;
-}
-
-.show-calculator-btn {
-    background: var(--primary-color);
-    color: white;
-    padding: 16px 32px;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 24px;
-}
-
-.show-calculator-btn:hover {
-    background: #15395d;
 }
 
 .calculator-container {
     max-width: 800px;
-    margin: 40px auto 0;
-    padding: 40px;
+    margin: 2rem auto;
+    padding: 2rem;
     background: white;
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: var(--box-shadow);
-    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
 }
 
 .calculator-container.show {
-    display: block !important;
-    animation: slideDown 0.5s ease-out;
+    opacity: 1;
+    transform: translateY(0);
 }
 
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.show-calculator-btn {
+    display: block;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.show-calculator-btn:hover {
+    background: var(--secondary-color);
 }
 
 .estimate-form {
