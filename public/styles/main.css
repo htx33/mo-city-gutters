@@ -1566,17 +1566,19 @@ footer {
 .review-dots {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-top: 1rem;
+    gap: 4px;  /* Smaller gap between dots */
+    margin-top: 0.5rem;
+    padding: 8px 0;
 }
 
 .review-dot {
-    width: 10px;
-    height: 10px;
+    width: 4px;  /* Much smaller dots */
+    height: 4px;
     border-radius: 50%;
     background-color: #ccc;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin: 0 1px;
 }
 
 .review-dot.active {
@@ -1794,4 +1796,33 @@ footer {
     color: #70757a;
     margin: 0 4px;
     font-size: 0.9rem;
+}
+
+/* Service Cards Mobile Styles */
+@media screen and (max-width: 767px) {
+    .service-cards-container {
+        display: flex;
+        flex-direction: column;
+        padding: 0 1rem;
+        width: 100%;
+    }
+
+    .service-card {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        margin: 1rem 0;
+        box-sizing: border-box;
+        left: 0 !important;  /* Override any positioning */
+    }
+
+    .service-card:nth-last-child(-n+2) {
+        left: 0 !important;  /* Override any positioning */
+        margin: 1rem 0;
+    }
+
+    /* Ensure consistent padding */
+    .service-card {
+        padding: 1.5rem;
+    }
 }
