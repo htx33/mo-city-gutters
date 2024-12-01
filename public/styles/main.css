@@ -1566,19 +1566,24 @@ footer {
 .review-dots {
     display: flex;
     justify-content: center;
-    gap: 4px;  /* Smaller gap between dots */
+    align-items: center;
+    gap: 3px;
+    padding: 4px 0;
     margin-top: 0.5rem;
-    padding: 8px 0;
 }
 
 .review-dot {
-    width: 4px;  /* Much smaller dots */
-    height: 4px;
+    width: 3px;
+    height: 3px;
+    min-width: 3px;
+    min-height: 3px;
     border-radius: 50%;
     background-color: #ccc;
+    padding: 0;
+    margin: 0;
+    border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 0 1px;
 }
 
 .review-dot.active {
@@ -1588,29 +1593,14 @@ footer {
 /* Mobile adjustments for review dots */
 @media screen and (max-width: 767px) {
     .review-dots {
-        gap: 6px;  /* Reduce gap between dots on mobile */
+        gap: 2px;
     }
 
     .review-dot {
-        width: 6px;  /* Smaller dots on mobile */
-        height: 6px;
-        margin: 0 2px;  /* Add small margin for better touch targets */
-    }
-
-    /* Increase the touch target area while keeping the visual size small */
-    .review-dot::before {
-        content: '';
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
-    }
-
-    /* Adjust dots container spacing */
-    .review-dots {
-        margin-top: 0.75rem;
-        padding: 10px 0;  /* Add padding to increase touch area */
+        width: 2px;
+        height: 2px;
+        min-width: 2px;
+        min-height: 2px;
     }
 }
 
@@ -1824,5 +1814,96 @@ footer {
     /* Ensure consistent padding */
     .service-card {
         padding: 1.5rem;
+    }
+}
+
+/* Service Cards Container */
+.service-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.service-card {
+    flex: 1 1 300px;
+    max-width: 350px;
+    margin: 0;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* Reviews Navigation Dots */
+.review-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 0;
+    margin-top: 0.5rem;
+}
+
+.review-dot {
+    width: 3px;
+    height: 3px;
+    min-width: 3px;
+    min-height: 3px;
+    border-radius: 50%;
+    background-color: #ccc;
+    padding: 0;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-dot.active {
+    background-color: #4285f4;
+}
+
+/* Mobile Specific Styles */
+@media screen and (max-width: 767px) {
+    .service-cards-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .service-card {
+        flex: 0 0 auto;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0.5rem 0;
+        padding: 1.5rem;
+        left: 0 !important;
+        transform: none !important;
+    }
+
+    .service-card:nth-last-child(-n+2) {
+        left: 0 !important;
+        transform: none !important;
+        margin: 0.5rem 0;
+    }
+
+    /* Even smaller dots for mobile */
+    .review-dots {
+        gap: 2px;
+    }
+
+    .review-dot {
+        width: 2px;
+        height: 2px;
+        min-width: 2px;
+        min-height: 2px;
+    }
+}
+
+/* Remove any transforms or positioning that might affect cards */
+@media screen and (min-width: 768px) {
+    .service-card:nth-last-child(-n+2) {
+        position: relative;
+        left: 17.5rem;
     }
 }
