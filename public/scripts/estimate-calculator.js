@@ -1,21 +1,19 @@
 // Pricing configuration
 const PRICING = {
-    gutterTypes: {
-        standard: 9.12,    // Price per linear foot for 5-inch K-Style
-        premium: 12.00     // Price per linear foot for 6-inch K-Style
-    },
-    downspout: {
-        1: 85.00,         // Price per downspout for single story
-        2: 125.00         // Price per downspout for two story
+    gutters: {
+        '5inch': 9.2,  // $9.20 per foot
+        '6inch': 11    // $11.00 per foot
     },
     guards: {
-        standard: 10.00,   // Price per linear foot for 5-inch guards
-        premium: 15.00     // Price per linear foot for 6-inch guards
+        'none': 0,
+        'standard': 8,    // $8 per foot
+        'premium': 14     // $14 per foot
     },
-    additionalServices: {
-        cleaning: 2.00     // Price per linear foot for cleaning
-    },
-    minimumQuote: 300.00  // Minimum quote amount
+    storyMultiplier: {
+        '1': 1,
+        '2': 1.3,  // 30% increase
+        '3': 1.6   // 60% increase
+    }
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -37,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Calculator fields
     const linearFeet = document.getElementById('linearFeet');
+    const gutterSize = document.getElementById('gutterSize');
     const stories = document.getElementById('stories');
     const guards = document.getElementById('guards');
 
@@ -74,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             quote: document.querySelector('.quote-details').textContent,
             details: {
                 linearFeet: linearFeet.value,
+                gutterSize: gutterSize.value,
                 stories: stories.value,
                 guards: guards.value
             }
@@ -118,18 +118,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function calculateQuote() {
-        let basePrice = linearFeet.value * 8; // $8 per linear foot base price
+        const feet = parseFloat(linearFeet.value);
+        const size = gutterSize.value;
+        const numStories = stories.value;
+        const guardType = guards.value;
         
-        // Adjust for stories
-        if (stories.value === '2') basePrice *= 1.3;
-        if (stories.value === '3') basePrice *= 1.6;
+        // Calculate base gutter cost
+        let basePrice = feet * PRICING.gutters[size];
         
-        // Add gutter guards
-        if (guards.value === 'yes') {
-            basePrice += linearFeet.value * 4; // $4 per linear foot for guards
+        // Apply story multiplier
+        basePrice *= PRICING.storyMultiplier[numStories];
+        
+        // Add gutter guards if selected
+        if (guardType !== 'none') {
+            basePrice += feet * PRICING.guards[guardType];
         }
 
-        return basePrice;
+        return Math.round(basePrice); // Round to nearest dollar
     }
 
     function displayQuote(amount) {
@@ -141,14 +146,20 @@ document.addEventListener('DOMContentLoaded', function() {
             maximumFractionDigits: 0
         }).format(amount);
 
+        const gutterSizeText = gutterSize.value === '5inch' ? '5-inch' : '6-inch';
+        const guardText = guards.value === 'none' ? 'No guards' : 
+                         guards.value === 'standard' ? 'Standard guards' : 'Premium guards';
+
         let details = `
             <h4>Estimated Project Cost: ${formattedAmount}</h4>
             <p>Based on:</p>
             <ul style="list-style: none; padding: 0;">
                 <li>${linearFeet.value} linear feet</li>
+                <li>${gutterSizeText} gutters</li>
                 <li>${stories.value} story building</li>
-                ${guards.value === 'yes' ? '<li>Including gutter guards</li>' : ''}
+                <li>${guardText}</li>
             </ul>
+            <p class="quote-note">* Price includes materials and professional installation</p>
         `;
 
         quoteDetails.innerHTML = details;
@@ -169,8 +180,10 @@ document.addEventListener('DOMContentLoaded', function() {
             address: formData.address,
             'Project Details': `
                 Linear Feet: ${formData.details.linearFeet}
+                Gutter Size: ${formData.details.gutterSize === '5inch' ? '5-inch' : '6-inch'}
                 Stories: ${formData.details.stories}
-                Gutter Guards: ${formData.details.guards}
+                Guards: ${formData.details.guards === 'none' ? 'No guards' : 
+                         formData.details.guards === 'standard' ? 'Standard guards' : 'Premium guards'}
                 Estimated Cost: ${formData.quote}
             `
         };
