@@ -236,6 +236,13 @@
                             <input type="number" id="linearFeet" min="0" required>
                         </div>
                         <div class="input-group">
+                            <label for="gutterSize">Gutter Size:</label>
+                            <select id="gutterSize">
+                                <option value="5inch">5-inch Gutters (Standard)</option>
+                                <option value="6inch">6-inch Gutters (Premium)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
                             <label for="stories">Number of Stories:</label>
                             <select id="stories">
                                 <option value="1">1 Story</option>
@@ -244,10 +251,11 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <label for="guards">Include Gutter Guards?</label>
+                            <label for="guards">Gutter Guards:</label>
                             <select id="guards">
-                                <option value="no">No Guards</option>
-                                <option value="yes">Add Gutter Guards</option>
+                                <option value="none">No Guards</option>
+                                <option value="standard">Standard Guards ($8/ft)</option>
+                                <option value="premium">Premium Guards ($14/ft)</option>
                             </select>
                         </div>
                         <button id="calculateBtn" class="estimate-btn">Calculate Quote</button>
