@@ -210,62 +210,67 @@
         <div class="section-header">
             <h2>FREE Gutter Estimate</h2>
             <p>Calculate your project cost instantly - no obligation!</p>
-            <button id="showCalculator" class="show-calculator-btn">Show Calculator</button>
+            <button id="showCalculator" class="show-calculator-btn">Get Your Quote</button>
         </div>
-        <div id="calculatorWrapper" class="calculator-container" style="display: none;">
-            <form id="gutterCalculator" class="estimate-form">
-                <div class="form-group">
-                    <label for="homeLength"><strong>LINEAR Feet of Gutters Needed</strong> (measure along the edge of your roof):</label>
-                    <input type="number" id="homeLength" name="homeLength" required min="1" 
-                           placeholder="Enter total LINEAR feet (not square feet)">
-                    <small class="measurement-note">*Measure the length of your roofline where gutters will be installed. Do NOT use square feet.</small>
-                </div>
 
-                <div class="form-group">
-                    <label for="gutterType">Gutter Type:</label>
-                    <select id="gutterType" name="gutterType" required>
-                        <option value="">Select Gutter Type</option>
-                        <option value="standard">5-inch Standard (K-Style)</option>
-                        <option value="premium">6-inch Premium (K-Style)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="stories">Home Stories:</label>
-                    <select id="stories" name="stories" required>
-                        <option value="1">Single Story</option>
-                        <option value="2">Two Story</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="downspouts">Number of Downspouts Needed:</label>
-                    <input type="number" id="downspouts" name="downspouts" required min="0" 
-                           placeholder="Enter number of downspouts">
-                </div>
-
-                <div class="form-group">
-                    <label>Additional Services:</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="additionalServices" value="guards"> Gutter Guards
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="additionalServices" value="cleaning"> Gutter Cleaning
-                        </label>
+        <div id="estimateTool" class="estimate-tool" style="display: none;">
+            <div class="estimate-steps">
+                <!-- Step 1: Contact Information -->
+                <div class="estimate-step" id="contactStep">
+                    <h3>Step 1: Your Contact Information</h3>
+                    <div class="contact-fields">
+                        <input type="text" id="quoteFullName" placeholder="Full Name" required>
+                        <input type="email" id="quoteEmail" placeholder="Email Address" required>
+                        <input type="tel" id="quotePhone" placeholder="Phone Number" required>
+                        <input type="text" id="quoteAddress" placeholder="Home Address" required>
+                        <button id="contactNextBtn" class="estimate-btn">Next Step</button>
                     </div>
                 </div>
 
-                <button type="submit" class="estimate-button">Calculate Estimate</button>
-            </form>
-
-            <div id="estimateResult" class="estimate-result" style="display: none;">
-                <h3>Your Estimated Cost</h3>
-                <div class="total-cost">
-                    <span id="totalCost">$0.00</span>
+                <!-- Step 2: Calculator -->
+                <div class="estimate-step" id="calculatorStep" style="display: none;">
+                    <h3>Step 2: Property Details</h3>
+                    <div class="calculator-fields">
+                        <div class="input-group">
+                            <label for="linearFeet">Total Linear Feet of Gutters Needed:</label>
+                            <input type="number" id="linearFeet" min="0" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="stories">Number of Stories:</label>
+                            <select id="stories">
+                                <option value="1">1 Story</option>
+                                <option value="2">2 Stories</option>
+                                <option value="3">3 Stories</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="material">Gutter Material:</label>
+                            <select id="material">
+                                <option value="aluminum">Aluminum (Most Popular)</option>
+                                <option value="copper">Copper (Premium)</option>
+                                <option value="steel">Steel (Heavy Duty)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="guards">Include Gutter Guards?</label>
+                            <select id="guards">
+                                <option value="no">No Guards</option>
+                                <option value="yes">Add Gutter Guards</option>
+                            </select>
+                        </div>
+                        <button id="calculateBtn" class="estimate-btn">Calculate Quote</button>
+                    </div>
                 </div>
-                <p class="estimate-note">* This is an approximate estimate. Final pricing may vary based on specific project requirements.</p>
-                <p class="estimate-note">* Minimum project cost is $300.</p>
+
+                <!-- Step 3: Results -->
+                <div class="estimate-step" id="resultsStep" style="display: none;">
+                    <h3>Your Estimated Quote</h3>
+                    <div id="quoteResult" class="quote-result">
+                        <div class="quote-details"></div>
+                        <p class="quote-note">* This is a rough estimate. Final price may vary based on specific requirements and inspection.</p>
+                        <button id="scheduleBtn" class="estimate-btn">Schedule Free Inspection</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
