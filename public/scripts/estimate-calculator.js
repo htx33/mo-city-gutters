@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultsStep = document.getElementById('resultsStep');
     const contactNextBtn = document.getElementById('contactNextBtn');
     const calculateBtn = document.getElementById('calculateBtn');
-    const scheduleBtn = document.getElementById('scheduleBtn');
 
     // Contact form fields
     const quoteFullName = document.getElementById('quoteFullName');
@@ -60,27 +59,23 @@ document.addEventListener('DOMContentLoaded', function() {
             displayQuote(quote);
             calculatorStep.style.display = 'none';
             resultsStep.style.display = 'block';
+            
+            // Send quote details to email
+            const formData = {
+                name: quoteFullName.value,
+                email: quoteEmail.value,
+                phone: quotePhone.value,
+                address: quoteAddress.value,
+                quote: document.querySelector('.quote-details').textContent,
+                details: {
+                    linearFeet: linearFeet.value,
+                    gutterSize: gutterSize.value,
+                    stories: stories.value,
+                    guards: guards.value
+                }
+            };
+            sendQuoteToEmail(formData);
         }
-    });
-
-    // Handle schedule button
-    scheduleBtn.addEventListener('click', function() {
-        const formData = {
-            name: quoteFullName.value,
-            email: quoteEmail.value,
-            phone: quotePhone.value,
-            address: quoteAddress.value,
-            quote: document.querySelector('.quote-details').textContent,
-            details: {
-                linearFeet: linearFeet.value,
-                gutterSize: gutterSize.value,
-                stories: stories.value,
-                guards: guards.value
-            }
-        };
-
-        // Send form data to email
-        sendQuoteToEmail(formData);
     });
 
     // Validation functions
@@ -154,8 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <h4>Estimated Project Cost: ${formattedAmount}</h4>
             <p>Based on:</p>
             <ul style="list-style: none; padding: 0;">
-                <li>${linearFeet.value} linear feet</li>
-                <li>${gutterSizeText} gutters</li>
+                <li>${linearFeet.value} linear feet of ${gutterSizeText} gutters</li>
                 <li>${stories.value} story building</li>
                 <li>${guardText}</li>
             </ul>
