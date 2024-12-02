@@ -2548,3 +2548,65 @@ footer {
         padding-right: 2em !important;
     }
 }
+
+.measurement-group {
+    position: relative;
+}
+
+.measurement-dialog {
+    background: #f8f9fa;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.measurement-dialog h4 {
+    color: var(--primary-color);
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+}
+
+.measurement-dialog ol {
+    margin: 0 0 1rem 1.5rem;
+    padding: 0;
+}
+
+.measurement-dialog li {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.measurement-dialog p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 767px) {
+    .measurement-dialog {
+        padding: 1rem !important;
+        margin-top: 0.75rem !important;
+        border-width: 1px !important;
+    }
+
+    .measurement-dialog h4 {
+        font-size: 1rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    .measurement-dialog ol {
+        margin-left: 1.25rem !important;
+    }
+
+    .measurement-dialog li {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.4rem !important;
+    }
+
+    .measurement-dialog p {
+        font-size: 0.85rem !important;
+    }
+}
