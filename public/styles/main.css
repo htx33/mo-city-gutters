@@ -990,11 +990,19 @@ nav {
 }
 
 .contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
     max-width: var(--content-width);
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.contact-info, .contact-form {
+    flex: 1 1 300px;
+    min-width: 300px;
+    box-sizing: border-box;
 }
 
 .contact-info {
@@ -1086,6 +1094,77 @@ button:hover {
 .contact-details i {
     color: var(--primary-color);
     font-size: 1.2em;
+}
+
+/* Mobile Contact Form Adjustments */
+@media screen and (max-width: 767px) {
+    .contact-container {
+        flex-direction: column;
+        padding: 1rem;
+        width: 100%;
+        max-width: 100%;
+        gap: 1rem;
+    }
+
+    .contact-info, .contact-form {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .contact-form form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        margin-bottom: 1rem;
+    }
+
+    #contact {
+        padding: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .contact-info h2,
+    .contact-info p {
+        text-align: left;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    .contact-form button {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+/* Ensure form elements are properly sized */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.contact-form button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
 /* Estimate Tool Styles */
@@ -1584,14 +1663,14 @@ footer {
 }
 
 .review-dot {
-    width: 1.5px !important;
-    height: 1.5px !important;
-    min-width: 1.5px !important;
-    min-height: 1.5px !important;
+    width: 3px;
+    height: 3px;
+    min-width: 3px;
+    min-height: 3px;
     border-radius: 50%;
     background-color: #ccc;
-    padding: 0 !important;
-    margin: 0 !important;
+    padding: 0;
+    margin: 0;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -1608,10 +1687,10 @@ footer {
     }
 
     .review-dot {
-        width: 1px !important;
-        height: 1px !important;
-        min-width: 1px !important;
-        min-height: 1px !important;
+        width: 1px;
+        height: 1px;
+        min-width: 1px;
+        min-height: 1px;
     }
 }
 
@@ -1812,6 +1891,7 @@ footer {
         width: 100% !important;
         min-width: 100% !important;
         max-width: 100% !important;
+        flex: none !important;
         margin: 1rem 0;
         box-sizing: border-box;
         left: 0 !important;  /* Override any positioning */
@@ -1914,7 +1994,7 @@ footer {
     }
 }
 
-/* Remove any transforms or positioning that might affect cards */
+/* Tablet and Desktop Positioning */
 @media screen and (min-width: 768px) {
     .service-card:nth-last-child(-n+2) {
         position: relative;
@@ -1922,10 +2002,72 @@ footer {
     }
 }
 
-/* Remove any conflicting styles */
-.service-card {
-    transition: none !important;
-    transform: none !important;
+/* Force Mobile Styles */
+@media only screen and (max-width: 767px) {
+    .service-cards-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 1rem !important;
+        gap: 1rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .service-card {
+        display: block !important;
+        width: calc(100% - 2rem) !important;
+        min-width: calc(100% - 2rem) !important;
+        max-width: 100% !important;
+        flex: none !important;
+        margin: 0.5rem auto !important;
+        left: 0 !important;
+        transform: none !important;
+        position: relative !important;
+        box-sizing: border-box !important;
+        padding: 1.5rem !important;
+    }
+
+    .service-card:nth-last-child(-n+2) {
+        left: 0 !important;  /* Override any positioning */
+        transform: none !important;
+        margin: 0.5rem auto !important;
+        width: calc(100% - 2rem) !important;
+        position: static !important;
+    }
+
+    /* Force tiny review dots */
+    .review-dots {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 1.5px !important;
+        height: 8px !important;
+        padding: 2px 0 !important;
+        margin: 0.25rem 0 !important;
+    }
+
+    .review-dot {
+        width: 1px !important;
+        height: 1px !important;
+        min-width: 1px !important;
+        min-height: 1px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 50% !important;
+    }
+}
+
+/* Ensure no other media queries override these styles */
+@media only screen and (max-width: 767px) and (min-width: 320px) {
+    .service-card, .service-card:nth-last-child(-n+2) {
+        width: calc(100% - 2rem) !important;
+        max-width: none !important;
+        min-width: calc(100% - 2rem) !important;
+        left: 0 !important;
+        margin: 0.5rem auto !important;
+    }
 }
 
 /* Review Dots - Extremely Small */
@@ -2003,4 +2145,18 @@ footer {
         position: relative;
         left: 17.5rem;
     }
+}
+
+/* Remove any transforms or positioning that might affect cards */
+@media screen and (min-width: 768px) {
+    .service-card:nth-last-child(-n+2) {
+        position: relative;
+        left: 17.5rem;
+    }
+}
+
+/* Remove any conflicting styles */
+.service-card {
+    transition: none !important;
+    transform: none !important;
 }
