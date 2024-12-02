@@ -1169,102 +1169,134 @@ button:hover {
 
 /* Estimate Tool Styles */
 .estimate-tool {
-    max-width: 800px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
     margin: 2rem auto;
     padding: 2rem;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .estimate-step {
-    margin-bottom: 2rem;
-}
-
-.estimate-step h3 {
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-}
-
-.contact-fields,
-.calculator-fields {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.contact-fields input,
-.calculator-fields input,
-.calculator-fields select {
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
+    padding: 1.5rem;
 }
 
 .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .input-group label {
-    font-weight: 500;
-    color: #333;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 .estimate-btn {
-    background-color: var(--primary-color);
+    background: var(--primary-color);
     color: white;
-    padding: 1rem 2rem;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-weight: 600;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 1rem;
+    width: 100%;
+    max-width: 300px;
+    margin: 1rem auto;
+    display: block;
+    text-align: center;
+    text-decoration: none;
 }
 
-.estimate-btn:hover {
-    background-color: #3367d6;
+.schedule-btn {
+    background-color: #27ae60;
+}
+
+.schedule-btn:hover {
+    background-color: #219a52;
 }
 
 .quote-result {
     text-align: center;
-    padding: 2rem;
-    background: #f8f9fa;
-    border-radius: 8px;
+    padding: 1.5rem;
 }
 
 .quote-details {
-    font-size: 1.25rem;
+    margin: 1.5rem 0;
+}
+
+.quote-details h4 {
+    color: var(--primary-color);
     margin-bottom: 1rem;
+}
+
+.quote-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
 }
 
 .quote-note {
     color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
+    font-style: italic;
+    margin: 1rem 0;
 }
 
-/* Mobile Responsive Styles */
+/* Mobile styles */
 @media screen and (max-width: 767px) {
     .estimate-tool {
-        padding: 1rem;
         margin: 1rem;
+        padding: 1rem;
+        width: auto;
     }
 
-    .contact-fields input,
-    .calculator-fields input,
-    .calculator-fields select {
-        width: 100%;
-        box-sizing: border-box;
+    .estimate-step {
+        padding: 1rem;
+    }
+
+    .input-group {
+        margin-bottom: 1rem;
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+    }
+
+    .input-group input,
+    .input-group select {
+        font-size: 16px;
+        padding: 0.75rem;
     }
 
     .estimate-btn {
         width: 100%;
+        max-width: none;
+        margin: 0.5rem 0;
+        padding: 0.75rem;
+    }
+
+    .quote-details {
+        font-size: 0.9rem;
+    }
+
+    .quote-details h4 {
+        font-size: 1.2rem;
+    }
+
+    .measurement-note,
+    .measurement-tip,
+    .quote-note {
+        font-size: 0.8rem;
+        margin: 0.5rem 0;
     }
 }
 
@@ -1427,6 +1459,70 @@ button:hover {
 
     .schedule-btn {
         width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* Estimate Tool Mobile Styles */
+@media screen and (max-width: 767px) {
+    .estimate-tool {
+        padding: 1rem;
+        margin: 1rem;
+        width: auto;
+    }
+
+    .estimate-step {
+        padding: 1rem;
+    }
+
+    .input-group {
+        margin-bottom: 1rem;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 16px; /* Prevent iOS zoom */
+    }
+
+    .estimate-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 16px;
+        margin: 0.5rem 0;
+    }
+
+    .quote-result {
+        padding: 1rem;
+    }
+
+    .quote-details {
+        font-size: 0.9rem;
+    }
+
+    .quote-details h4 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .quote-details ul {
+        margin: 0.5rem 0;
+    }
+
+    .measurement-note,
+    .measurement-tip,
+    .quote-note {
+        font-size: 0.8rem;
+        margin: 0.5rem 0;
+    }
+
+    .schedule-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 16px;
+        margin-top: 1rem;
+        text-align: center;
         box-sizing: border-box;
     }
 }
@@ -2081,7 +2177,6 @@ footer {
         transform: none !important;
         margin: 0.5rem auto !important;
         width: calc(100% - 2rem) !important;
-        position: static !important;
     }
 
     /* Force tiny review dots */
@@ -2168,7 +2263,7 @@ footer {
 
     /* Reset any special positioning */
     .service-card:nth-last-child(-n+2) {
-        left: 0 !important;
+        left: 0 !important;  /* Override any positioning */
         transform: none !important;
         margin: 0.5rem auto !important;
         width: calc(100% - 2rem) !important;
