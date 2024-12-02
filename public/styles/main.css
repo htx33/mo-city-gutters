@@ -1187,13 +1187,6 @@ button:hover {
     border: 1px solid #ddd;
 }
 
-.estimate-step h3 {
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--primary-color);
-}
-
 .input-group {
     margin-bottom: 1.5rem;
     padding: 1rem;
@@ -1499,10 +1492,6 @@ button:hover {
     .quote-details h4 {
         font-size: 1.2rem;
         margin-bottom: 1rem;
-    }
-
-    .quote-details ul {
-        margin: 0.5rem 0;
     }
 
     .measurement-note,
@@ -2381,5 +2370,181 @@ footer {
     select,
     textarea {
         font-size: 16px !important;
+    }
+}
+
+/* Reset for mobile */
+* {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+/* Base calculator styles */
+.estimate-tool {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border: 2px solid var(--primary-color);
+}
+
+.estimate-step {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    padding: 1rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: white;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.estimate-btn {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 1rem auto;
+    padding: 12px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.schedule-btn {
+    background-color: #27ae60;
+}
+
+/* Mobile styles with !important */
+@media screen and (max-width: 767px) {
+    .estimate-section {
+        padding: 1rem !important;
+    }
+    
+    .estimate-tool {
+        margin: 0 !important;
+        padding: 1rem !important;
+        width: 100% !important;
+        max-width: none !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        box-shadow: none !important;
+    }
+
+    .estimate-step {
+        padding: 1rem !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    .input-group {
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
+        border-radius: 8px !important;
+    }
+
+    .input-group label {
+        font-size: 14px !important;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100% !important;
+        padding: 12px !important;
+        font-size: 16px !important;
+        border-radius: 8px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .estimate-btn {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 12px !important;
+        margin: 0.5rem 0 !important;
+        font-size: 16px !important;
+        border-radius: 8px !important;
+    }
+
+    .quote-result {
+        margin: 1rem 0 !important;
+        padding: 1rem !important;
+    }
+
+    .quote-details {
+        font-size: 14px !important;
+        padding: 1rem !important;
+    }
+
+    .quote-details h4 {
+        font-size: 18px !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .measurement-note,
+    .measurement-tip,
+    .quote-note {
+        font-size: 12px !important;
+        margin: 0.5rem 0 !important;
+        color: #666 !important;
+    }
+}
+
+/* Fix iOS form elements */
+@media screen and (max-width: 767px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    select,
+    textarea,
+    button {
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        border-radius: 8px !important;
+    }
+
+    select {
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat !important;
+        background-position: right 0.7em top 50% !important;
+        background-size: 0.65em auto !important;
+        padding-right: 2em !important;
     }
 }

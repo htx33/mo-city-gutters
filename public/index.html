@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -217,51 +217,59 @@
             <div class="estimate-steps">
                 <!-- Step 1: Contact Information -->
                 <div class="estimate-step" id="contactStep">
-                    <h3>Step 1: Your Contact Information</h3>
-                    <div class="contact-fields">
-                        <input type="text" id="quoteFullName" placeholder="Full Name" required>
-                        <input type="email" id="quoteEmail" placeholder="Email Address" required>
-                        <input type="tel" id="quotePhone" placeholder="Phone Number" required>
-                        <input type="text" id="quoteAddress" placeholder="Home Address" required>
-                        <button id="contactNextBtn" class="estimate-btn">Next Step</button>
+                    <h3>Contact Information</h3>
+                    <div class="input-group">
+                        <label for="quoteFullName">Full Name:</label>
+                        <input type="text" id="quoteFullName" autocomplete="name" required>
                     </div>
+                    <div class="input-group">
+                        <label for="quoteEmail">Email:</label>
+                        <input type="email" id="quoteEmail" autocomplete="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="quotePhone">Phone:</label>
+                        <input type="tel" id="quotePhone" autocomplete="tel" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="quoteAddress">Address:</label>
+                        <input type="text" id="quoteAddress" autocomplete="street-address" required>
+                    </div>
+                    <button id="contactNextBtn" class="estimate-btn">Next</button>
                 </div>
 
                 <!-- Step 2: Calculator -->
                 <div class="estimate-step" id="calculatorStep" style="display: none;">
-                    <h3>Step 2: Property Details</h3>
-                    <div class="calculator-fields">
-                        <div class="input-group">
-                            <label for="linearFeet">Total Linear Feet of Gutters Needed:</label>
-                            <input type="number" id="linearFeet" min="0" required>
-                            <p class="measurement-note">* Measure along the edge of your roof where gutters will be installed. Do NOT use square feet.</p>
-                            <p class="measurement-tip">Tip: Walk the perimeter of your home and measure each side where gutters are needed, then add these numbers together.</p>
-                        </div>
-                        <div class="input-group">
-                            <label for="gutterSize">Gutter Size:</label>
-                            <select id="gutterSize">
-                                <option value="5inch">5-inch Gutters (Standard)</option>
-                                <option value="6inch">6-inch Gutters (Premium)</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="stories">Number of Stories:</label>
-                            <select id="stories">
-                                <option value="1">1 Story</option>
-                                <option value="2">2 Stories</option>
-                                <option value="3">3 Stories</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="guards">Gutter Guards:</label>
-                            <select id="guards">
-                                <option value="none">No Guards</option>
-                                <option value="standard">Standard Guards ($8/ft)</option>
-                                <option value="premium">Premium Guards ($14/ft)</option>
-                            </select>
-                        </div>
-                        <button id="calculateBtn" class="estimate-btn">Calculate Quote</button>
+                    <h3>Calculate Your Quote</h3>
+                    <div class="input-group">
+                        <label for="linearFeet">Total Linear Feet of Gutters Needed:</label>
+                        <input type="number" inputmode="numeric" pattern="[0-9]*" id="linearFeet" min="0" required>
+                        <p class="measurement-note">* Measure along the edge of your roof where gutters will be installed. Do NOT use square feet.</p>
+                        <p class="measurement-tip">Tip: Walk the perimeter of your home and measure each side where gutters are needed, then add these numbers together.</p>
                     </div>
+                    <div class="input-group">
+                        <label for="gutterSize">Gutter Size:</label>
+                        <select id="gutterSize" required>
+                            <option value="5inch">5-inch Gutters ($9.20/ft)</option>
+                            <option value="6inch">6-inch Gutters ($11.00/ft)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="stories">Number of Stories:</label>
+                        <select id="stories" required>
+                            <option value="1">1 Story</option>
+                            <option value="2">2 Stories (+30%)</option>
+                            <option value="3">3 Stories (+60%)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="guards">Gutter Guards:</label>
+                        <select id="guards" required>
+                            <option value="none">No Guards</option>
+                            <option value="standard">Standard Guards (+$8/ft)</option>
+                            <option value="premium">Premium Guards (+$14/ft)</option>
+                        </select>
+                    </div>
+                    <button id="calculateBtn" class="estimate-btn">Calculate Quote</button>
                 </div>
 
                 <!-- Step 3: Results -->
