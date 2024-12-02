@@ -13,6 +13,15 @@ const PRICING = {
         '1': 1,
         '2': 1.3,  // 30% increase
         '3': 1.6   // 60% increase
+    },
+    downspouts: {
+        cost: 8.5,      // $8.50 per foot
+        spacing: 30,    // One downspout every 30 feet
+        length: {
+            '1': 12,    // 12 feet for 1 story
+            '2': 25,    // 25 feet for 2 story
+            '3': 35     // 35 feet for 3 story
+        }
     }
 };
 
@@ -42,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
     showCalculatorBtn.addEventListener('click', function() {
         estimateTool.style.display = 'block';
         contactStep.style.display = 'block';
+        calculatorStep.style.display = 'none';
+        resultsStep.style.display = 'none';
     });
 
     // Handle contact form submission
@@ -49,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (validateContactInfo()) {
             contactStep.style.display = 'none';
             calculatorStep.style.display = 'block';
+            resultsStep.style.display = 'none';
         }
     });
 
@@ -121,6 +133,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Calculate base gutter cost
         let basePrice = feet * PRICING.gutters[size];
         
+        // Calculate number of downspouts needed
+        const numDownspouts = Math.ceil(feet / PRICING.downspouts.spacing);
+        const downspoutLength = PRICING.downspouts.length[numStories];
+        const downspoutCost = numDownspouts * downspoutLength * PRICING.downspouts.cost;
+        
+        // Add downspout cost
+        basePrice += downspoutCost;
+        
         // Apply story multiplier
         basePrice *= PRICING.storyMultiplier[numStories];
         
@@ -141,6 +161,10 @@ document.addEventListener('DOMContentLoaded', function() {
             maximumFractionDigits: 0
         }).format(amount);
 
+        const feet = parseFloat(linearFeet.value);
+        const numStories = stories.value;
+        const numDownspouts = Math.ceil(feet / PRICING.downspouts.spacing);
+        const downspoutLength = PRICING.downspouts.length[numStories];
         const gutterSizeText = gutterSize.value === '5inch' ? '5-inch' : '6-inch';
         const guardText = guards.value === 'none' ? 'No guards' : 
                          guards.value === 'standard' ? 'Standard guards' : 'Premium guards';
@@ -149,9 +173,10 @@ document.addEventListener('DOMContentLoaded', function() {
             <h4>Estimated Project Cost: ${formattedAmount}</h4>
             <p>Based on:</p>
             <ul style="list-style: none; padding: 0;">
-                <li>${linearFeet.value} linear feet of ${gutterSizeText} gutters</li>
-                <li>${stories.value} story building</li>
+                <li>${feet} linear feet of ${gutterSizeText} gutters</li>
+                <li>${numStories} story building</li>
                 <li>${guardText}</li>
+                <li>${numDownspouts} downspouts (${downspoutLength} ft each)</li>
             </ul>
             <p class="quote-note">* Price includes materials and professional installation</p>
         `;
@@ -178,6 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Stories: ${formData.details.stories}
                 Guards: ${formData.details.guards === 'none' ? 'No guards' : 
                          formData.details.guards === 'standard' ? 'Standard guards' : 'Premium guards'}
+                Downspouts: ${Math.ceil(parseFloat(formData.details.linearFeet) / PRICING.downspouts.spacing)} x ${PRICING.downspouts.length[formData.details.stories]}ft
                 Estimated Cost: ${formData.quote}
             `
         };

@@ -2303,3 +2303,88 @@ footer {
     transition: none !important;
     transform: none !important;
 }
+
+/* Mobile-specific fixes */
+@media screen and (max-width: 767px) {
+    .estimate-tool {
+        margin: 0.5rem !important;
+        padding: 1rem !important;
+        width: calc(100% - 1rem) !important;
+        max-width: none !important;
+        box-sizing: border-box !important;
+    }
+
+    .estimate-step {
+        padding: 0.5rem !important;
+    }
+
+    .input-group {
+        margin-bottom: 1rem !important;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100% !important;
+        padding: 12px !important;
+        font-size: 16px !important;
+        margin-bottom: 0.5rem !important;
+        box-sizing: border-box !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        border-radius: 8px !important;
+    }
+
+    .estimate-btn,
+    .schedule-btn {
+        width: 100% !important;
+        padding: 12px !important;
+        font-size: 16px !important;
+        margin: 0.5rem 0 !important;
+        border-radius: 8px !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+    }
+
+    .quote-result {
+        padding: 0.5rem !important;
+    }
+
+    .quote-details {
+        font-size: 14px !important;
+    }
+
+    .quote-details h4 {
+        font-size: 18px !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .measurement-note,
+    .measurement-tip,
+    .quote-note {
+        font-size: 12px !important;
+        margin: 0.25rem 0 !important;
+    }
+
+    /* Fix iOS button styling */
+    input[type="submit"],
+    input[type="button"],
+    button {
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+    }
+}
+
+/* Fix iOS zoom on input */
+@media screen and (max-width: 767px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+}
