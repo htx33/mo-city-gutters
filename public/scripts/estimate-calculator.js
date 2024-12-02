@@ -18,7 +18,7 @@ const PRICING = {
         cost: 8.5,      // $8.50 per foot
         spacing: 30,    // One downspout every 30 feet
         length: {
-            '1': 12,    // 12 feet for 1 story
+            '1': 15,    // 15 feet for 1 story
             '2': 25,    // 25 feet for 2 story
             '3': 35     // 35 feet for 3 story
         }
