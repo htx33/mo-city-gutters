@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calculator fields
     const linearFeet = document.getElementById('linearFeet');
     const stories = document.getElementById('stories');
-    const material = document.getElementById('material');
     const guards = document.getElementById('guards');
 
     // Show calculator
@@ -76,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
             details: {
                 linearFeet: linearFeet.value,
                 stories: stories.value,
-                material: material.value,
                 guards: guards.value
             }
         };
@@ -126,10 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (stories.value === '2') basePrice *= 1.3;
         if (stories.value === '3') basePrice *= 1.6;
         
-        // Adjust for material
-        if (material.value === 'copper') basePrice *= 2.5;
-        if (material.value === 'steel') basePrice *= 1.5;
-        
         // Add gutter guards
         if (guards.value === 'yes') {
             basePrice += linearFeet.value * 4; // $4 per linear foot for guards
@@ -153,7 +147,6 @@ document.addEventListener('DOMContentLoaded', function() {
             <ul style="list-style: none; padding: 0;">
                 <li>${linearFeet.value} linear feet</li>
                 <li>${stories.value} story building</li>
-                <li>${material.value.charAt(0).toUpperCase() + material.value.slice(1)} gutters</li>
                 ${guards.value === 'yes' ? '<li>Including gutter guards</li>' : ''}
             </ul>
         `;
@@ -177,7 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
             'Project Details': `
                 Linear Feet: ${formData.details.linearFeet}
                 Stories: ${formData.details.stories}
-                Material: ${formData.details.material}
                 Gutter Guards: ${formData.details.guards}
                 Estimated Cost: ${formData.quote}
             `
