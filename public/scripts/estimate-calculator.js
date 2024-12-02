@@ -150,15 +150,41 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function sendQuoteEmail() {
+        const linearFeet = document.getElementById('linearFeet').value;
+        const gutterSize = document.getElementById('gutterSize').value;
+        const stories = document.getElementById('stories').value;
+        const guards = document.getElementById('guards').value;
+        const customerName = document.getElementById('quoteFullName').value;
+        const customerEmail = document.getElementById('quoteEmail').value;
+        
+        // Get the quote details HTML for email
+        const quoteDetailsHtml = document.querySelector('.quote-details').innerHTML;
+        
         const formData = {
-            name: document.getElementById('quoteFullName').value,
-            email: document.getElementById('quoteEmail').value,
+            name: customerName,
+            email: customerEmail,
             phone: document.getElementById('quotePhone').value,
             address: document.getElementById('quoteAddress').value,
-            linearFeet: document.getElementById('linearFeet').value,
-            gutterSize: document.getElementById('gutterSize').value,
-            stories: document.getElementById('stories').value,
-            guards: document.getElementById('guards').value
+            linearFeet: linearFeet,
+            gutterSize: gutterSize,
+            stories: stories,
+            guards: guards,
+            _subject: `Gutter Installation Quote for ${customerName}`,
+            _template: 'table',
+            _cc: customerEmail, // Send a copy to the customer
+            quote_details: quoteDetailsHtml,
+            message: `Thank you for requesting a quote from Mo City Gutters!\n\n` +
+                    `Here are your project details:\n` +
+                    `• Linear Feet: ${linearFeet} ft\n` +
+                    `• Gutter Size: ${gutterSize === '5inch' ? '5-inch' : '6-inch'}\n` +
+                    `• Number of Stories: ${stories}\n` +
+                    `• Gutter Guards: ${guards === 'none' ? 'No' : guards === 'standard' ? 'Standard' : 'Premium'}\n\n` +
+                    `One of our representatives will contact you shortly to discuss your project and schedule a free inspection.\n\n` +
+                    `If you have any questions, please don't hesitate to contact us:\n` +
+                    `Phone: (281) 827-9457\n` +
+                    `Email: mocitygutters@gmail.com\n\n` +
+                    `Best regards,\n` +
+                    `Mo City Gutters Team`
         };
 
         const form = document.createElement('form');
