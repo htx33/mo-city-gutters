@@ -240,33 +240,40 @@
                 <!-- Step 2: Calculator -->
                 <div class="estimate-step" id="calculatorStep" style="display: none;">
                     <h3>Calculate Your Quote</h3>
-                    <div class="input-group">
+                    <div class="input-group measurement-group">
                         <label for="linearFeet">Total Linear Feet of Gutters Needed:</label>
                         <input type="number" inputmode="numeric" pattern="[0-9]*" id="linearFeet" min="0" required>
-                        <p class="measurement-note">* Measure along the edge of your roof where gutters will be installed. Do NOT use square feet.</p>
-                        <p class="measurement-tip">Tip: Walk the perimeter of your home and measure each side where gutters are needed, then add these numbers together.</p>
+                        <div class="measurement-dialog">
+                            <h4>How to Measure:</h4>
+                            <ol>
+                                <li>Walk around your home's perimeter</li>
+                                <li>Measure each side where gutters will be installed</li>
+                                <li>Add all measurements together</li>
+                            </ol>
+                            <p><strong>Note:</strong> Measure along the edge of your roof where gutters will be installed. Do NOT use square feet.</p>
+                        </div>
                     </div>
                     <div class="input-group">
                         <label for="gutterSize">Gutter Size:</label>
                         <select id="gutterSize" required>
-                            <option value="5inch">5-inch Gutters ($9.20/ft)</option>
-                            <option value="6inch">6-inch Gutters ($11.00/ft)</option>
+                            <option value="5inch">5-inch Gutters (Standard Residential)</option>
+                            <option value="6inch">6-inch Gutters (Premium/Large Roof)</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label for="stories">Number of Stories:</label>
                         <select id="stories" required>
                             <option value="1">1 Story</option>
-                            <option value="2">2 Stories (+30%)</option>
-                            <option value="3">3 Stories (+60%)</option>
+                            <option value="2">2 Stories</option>
+                            <option value="3">3 Stories</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label for="guards">Gutter Guards:</label>
                         <select id="guards" required>
                             <option value="none">No Guards</option>
-                            <option value="standard">Standard Guards (+$8/ft)</option>
-                            <option value="premium">Premium Guards (+$14/ft)</option>
+                            <option value="standard">Standard Guards</option>
+                            <option value="premium">Premium Guards</option>
                         </select>
                     </div>
                     <button id="calculateBtn" class="estimate-btn">Calculate Quote</button>
