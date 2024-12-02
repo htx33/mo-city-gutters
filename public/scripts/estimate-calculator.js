@@ -29,193 +29,159 @@ document.addEventListener('DOMContentLoaded', function() {
     // Elements
     const showCalculatorBtn = document.getElementById('showCalculator');
     const estimateTool = document.getElementById('estimateTool');
-    const contactStep = document.getElementById('contactStep');
     const calculatorStep = document.getElementById('calculatorStep');
+    const contactStep = document.getElementById('contactStep');
     const resultsStep = document.getElementById('resultsStep');
-    const contactNextBtn = document.getElementById('contactNextBtn');
     const calculateBtn = document.getElementById('calculateBtn');
+    const backToCalculatorBtn = document.getElementById('backToCalculator');
+    const submitQuoteBtn = document.getElementById('submitQuoteBtn');
 
-    // Contact form fields
-    const quoteFullName = document.getElementById('quoteFullName');
-    const quoteEmail = document.getElementById('quoteEmail');
-    const quotePhone = document.getElementById('quotePhone');
-    const quoteAddress = document.getElementById('quoteAddress');
-
-    // Calculator fields
-    const linearFeet = document.getElementById('linearFeet');
-    const gutterSize = document.getElementById('gutterSize');
-    const stories = document.getElementById('stories');
-    const guards = document.getElementById('guards');
-
-    // Show calculator
+    // Show calculator when "Get Quote" button is clicked
     showCalculatorBtn.addEventListener('click', function() {
         estimateTool.style.display = 'block';
-        contactStep.style.display = 'block';
-        calculatorStep.style.display = 'none';
+        calculatorStep.style.display = 'block';
+        contactStep.style.display = 'none';
         resultsStep.style.display = 'none';
+        showCalculatorBtn.style.display = 'none';
     });
 
-    // Handle contact form submission
-    contactNextBtn.addEventListener('click', function() {
-        if (validateContactInfo()) {
-            contactStep.style.display = 'none';
-            calculatorStep.style.display = 'block';
-            resultsStep.style.display = 'none';
-        }
-    });
-
-    // Handle calculation
+    // Calculate button click handler
     calculateBtn.addEventListener('click', function() {
-        if (validateCalculatorInputs()) {
-            const quote = calculateQuote();
-            displayQuote(quote);
-            calculatorStep.style.display = 'none';
-            resultsStep.style.display = 'block';
-            
-            // Send quote details to email
-            const formData = {
-                name: quoteFullName.value,
-                email: quoteEmail.value,
-                phone: quotePhone.value,
-                address: quoteAddress.value,
-                quote: document.querySelector('.quote-details').textContent,
-                details: {
-                    linearFeet: linearFeet.value,
-                    gutterSize: gutterSize.value,
-                    stories: stories.value,
-                    guards: guards.value
-                }
-            };
-            sendQuoteToEmail(formData);
+        const linearFeet = document.getElementById('linearFeet').value;
+        const gutterSize = document.getElementById('gutterSize').value;
+        const stories = document.getElementById('stories').value;
+        const guards = document.getElementById('guards').value;
+
+        // Validate inputs
+        if (!linearFeet || linearFeet <= 0) {
+            alert('Please enter valid linear feet');
+            return;
         }
+
+        // Hide calculator, show contact form
+        calculatorStep.style.display = 'none';
+        contactStep.style.display = 'block';
     });
 
-    // Validation functions
-    function validateContactInfo() {
-        if (!quoteFullName.value || !quoteEmail.value || !quotePhone.value || !quoteAddress.value) {
-            alert('Please fill in all contact information fields');
-            return false;
-        }
-        if (!isValidEmail(quoteEmail.value)) {
-            alert('Please enter a valid email address');
-            return false;
-        }
-        if (!isValidPhone(quotePhone.value)) {
-            alert('Please enter a valid phone number');
-            return false;
-        }
-        return true;
-    }
+    // Back button click handler
+    backToCalculatorBtn.addEventListener('click', function() {
+        calculatorStep.style.display = 'block';
+        contactStep.style.display = 'none';
+    });
 
-    function validateCalculatorInputs() {
-        if (!linearFeet.value || linearFeet.value <= 0) {
-            alert('Please enter valid linear feet');
-            return false;
-        }
-        return true;
-    }
+    // Submit quote button click handler
+    submitQuoteBtn.addEventListener('click', function() {
+        const fullName = document.getElementById('quoteFullName').value;
+        const email = document.getElementById('quoteEmail').value;
+        const phone = document.getElementById('quotePhone').value;
+        const address = document.getElementById('quoteAddress').value;
 
-    // Helper functions
-    function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    function isValidPhone(phone) {
-        return /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(phone);
-    }
-
-    function calculateQuote() {
-        const feet = parseFloat(linearFeet.value);
-        const size = gutterSize.value;
-        const numStories = stories.value;
-        const guardType = guards.value;
-        
-        // Calculate base gutter cost
-        let basePrice = feet * PRICING.gutters[size];
-        
-        // Calculate number of downspouts needed
-        const numDownspouts = Math.ceil(feet / PRICING.downspouts.spacing);
-        const downspoutLength = PRICING.downspouts.length[numStories];
-        const downspoutCost = numDownspouts * downspoutLength * PRICING.downspouts.cost;
-        
-        // Add downspout cost
-        basePrice += downspoutCost;
-        
-        // Apply story multiplier
-        basePrice *= PRICING.storyMultiplier[numStories];
-        
-        // Add gutter guards if selected
-        if (guardType !== 'none') {
-            basePrice += feet * PRICING.guards[guardType];
+        // Validate contact info
+        if (!fullName || !email || !phone || !address) {
+            alert('Please fill in all contact information');
+            return;
         }
 
-        return Math.round(basePrice); // Round to nearest dollar
-    }
+        // Calculate final quote
+        calculateAndDisplayQuote();
+    });
 
-    function displayQuote(amount) {
+    function calculateAndDisplayQuote() {
+        const linearFeet = parseFloat(document.getElementById('linearFeet').value);
+        const gutterSize = document.getElementById('gutterSize').value;
+        const stories = parseInt(document.getElementById('stories').value);
+        const guards = document.getElementById('guards').value;
+
+        // Calculate base price
+        let pricePerFoot = gutterSize === '5inch' ? 9.20 : 11.00;
+        let basePrice = linearFeet * pricePerFoot;
+
+        // Calculate guards price
+        let guardsPrice = 0;
+        if (guards === 'standard') {
+            guardsPrice = linearFeet * 8;
+        } else if (guards === 'premium') {
+            guardsPrice = linearFeet * 14;
+        }
+
+        // Calculate story multiplier
+        let storyMultiplier = 1;
+        if (stories === 2) {
+            storyMultiplier = 1.3;
+        } else if (stories === 3) {
+            storyMultiplier = 1.6;
+        }
+
+        // Calculate downspouts
+        const downspoutsNeeded = Math.ceil(linearFeet / 30);
+        let downspoutLength;
+        switch(stories) {
+            case 1: downspoutLength = 15; break;
+            case 2: downspoutLength = 25; break;
+            case 3: downspoutLength = 35; break;
+            default: downspoutLength = 15;
+        }
+        const downspoutPrice = downspoutsNeeded * downspoutLength * 8.50;
+
+        // Calculate total
+        const subtotal = (basePrice + guardsPrice) * storyMultiplier + downspoutPrice;
+        const total = Math.round(subtotal);
+
+        // Display quote details
         const quoteDetails = document.querySelector('.quote-details');
-        const formattedAmount = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(amount);
-
-        const feet = parseFloat(linearFeet.value);
-        const numStories = stories.value;
-        const numDownspouts = Math.ceil(feet / PRICING.downspouts.spacing);
-        const downspoutLength = PRICING.downspouts.length[numStories];
-        const gutterSizeText = gutterSize.value === '5inch' ? '5-inch' : '6-inch';
-        const guardText = guards.value === 'none' ? 'No guards' : 
-                         guards.value === 'standard' ? 'Standard guards' : 'Premium guards';
-
-        let details = `
-            <h4>Estimated Project Cost: ${formattedAmount}</h4>
-            <p>Based on:</p>
-            <ul style="list-style: none; padding: 0;">
-                <li>${feet} linear feet of ${gutterSizeText} gutters</li>
-                <li>${numStories} story building</li>
-                <li>${guardText}</li>
-                <li>${numDownspouts} downspouts (${downspoutLength} ft each)</li>
+        quoteDetails.innerHTML = `
+            <h4>Quote Details</h4>
+            <ul>
+                <li>Linear Feet: ${linearFeet} ft</li>
+                <li>Gutter Size: ${gutterSize === '5inch' ? '5-inch' : '6-inch'}</li>
+                <li>Stories: ${stories}</li>
+                <li>Guards: ${guards === 'none' ? 'No' : guards === 'standard' ? 'Standard' : 'Premium'}</li>
+                <li>Downspouts: ${downspoutsNeeded} (${downspoutLength} ft each)</li>
+                <li><strong>Estimated Total: $${total.toLocaleString()}</strong></li>
             </ul>
-            <p class="quote-note">* Price includes materials and professional installation</p>
         `;
 
-        quoteDetails.innerHTML = details;
+        // Show results
+        contactStep.style.display = 'none';
+        resultsStep.style.display = 'block';
+
+        // Send form data
+        sendQuoteEmail();
     }
 
-    function sendQuoteToEmail(formData) {
-        // Use FormSubmit to send the quote details
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = 'https://formsubmit.co/mocityclean@gmail.com';
-
-        // Add all form fields
-        const fields = {
-            _subject: 'New Gutter Quote Request - Mo City Gutters',
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            address: formData.address,
-            'Project Details': `
-                Linear Feet: ${formData.details.linearFeet}
-                Gutter Size: ${formData.details.gutterSize === '5inch' ? '5-inch' : '6-inch'}
-                Stories: ${formData.details.stories}
-                Guards: ${formData.details.guards === 'none' ? 'No guards' : 
-                         formData.details.guards === 'standard' ? 'Standard guards' : 'Premium guards'}
-                Downspouts: ${Math.ceil(parseFloat(formData.details.linearFeet) / PRICING.downspouts.spacing)} x ${PRICING.downspouts.length[formData.details.stories]}ft
-                Estimated Cost: ${formData.quote}
-            `
+    function sendQuoteEmail() {
+        const formData = {
+            name: document.getElementById('quoteFullName').value,
+            email: document.getElementById('quoteEmail').value,
+            phone: document.getElementById('quotePhone').value,
+            address: document.getElementById('quoteAddress').value,
+            linearFeet: document.getElementById('linearFeet').value,
+            gutterSize: document.getElementById('gutterSize').value,
+            stories: document.getElementById('stories').value,
+            guards: document.getElementById('guards').value
         };
 
-        for (const [name, value] of Object.entries(fields)) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://formsubmit.co/mocitygutters@gmail.com';
+
+        // Add form fields
+        Object.keys(formData).forEach(key => {
             const input = document.createElement('input');
             input.type = 'hidden';
-            input.name = name;
-            input.value = value;
+            input.name = key;
+            input.value = formData[key];
             form.appendChild(input);
-        }
+        });
 
+        // Add success page redirect
+        const successUrl = document.createElement('input');
+        successUrl.type = 'hidden';
+        successUrl.name = '_next';
+        successUrl.value = window.location.href;
+        form.appendChild(successUrl);
+
+        // Submit form
         document.body.appendChild(form);
         form.submit();
     }
