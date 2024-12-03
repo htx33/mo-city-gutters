@@ -231,27 +231,27 @@
         </div>
 
         <div id="estimateTool" class="estimate-tool" style="display: none;">
-            <div class="estimate-steps">
+            <form id="calculator-form" class="estimate-steps">
                 <!-- Step 1: Contact Information -->
                 <div class="estimate-step" id="contactStep">
                     <h3>Contact Information</h3>
                     <div class="input-group">
                         <label for="quoteFullName">Full Name:</label>
-                        <input type="text" id="quoteFullName" autocomplete="name" required>
+                        <input type="text" id="quoteFullName" name="quoteFullName" autocomplete="name" required>
                     </div>
                     <div class="input-group">
                         <label for="quoteEmail">Email:</label>
-                        <input type="email" id="quoteEmail" autocomplete="email" required>
+                        <input type="email" id="quoteEmail" name="quoteEmail" autocomplete="email" required>
                     </div>
                     <div class="input-group">
                         <label for="quotePhone">Phone:</label>
-                        <input type="tel" id="quotePhone" autocomplete="tel" required>
+                        <input type="tel" id="quotePhone" name="quotePhone" autocomplete="tel" required>
                     </div>
                     <div class="input-group">
                         <label for="quoteAddress">Address:</label>
-                        <input type="text" id="quoteAddress" autocomplete="street-address" required>
+                        <input type="text" id="quoteAddress" name="quoteAddress" autocomplete="street-address" required>
                     </div>
-                    <button id="contactNextBtn" class="estimate-btn">Next</button>
+                    <button type="button" id="contactNextBtn" class="estimate-btn">Next</button>
                 </div>
 
                 <!-- Step 2: Calculator -->
@@ -259,7 +259,7 @@
                     <h3>Calculate Your Quote</h3>
                     <div class="input-group measurement-group">
                         <label for="linearFeet">Total Linear Feet of Gutters Needed:</label>
-                        <input type="number" inputmode="numeric" pattern="[0-9]*" id="linearFeet" min="0" required>
+                        <input type="number" inputmode="numeric" pattern="[0-9]*" id="linearFeet" name="linearFeet" min="0" required>
                         <div class="measurement-dialog">
                             <h4>How to Measure:</h4>
                             <ol>
@@ -272,14 +272,14 @@
                     </div>
                     <div class="input-group">
                         <label for="gutterSize">Gutter Size:</label>
-                        <select id="gutterSize" required>
+                        <select id="gutterSize" name="gutterSize" required>
                             <option value="5inch">5-inch Gutters (Standard Residential)</option>
                             <option value="6inch">6-inch Gutters (Premium/Large Roof)</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label for="stories">Number of Stories:</label>
-                        <select id="stories" required>
+                        <select id="stories" name="stories" required>
                             <option value="1">1 Story</option>
                             <option value="2">2 Stories</option>
                             <option value="3">3 Stories</option>
@@ -287,13 +287,13 @@
                     </div>
                     <div class="input-group">
                         <label for="guards">Gutter Guards:</label>
-                        <select id="guards" required>
+                        <select id="guards" name="guards" required>
                             <option value="none">No Guards</option>
                             <option value="standard">Standard Guards</option>
                             <option value="premium">Premium Guards</option>
                         </select>
                     </div>
-                    <button id="calculateBtn" class="estimate-btn">Calculate Quote</button>
+                    <button type="button" id="calculateBtn" class="estimate-btn">Calculate Quote</button>
                 </div>
 
                 <!-- Step 3: Results -->
@@ -305,7 +305,7 @@
                         <a href="sms:+12818279457" class="estimate-btn schedule-btn">Text Us to Schedule Free Inspection</a>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </section>
 

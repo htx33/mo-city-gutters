@@ -15,92 +15,53 @@ document.addEventListener('DOMContentLoaded', function() {
         'premium': 6.50
     };
 
-    let currentStep = 1;
-    const totalSteps = 3;
+    // Show/Hide Calculator
+    const showCalculatorBtn = document.getElementById('showCalculator');
+    const estimateTool = document.getElementById('estimateTool');
     
+    showCalculatorBtn.addEventListener('click', function() {
+        estimateTool.style.display = 'block';
+        showCalculatorBtn.style.display = 'none';
+    });
+
     // Form elements
-    const calculatorForm = document.getElementById('calculator-form');
-    const measurementSection = document.getElementById('measurement-section');
-    const contactSection = document.getElementById('contact-section');
-    const summarySection = document.getElementById('summary-section');
-    const nextButton = document.getElementById('next-btn');
-    const backButton = document.getElementById('back-btn');
-    const submitButton = document.getElementById('submit-btn');
+    const contactStep = document.getElementById('contactStep');
+    const calculatorStep = document.getElementById('calculatorStep');
+    const resultsStep = document.getElementById('resultsStep');
+    const contactNextBtn = document.getElementById('contactNextBtn');
+    const calculateBtn = document.getElementById('calculateBtn');
 
-    // Navigation functions
-    function showStep(step) {
-        // Hide all sections
-        measurementSection.style.display = 'none';
-        contactSection.style.display = 'none';
-        summarySection.style.display = 'none';
+    // Contact form elements
+    const quoteFullName = document.getElementById('quoteFullName');
+    const quoteEmail = document.getElementById('quoteEmail');
+    const quotePhone = document.getElementById('quotePhone');
+    const quoteAddress = document.getElementById('quoteAddress');
 
-        // Show appropriate section
-        switch(step) {
-            case 1:
-                measurementSection.style.display = 'block';
-                backButton.style.display = 'none';
-                nextButton.style.display = 'block';
-                submitButton.style.display = 'none';
-                break;
-            case 2:
-                contactSection.style.display = 'block';
-                backButton.style.display = 'block';
-                nextButton.style.display = 'block';
-                submitButton.style.display = 'none';
-                break;
-            case 3:
-                summarySection.style.display = 'block';
-                backButton.style.display = 'block';
-                nextButton.style.display = 'none';
-                submitButton.style.display = 'block';
-                updateSummary();
-                break;
-        }
-        currentStep = step;
-    }
-
-    function validateMeasurements() {
-        const linearFeet = document.getElementById('linear-feet').value;
-        const gutterSize = document.querySelector('input[name="gutter-size"]:checked')?.value;
-        const stories = document.querySelector('input[name="stories"]:checked')?.value;
-        const guards = document.querySelector('input[name="guards"]:checked')?.value;
-
-        if (!linearFeet || !gutterSize || !stories || !guards) {
-            alert('Please fill in all measurement fields');
-            return false;
-        }
-
-        if (isNaN(linearFeet) || linearFeet <= 0) {
-            alert('Please enter a valid number of linear feet');
-            return false;
-        }
-
-        return true;
-    }
+    // Calculator form elements
+    const linearFeet = document.getElementById('linearFeet');
+    const gutterSize = document.getElementById('gutterSize');
+    const stories = document.getElementById('stories');
+    const guards = document.getElementById('guards');
 
     function validateContact() {
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const address = document.getElementById('address').value.trim();
-        const preferredDate = document.getElementById('preferred-date').value;
-        const preferredTime = document.getElementById('preferred-time').value;
-
-        if (!name || !email || !phone || !address || !preferredDate || !preferredTime) {
+        if (!quoteFullName.value.trim() || 
+            !quoteEmail.value.trim() || 
+            !quotePhone.value.trim() || 
+            !quoteAddress.value.trim()) {
             alert('Please fill in all contact fields');
             return false;
         }
 
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        if (!emailRegex.test(quoteEmail.value.trim())) {
             alert('Please enter a valid email address');
             return false;
         }
 
         // Phone validation (accept various formats)
         const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
-        if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+        if (!phoneRegex.test(quotePhone.value.replace(/\s/g, ''))) {
             alert('Please enter a valid phone number');
             return false;
         }
@@ -108,110 +69,103 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-    function calculateTotal() {
-        const linearFeet = parseFloat(document.getElementById('linear-feet').value);
-        const gutterSize = document.querySelector('input[name="gutter-size"]:checked').value;
-        const stories = document.querySelector('input[name="stories"]:checked').value;
-        const guards = document.querySelector('input[name="guards"]:checked').value;
+    function validateCalculator() {
+        if (!linearFeet.value || 
+            !gutterSize.value || 
+            !stories.value || 
+            !guards.value) {
+            alert('Please fill in all measurement fields');
+            return false;
+        }
 
-        const basePrice = PRICE_PER_LINEAR_FOOT[gutterSize] * linearFeet;
-        const storyAdjusted = basePrice * STORY_MULTIPLIER[stories];
-        const guardPrice = GUARD_PRICES[guards] * linearFeet;
+        if (isNaN(linearFeet.value) || linearFeet.value <= 0) {
+            alert('Please enter a valid number of linear feet');
+            return false;
+        }
+
+        return true;
+    }
+
+    function calculateTotal() {
+        const feet = parseFloat(linearFeet.value);
+        const size = gutterSize.value;
+        const story = stories.value;
+        const guard = guards.value;
+
+        const basePrice = PRICE_PER_LINEAR_FOOT[size] * feet;
+        const storyAdjusted = basePrice * STORY_MULTIPLIER[story];
+        const guardPrice = GUARD_PRICES[guard] * feet;
         
         return Math.round((storyAdjusted + guardPrice) * 100) / 100;
     }
 
-    function updateSummary() {
-        const linearFeet = document.getElementById('linear-feet').value;
-        const gutterSize = document.querySelector('input[name="gutter-size"]:checked').value;
-        const stories = document.querySelector('input[name="stories"]:checked').value;
-        const guards = document.querySelector('input[name="guards"]:checked').value;
+    function showQuoteResult() {
         const total = calculateTotal();
-
-        document.getElementById('summary-linear-feet').textContent = linearFeet;
-        document.getElementById('summary-gutter-size').textContent = gutterSize === '5inch' ? '5-inch' : '6-inch';
-        document.getElementById('summary-stories').textContent = stories;
-        document.getElementById('summary-guards').textContent = 
-            guards === 'none' ? 'No Guards' : 
-            guards === 'standard' ? 'Standard Guards' : 'Premium Guards';
-        document.getElementById('summary-total').textContent = `$${total.toFixed(2)}`;
+        const quoteDetails = document.querySelector('.quote-details');
+        
+        quoteDetails.innerHTML = `
+            <div class="quote-item">
+                <span>Linear Feet:</span>
+                <span>${linearFeet.value} ft</span>
+            </div>
+            <div class="quote-item">
+                <span>Gutter Size:</span>
+                <span>${gutterSize.value === '5inch' ? '5-inch' : '6-inch'}</span>
+            </div>
+            <div class="quote-item">
+                <span>Stories:</span>
+                <span>${stories.value}</span>
+            </div>
+            <div class="quote-item">
+                <span>Guards:</span>
+                <span>${guards.value === 'none' ? 'No Guards' : 
+                       guards.value === 'standard' ? 'Standard Guards' : 'Premium Guards'}</span>
+            </div>
+            <div class="quote-item total">
+                <span>Estimated Total:</span>
+                <span>$${total.toFixed(2)}</span>
+            </div>
+        `;
     }
 
     // Event Listeners
-    nextButton.addEventListener('click', function(e) {
+    contactNextBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        
-        if (currentStep === 1 && !validateMeasurements()) {
-            return;
-        }
-        
-        if (currentStep === 2 && !validateContact()) {
-            return;
-        }
-
-        if (currentStep < totalSteps) {
-            showStep(currentStep + 1);
+        if (validateContact()) {
+            contactStep.style.display = 'none';
+            calculatorStep.style.display = 'block';
         }
     });
 
-    backButton.addEventListener('click', function(e) {
+    calculateBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        if (currentStep > 1) {
-            showStep(currentStep - 1);
-        }
-    });
+        if (validateCalculator()) {
+            calculatorStep.style.display = 'none';
+            resultsStep.style.display = 'block';
+            showQuoteResult();
 
-    calculatorForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        if (!validateMeasurements() || !validateContact()) {
-            return;
-        }
+            // Prepare form data for submission
+            const formData = {
+                name: quoteFullName.value.trim(),
+                email: quoteEmail.value.trim(),
+                phone: quotePhone.value.trim(),
+                address: quoteAddress.value.trim(),
+                linearFeet: linearFeet.value,
+                gutterSize: gutterSize.value,
+                stories: stories.value,
+                guards: guards.value,
+                total: calculateTotal()
+            };
 
-        const formData = {
-            linearFeet: document.getElementById('linear-feet').value,
-            gutterSize: document.querySelector('input[name="gutter-size"]:checked').value,
-            stories: document.querySelector('input[name="stories"]:checked').value,
-            guards: document.querySelector('input[name="guards"]:checked').value,
-            total: calculateTotal(),
-            name: document.getElementById('name').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
-            address: document.getElementById('address').value.trim(),
-            preferredDate: document.getElementById('preferred-date').value,
-            preferredTime: document.getElementById('preferred-time').value,
-            additionalNotes: document.getElementById('additional-notes').value.trim()
-        };
-
-        // Disable submit button and show loading state
-        submitButton.disabled = true;
-        submitButton.textContent = 'Sending...';
-
-        try {
-            // Send to HubSpot if config exists
+            // Send to HubSpot if available
             if (typeof sendToHubSpot === 'function') {
-                await sendToHubSpot(formData);
+                sendToHubSpot(formData);
             }
 
             // Send email via FormSubmit
-            await submitFormToFormSubmit(formData);
-
-            // Show success message
-            alert('Thank you! Your quote request has been submitted successfully. We will contact you shortly.');
-            calculatorForm.reset();
-            showStep(1);
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            alert('There was an error submitting your quote request. Please try again or contact us directly.');
-        } finally {
-            // Re-enable submit button
-            submitButton.disabled = false;
-            submitButton.textContent = 'Submit Quote Request';
+            submitFormToFormSubmit(formData);
         }
     });
-
-    // Initialize form
-    showStep(1);
 });
 
 function submitFormToFormSubmit(formData) {
@@ -223,8 +177,6 @@ function submitFormToFormSubmit(formData) {
         Email: ${formData.email}
         Phone: ${formData.phone}
         Address: ${formData.address}
-        Preferred Date: ${formData.preferredDate}
-        Preferred Time: ${formData.preferredTime}
 
         Quote Details:
         Linear Feet: ${formData.linearFeet}
@@ -233,9 +185,6 @@ function submitFormToFormSubmit(formData) {
         Guards: ${formData.guards === 'none' ? 'No Guards' : 
                 formData.guards === 'standard' ? 'Standard Guards' : 'Premium Guards'}
         Total: $${formData.total.toFixed(2)}
-
-        Additional Notes:
-        ${formData.additionalNotes || 'None provided'}
     `;
 
     // Create a hidden form for FormSubmit
