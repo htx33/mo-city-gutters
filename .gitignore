@@ -48,6 +48,9 @@ bower_components/
 # dotenv environment variables file
 .env.*
 
+# Configuration files with sensitive data
+public/scripts/config.js
+
 # IDE specific files
 .idea
 .vscode

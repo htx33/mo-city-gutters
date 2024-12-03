@@ -46,6 +46,10 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- HubSpot Integration -->
+    <script type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+    <script charset="utf-8" type="text/javascript" src="//js.hs-scripts.com/48384794.js"></script>
 </head>
 <body>
     <header>
@@ -383,6 +387,20 @@
                            title="Please enter a valid phone number">
                 </div>
                 <div class="form-group">
+                    <input type="date" id="preferredDate" name="preferredDate" placeholder="Preferred Date" required>
+                </div>
+                <div class="form-group">
+                    <select id="preferredTime" name="preferredTime" required>
+                        <option value="">Select Preferred Time</option>
+                        <option value="morning">Morning (8AM - 12PM)</option>
+                        <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                        <option value="evening">Evening (4PM - 7PM)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea id="additionalNotes" name="additionalNotes" placeholder="Additional Notes (Optional)" rows="3"></textarea>
+                </div>
+                <div class="form-group">
                     <textarea id="message" name="message" placeholder="Tell us about your project" rows="5" required
                             maxlength="1000"></textarea>
                 </div>
@@ -436,6 +454,7 @@
     </footer>
 
     <script src="scripts/main.js"></script>
+    <script src="scripts/config.js"></script>
     <script src="scripts/estimate-calculator.js"></script>
     <script src="scripts/reviews.js"></script>
 </body>
