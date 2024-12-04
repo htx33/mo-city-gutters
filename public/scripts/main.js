@@ -203,22 +203,53 @@ function showTestimonial(index) {
     });
 }
 
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize HubSpot forms
-    if (typeof hbspt !== 'undefined') {
-        // Create calculator form
-        hbspt.forms.create({
-            portalId: "48384794",
-            formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
-            target: "#calculator-hubspot-form"
+// Initialize HubSpot forms
+function initHubSpotForms() {
+    if (window.hbspt) {
+        // Initialize calculator form
+        window.hbspt.forms.create({
+            region: "na1",
+            portalId: CONFIG.hubspot.portalId,
+            formId: CONFIG.hubspot.formId,
+            target: "#calculator-hubspot-form",
+            onFormReady: function($form) {
+                document.getElementById('calculator-hubspot-form').style.display = 'none';
+            }
         });
 
-        // Create contact form
-        hbspt.forms.create({
-            portalId: "48384794",
-            formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+        // Initialize contact form
+        window.hbspt.forms.create({
+            region: "na1",
+            portalId: CONFIG.hubspot.portalId,
+            formId: CONFIG.hubspot.formId,
             target: "#contact-hubspot-form"
+        });
+    } else {
+        console.error('HubSpot forms script not loaded');
+    }
+}
+
+// Handle Get Quote button click
+document.addEventListener('DOMContentLoaded', function() {
+    const showCalculatorBtn = document.getElementById('showCalculator');
+    const calculatorForm = document.getElementById('calculator-hubspot-form');
+
+    if (showCalculatorBtn && calculatorForm) {
+        showCalculatorBtn.addEventListener('click', function() {
+            calculatorForm.style.display = 'block';
+            showCalculatorBtn.style.display = 'none';
+        });
+    }
+
+    // Initialize HubSpot forms after script loads
+    if (window.hbspt) {
+        initHubSpotForms();
+    } else {
+        // Wait for HubSpot script to load
+        window.addEventListener('load', function() {
+            if (window.hbspt) {
+                initHubSpotForms();
+            }
         });
     }
 
@@ -248,15 +279,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
-
-// Show/Hide Calculator
-document.getElementById('showCalculator')?.addEventListener('click', function() {
-    const estimateTool = document.getElementById('estimateTool');
-    if (estimateTool) {
-        estimateTool.style.display = 'block';
-        this.style.display = 'none';
-    }
 });
 
 // Error handling
