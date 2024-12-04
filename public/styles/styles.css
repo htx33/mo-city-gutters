@@ -166,6 +166,11 @@
 }
 
 /* HubSpot Form Styles */
+#calculator-hubspot-form {
+    display: none; /* Initially hidden */
+    margin-top: 2rem;
+}
+
 #calculator-hubspot-form,
 #contact-hubspot-form {
     max-width: 100%;
@@ -173,6 +178,7 @@
     padding: 20px;
     background: #fff;
     border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 #calculator-hubspot-form .hs-form,

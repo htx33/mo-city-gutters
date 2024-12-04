@@ -209,19 +209,16 @@ function initHubSpotForms() {
         // Initialize calculator form
         window.hbspt.forms.create({
             region: "na1",
-            portalId: CONFIG.hubspot.portalId,
-            formId: CONFIG.hubspot.formId,
-            target: "#calculator-hubspot-form",
-            onFormReady: function($form) {
-                document.getElementById('calculator-hubspot-form').style.display = 'none';
-            }
+            portalId: "48384794",
+            formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+            target: "#calculator-hubspot-form"
         });
 
         // Initialize contact form
         window.hbspt.forms.create({
             region: "na1",
-            portalId: CONFIG.hubspot.portalId,
-            formId: CONFIG.hubspot.formId,
+            portalId: "48384794",
+            formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
             target: "#contact-hubspot-form"
         });
     } else {
@@ -232,52 +229,55 @@ function initHubSpotForms() {
 // Handle Get Quote button click
 document.addEventListener('DOMContentLoaded', function() {
     const showCalculatorBtn = document.getElementById('showCalculator');
-    const calculatorForm = document.getElementById('calculator-hubspot-form');
-
-    if (showCalculatorBtn && calculatorForm) {
+    if (showCalculatorBtn) {
         showCalculatorBtn.addEventListener('click', function() {
-            calculatorForm.style.display = 'block';
-            showCalculatorBtn.style.display = 'none';
+            const calculatorForm = document.getElementById('calculator-hubspot-form');
+            if (calculatorForm) {
+                calculatorForm.style.display = 'block';
+                showCalculatorBtn.style.display = 'none';
+            }
         });
     }
+});
 
-    // Initialize HubSpot forms after script loads
-    if (window.hbspt) {
-        initHubSpotForms();
-    } else {
-        // Wait for HubSpot script to load
-        window.addEventListener('load', function() {
+// Initialize HubSpot forms when the script is loaded
+if (window.hbspt) {
+    initHubSpotForms();
+} else {
+    // Wait for HubSpot script to load
+    window.addEventListener('load', function() {
+        setTimeout(function() {
             if (window.hbspt) {
                 initHubSpotForms();
             }
-        });
-    }
+        }, 1000); // Give HubSpot script time to initialize
+    });
+}
 
-    // Initialize mobile menu
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
+// Initialize mobile menu
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const mobileMenu = document.querySelector('.mobile-menu');
 
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('active');
-        });
-    }
+if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', function() {
+        mobileMenu.classList.toggle('active');
+    });
+}
 
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Close mobile menu if open
-                if (mobileMenu) {
-                    mobileMenu.classList.remove('active');
-                }
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth'
+            });
+            // Close mobile menu if open
+            if (mobileMenu) {
+                mobileMenu.classList.remove('active');
             }
-        });
+        }
     });
 });
 
