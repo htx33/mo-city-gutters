@@ -49,6 +49,56 @@
     
     <!-- Initialize HubSpot Forms -->
     <script>
+        // Pricing configuration
+        const CONFIG = {
+            pricing: {
+                gutterSizes: {
+                    '5': 8.50,  // 5-inch gutters price per linear foot
+                    '6': 9.50   // 6-inch gutters price per linear foot
+                },
+                storyMultipliers: {
+                    '1': 1.0,   // Single story multiplier
+                    '2': 1.3    // Two story multiplier
+                },
+                guardPrices: {
+                    'none': 0,
+                    'standard': 4.50,  // Standard guards price per linear foot
+                    'premium': 6.50    // Premium guards price per linear foot
+                }
+            }
+        };
+
+        // Calculate quote total
+        function calculateQuote(linearFeet, gutterSize, stories, guards) {
+            try {
+                // Get base price per foot based on gutter size
+                const basePrice = CONFIG.pricing.gutterSizes[gutterSize] || CONFIG.pricing.gutterSizes['5'];
+                
+                // Get story multiplier
+                const storyMultiplier = CONFIG.pricing.storyMultipliers[stories] || CONFIG.pricing.storyMultipliers['1'];
+                
+                // Get guard price per foot
+                const guardPrice = CONFIG.pricing.guardPrices[guards] || 0;
+                
+                // Calculate total
+                const subtotal = linearFeet * (basePrice + guardPrice) * storyMultiplier;
+                
+                return {
+                    subtotal: subtotal,
+                    total: Math.ceil(subtotal), // Round up to nearest dollar
+                    breakdown: {
+                        basePrice: basePrice,
+                        guardPrice: guardPrice,
+                        storyMultiplier: storyMultiplier,
+                        linearFeet: linearFeet
+                    }
+                };
+            } catch (error) {
+                console.error('Error calculating quote:', error);
+                return null;
+            }
+        }
+
         window.addEventListener('load', function() {
             if (window.hbspt) {
                 console.log('Initializing HubSpot forms...');
@@ -58,7 +108,35 @@
                         region: "na1",
                         portalId: "48384794",
                         formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
-                        target: "#calculator-hubspot-form"
+                        target: "#calculator-hubspot-form",
+                        onFormReady: function($form) {
+                            console.log('Calculator form ready');
+                            // Add calculation logic to form
+                            $form.addEventListener('input', function(e) {
+                                // Get form values
+                                const linearFeet = $form.querySelector('input[name="linear_feet"]')?.value;
+                                const gutterSize = $form.querySelector('select[name="gutter_size"]')?.value;
+                                const stories = $form.querySelector('select[name="stories"]')?.value;
+                                const guards = $form.querySelector('select[name="guards"]')?.value;
+
+                                if (linearFeet && gutterSize && stories && guards) {
+                                    const quote = calculateQuote(
+                                        parseFloat(linearFeet),
+                                        gutterSize,
+                                        stories,
+                                        guards
+                                    );
+
+                                    if (quote) {
+                                        // Update total field if it exists
+                                        const totalField = $form.querySelector('input[name="total"]');
+                                        if (totalField) {
+                                            totalField.value = `$${quote.total}`;
+                                        }
+                                    }
+                                }
+                            });
+                        }
                     });
 
                     // Initialize contact form
