@@ -167,8 +167,18 @@
 
 /* HubSpot Form Styles */
 #calculator-hubspot-form {
-    display: none; /* Initially hidden */
+    display: none;
     margin-top: 2rem;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#calculator-hubspot-form iframe,
+#contact-hubspot-form iframe {
+    width: 100% !important;
+    min-width: 100% !important;
 }
 
 #calculator-hubspot-form,

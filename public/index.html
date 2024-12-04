@@ -46,6 +46,46 @@
     
     <!-- HubSpot Forms -->
     <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+    
+    <!-- Initialize HubSpot Forms -->
+    <script>
+        window.addEventListener('load', function() {
+            if (window.hbspt) {
+                console.log('Initializing HubSpot forms...');
+                try {
+                    // Initialize calculator form
+                    window.hbspt.forms.create({
+                        region: "na1",
+                        portalId: "48384794",
+                        formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+                        target: "#calculator-hubspot-form"
+                    });
+
+                    // Initialize contact form
+                    window.hbspt.forms.create({
+                        region: "na1",
+                        portalId: "48384794",
+                        formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+                        target: "#contact-hubspot-form"
+                    });
+                } catch (error) {
+                    console.error('Error creating HubSpot forms:', error);
+                }
+            } else {
+                console.error('HubSpot forms script not loaded');
+            }
+        });
+
+        // Show calculator form when button is clicked
+        function showCalculatorForm() {
+            const form = document.getElementById('calculator-hubspot-form');
+            const button = document.querySelector('.cta-button');
+            if (form && button) {
+                form.style.display = 'block';
+                button.style.display = 'none';
+            }
+        }
+    </script>
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles/styles.css">
@@ -236,8 +276,8 @@
             <div class="estimate-content">
                 <h2>Get Your Free Estimate</h2>
                 <p>Find out how much your gutter installation or repair will cost</p>
-                <button id="showCalculator" class="cta-button">Get Quote</button>
-                <div id="calculator-hubspot-form"></div>
+                <button onclick="showCalculatorForm()" class="cta-button">Get Quote</button>
+                <div id="calculator-hubspot-form" style="display: none;"></div>
             </div>
         </div>
     </section>
@@ -340,6 +380,12 @@
         </div>
     </footer>
 
+    <script>
+        function showCalculatorForm() {
+            document.getElementById('calculator-hubspot-form').style.display = 'block';
+            document.querySelector('.cta-button').style.display = 'none';
+        }
+    </script>
     <script src="/scripts/config.js" defer></script>
     <script src="/scripts/main.js" defer></script>
     <script src="/scripts/estimate-calculator.js" defer></script>
