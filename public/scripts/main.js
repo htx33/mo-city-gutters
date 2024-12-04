@@ -208,11 +208,92 @@ const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
 const mobileMenu = document.querySelector('.mobile-menu');
 const header = document.querySelector('header');
 
-mobileMenuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
-    mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-    mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize mobile menu
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('active');
+        });
+    }
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu if open
+                if (mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                }
+            }
+        });
+    });
+
+    // Form validation
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateForm(e)) {
+                this.submit();
+            }
+        });
+    }
 });
+
+// Form validation function
+function validateForm(event) {
+    const form = event.target;
+    const name = form.querySelector('#name');
+    const email = form.querySelector('#email');
+    const phone = form.querySelector('#phone');
+    const message = form.querySelector('#message');
+
+    let isValid = true;
+
+    // Name validation
+    if (name && (!name.value.trim() || name.value.length < 2)) {
+        alert('Please enter a valid name (minimum 2 characters)');
+        isValid = false;
+    }
+
+    // Email validation
+    if (email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.value.trim())) {
+            alert('Please enter a valid email address');
+            isValid = false;
+        }
+    }
+
+    // Phone validation (if provided)
+    if (phone && phone.value.trim()) {
+        const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
+        if (!phoneRegex.test(phone.value.replace(/\s/g, ''))) {
+            alert('Please enter a valid phone number');
+            isValid = false;
+        }
+    }
+
+    // Message validation
+    if (message && !message.value.trim()) {
+        alert('Please enter a message');
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+// Error handling
+window.onerror = function(msg, url, lineNo, columnNo, error) {
+    console.log('Logged Error:', error);
+    return false;
+};
 
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
@@ -229,24 +310,6 @@ mobileMenu.querySelectorAll('a').forEach(link => {
         mobileMenu.classList.remove('active');
         mobileMenuBtn.querySelector('i').classList.add('fa-bars');
         mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-    });
-});
-
-// Smooth scroll for mobile
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const headerOffset = 80;
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-        }
     });
 });
 

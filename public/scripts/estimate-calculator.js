@@ -1,30 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Constants and Variables
-    const PRICE_PER_LINEAR_FOOT = {
-        '5inch': 8.50,
-        '6inch': 9.50
-    };
-    const STORY_MULTIPLIER = {
-        '1': 1,
-        '2': 1.3,
-        '3': 1.6
-    };
-    const GUARD_PRICES = {
-        'none': 0,
-        'standard': 4.50,
-        'premium': 6.50
-    };
+    // Get pricing constants from config
+    const PRICE_PER_LINEAR_FOOT = CONFIG.pricing.gutterSizes;
+    const STORY_MULTIPLIER = CONFIG.pricing.storyMultipliers;
+    const GUARD_PRICES = CONFIG.pricing.guardPrices;
 
     // Show/Hide Calculator
     const showCalculatorBtn = document.getElementById('showCalculator');
     const estimateTool = document.getElementById('estimateTool');
     
-    showCalculatorBtn.addEventListener('click', function() {
-        estimateTool.style.display = 'block';
-        showCalculatorBtn.style.display = 'none';
-    });
+    if (showCalculatorBtn) {
+        showCalculatorBtn.addEventListener('click', function() {
+            console.log('Show calculator clicked');
+            if (estimateTool) {
+                estimateTool.style.display = 'block';
+                showCalculatorBtn.style.display = 'none';
+            }
+        });
+    }
 
     // Form elements
+    const calculatorForm = document.getElementById('calculator-form');
     const contactStep = document.getElementById('contactStep');
     const calculatorStep = document.getElementById('calculatorStep');
     const resultsStep = document.getElementById('resultsStep');
@@ -43,7 +38,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const stories = document.getElementById('stories');
     const guards = document.getElementById('guards');
 
+    // Debug element presence
+    console.log('Elements found:', {
+        calculatorForm: !!calculatorForm,
+        contactStep: !!contactStep,
+        calculatorStep: !!calculatorStep,
+        resultsStep: !!resultsStep,
+        contactNextBtn: !!contactNextBtn,
+        calculateBtn: !!calculateBtn
+    });
+
     function validateContact() {
+        if (!quoteFullName || !quoteEmail || !quotePhone || !quoteAddress) {
+            console.error('Contact form elements not found');
+            return false;
+        }
+
         if (!quoteFullName.value.trim() || 
             !quoteEmail.value.trim() || 
             !quotePhone.value.trim() || 
@@ -70,6 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function validateCalculator() {
+        if (!linearFeet || !gutterSize || !stories || !guards) {
+            console.error('Calculator form elements not found');
+            return false;
+        }
+
         if (!linearFeet.value || 
             !gutterSize.value || 
             !stories.value || 
@@ -103,6 +118,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const total = calculateTotal();
         const quoteDetails = document.querySelector('.quote-details');
         
+        if (!quoteDetails) {
+            console.error('Quote details element not found');
+            return;
+        }
+
         quoteDetails.innerHTML = `
             <div class="quote-item">
                 <span>Linear Feet:</span>
@@ -128,44 +148,66 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 
+    // Prevent form submission
+    if (calculatorForm) {
+        calculatorForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submission prevented');
+        });
+    }
+
     // Event Listeners
-    contactNextBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (validateContact()) {
-            contactStep.style.display = 'none';
-            calculatorStep.style.display = 'block';
-        }
-    });
-
-    calculateBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (validateCalculator()) {
-            calculatorStep.style.display = 'none';
-            resultsStep.style.display = 'block';
-            showQuoteResult();
-
-            // Prepare form data for submission
-            const formData = {
-                name: quoteFullName.value.trim(),
-                email: quoteEmail.value.trim(),
-                phone: quotePhone.value.trim(),
-                address: quoteAddress.value.trim(),
-                linearFeet: linearFeet.value,
-                gutterSize: gutterSize.value,
-                stories: stories.value,
-                guards: guards.value,
-                total: calculateTotal()
-            };
-
-            // Send to HubSpot if available
-            if (typeof sendToHubSpot === 'function') {
-                sendToHubSpot(formData);
+    if (contactNextBtn) {
+        contactNextBtn.addEventListener('click', function() {
+            console.log('Next button clicked');
+            if (validateContact()) {
+                console.log('Contact validation passed');
+                if (contactStep && calculatorStep) {
+                    contactStep.style.display = 'none';
+                    calculatorStep.style.display = 'block';
+                } else {
+                    console.error('Step elements not found');
+                }
             }
+        });
+    }
 
-            // Send email via FormSubmit
-            submitFormToFormSubmit(formData);
-        }
-    });
+    if (calculateBtn) {
+        calculateBtn.addEventListener('click', function() {
+            console.log('Calculate button clicked');
+            if (validateCalculator()) {
+                console.log('Calculator validation passed');
+                if (calculatorStep && resultsStep) {
+                    calculatorStep.style.display = 'none';
+                    resultsStep.style.display = 'block';
+                    showQuoteResult();
+                } else {
+                    console.error('Step elements not found');
+                }
+
+                // Prepare form data for submission
+                const formData = {
+                    name: quoteFullName.value.trim(),
+                    email: quoteEmail.value.trim(),
+                    phone: quotePhone.value.trim(),
+                    address: quoteAddress.value.trim(),
+                    linearFeet: linearFeet.value,
+                    gutterSize: gutterSize.value,
+                    stories: stories.value,
+                    guards: guards.value,
+                    total: calculateTotal()
+                };
+
+                // Send to HubSpot if enabled
+                if (CONFIG.hubspot.enabled && typeof sendToHubSpot === 'function') {
+                    sendToHubSpot(formData);
+                }
+
+                // Send email via FormSubmit
+                submitFormToFormSubmit(formData);
+            }
+        });
+    }
 });
 
 function submitFormToFormSubmit(formData) {
@@ -190,7 +232,7 @@ function submitFormToFormSubmit(formData) {
     // Create a hidden form for FormSubmit
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://formsubmit.co/mocitygutters@gmail.com';
+    form.action = CONFIG.email.formSubmitEndpoint;
 
     // Add email content
     const emailInput = document.createElement('input');
@@ -199,28 +241,14 @@ function submitFormToFormSubmit(formData) {
     emailInput.value = formData.email;
     form.appendChild(emailInput);
 
-    // Add message content
     const messageInput = document.createElement('input');
     messageInput.type = 'hidden';
     messageInput.name = 'message';
     messageInput.value = emailTemplate;
     form.appendChild(messageInput);
 
-    // Add name
-    const nameInput = document.createElement('input');
-    nameInput.type = 'hidden';
-    nameInput.name = 'name';
-    nameInput.value = formData.name;
-    form.appendChild(nameInput);
-
-    // Add to document, submit, and remove
+    // Submit the form
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-
-    return new Promise(resolve => {
-        // FormSubmit will handle the redirect, but we'll resolve the promise
-        // immediately since we can't actually track the submission
-        resolve();
-    });
 }
