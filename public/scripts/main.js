@@ -205,54 +205,85 @@ function showTestimonial(index) {
 
 // Initialize HubSpot forms
 function initHubSpotForms() {
+    console.log('Initializing HubSpot forms...');
     if (window.hbspt) {
-        // Initialize calculator form
-        window.hbspt.forms.create({
-            region: "na1",
-            portalId: "48384794",
-            formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
-            target: "#calculator-hubspot-form"
-        });
+        try {
+            // Initialize calculator form
+            window.hbspt.forms.create({
+                region: "na1",
+                portalId: "48384794",
+                formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+                target: "#calculator-hubspot-form",
+                onFormReady: function($form) {
+                    console.log('Calculator form ready');
+                    const formContainer = document.getElementById('calculator-hubspot-form');
+                    if (formContainer) {
+                        formContainer.style.display = 'none';
+                    }
+                }
+            });
 
-        // Initialize contact form
-        window.hbspt.forms.create({
-            region: "na1",
-            portalId: "48384794",
-            formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
-            target: "#contact-hubspot-form"
-        });
+            // Initialize contact form
+            window.hbspt.forms.create({
+                region: "na1",
+                portalId: "48384794",
+                formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+                target: "#contact-hubspot-form",
+                onFormReady: function($form) {
+                    console.log('Contact form ready');
+                }
+            });
+        } catch (error) {
+            console.error('Error creating HubSpot forms:', error);
+        }
     } else {
         console.error('HubSpot forms script not loaded');
     }
 }
 
 // Handle Get Quote button click
-document.addEventListener('DOMContentLoaded', function() {
+function setupCalculatorButton() {
+    console.log('Setting up calculator button...');
     const showCalculatorBtn = document.getElementById('showCalculator');
     if (showCalculatorBtn) {
         showCalculatorBtn.addEventListener('click', function() {
+            console.log('Calculator button clicked');
             const calculatorForm = document.getElementById('calculator-hubspot-form');
             if (calculatorForm) {
                 calculatorForm.style.display = 'block';
                 showCalculatorBtn.style.display = 'none';
+            } else {
+                console.error('Calculator form container not found');
             }
+        });
+    } else {
+        console.error('Calculator button not found');
+    }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded');
+    setupCalculatorButton();
+
+    // Initialize HubSpot forms
+    if (window.hbspt) {
+        initHubSpotForms();
+    } else {
+        // Wait for HubSpot script to load
+        window.addEventListener('load', function() {
+            console.log('Window loaded, checking for HubSpot...');
+            setTimeout(function() {
+                if (window.hbspt) {
+                    console.log('HubSpot found, initializing forms...');
+                    initHubSpotForms();
+                } else {
+                    console.error('HubSpot not found after timeout');
+                }
+            }, 2000); // Increased timeout to ensure HubSpot loads
         });
     }
 });
-
-// Initialize HubSpot forms when the script is loaded
-if (window.hbspt) {
-    initHubSpotForms();
-} else {
-    // Wait for HubSpot script to load
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            if (window.hbspt) {
-                initHubSpotForms();
-            }
-        }, 1000); // Give HubSpot script time to initialize
-    });
-}
 
 // Initialize mobile menu
 const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
