@@ -203,14 +203,29 @@ function showTestimonial(index) {
     });
 }
 
-// Mobile Menu Functionality
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const mobileMenu = document.querySelector('.mobile-menu');
-const header = document.querySelector('header');
-
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize HubSpot forms
+    if (typeof hbspt !== 'undefined') {
+        // Create calculator form
+        hbspt.forms.create({
+            portalId: "48384794",
+            formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+            target: "#calculator-hubspot-form"
+        });
+
+        // Create contact form
+        hbspt.forms.create({
+            portalId: "48384794",
+            formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+            target: "#contact-hubspot-form"
+        });
+    }
+
     // Initialize mobile menu
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
     if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', function() {
             mobileMenu.classList.toggle('active');
@@ -233,317 +248,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
-    // Form validation
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (validateForm(e)) {
-                this.submit();
-            }
-        });
-    }
 });
 
-// Form validation function
-function validateForm(event) {
-    const form = event.target;
-    const name = form.querySelector('#name');
-    const email = form.querySelector('#email');
-    const phone = form.querySelector('#phone');
-    const message = form.querySelector('#message');
-
-    let isValid = true;
-
-    // Name validation
-    if (name && (!name.value.trim() || name.value.length < 2)) {
-        alert('Please enter a valid name (minimum 2 characters)');
-        isValid = false;
+// Show/Hide Calculator
+document.getElementById('showCalculator')?.addEventListener('click', function() {
+    const estimateTool = document.getElementById('estimateTool');
+    if (estimateTool) {
+        estimateTool.style.display = 'block';
+        this.style.display = 'none';
     }
-
-    // Email validation
-    if (email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email.value.trim())) {
-            alert('Please enter a valid email address');
-            isValid = false;
-        }
-    }
-
-    // Phone validation (if provided)
-    if (phone && phone.value.trim()) {
-        const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
-        if (!phoneRegex.test(phone.value.replace(/\s/g, ''))) {
-            alert('Please enter a valid phone number');
-            isValid = false;
-        }
-    }
-
-    // Message validation
-    if (message && !message.value.trim()) {
-        alert('Please enter a message');
-        isValid = false;
-    }
-
-    return isValid;
-}
+});
 
 // Error handling
 window.onerror = function(msg, url, lineNo, columnNo, error) {
     console.log('Logged Error:', error);
     return false;
 };
-
-// Close mobile menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (!header.contains(e.target) && mobileMenu.classList.contains('active')) {
-        mobileMenu.classList.remove('active');
-        mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-        mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-    }
-});
-
-// Close mobile menu when clicking a link
-mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-        mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-    });
-});
-
-// Security and Form Validation
-function generateCSRFToken() {
-    return Array.from(crypto.getRandomValues(new Uint8Array(32)))
-        .map(b => b.toString(16).padStart(2, '0'))
-        .join('');
-}
-
-// Set CSRF token on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const csrfToken = generateCSRFToken();
-    document.getElementById('csrf_token').value = csrfToken;
-    // Store token in sessionStorage for verification
-    sessionStorage.setItem('csrf_token', csrfToken);
-});
-
-// Security Configuration
-const securityConfig = {
-    maxAttempts: 5,
-    cooldownPeriod: 30000, // 30 seconds
-    maxMessageLength: 1000,
-    bannedIPs: new Set(),
-    attempts: new Map()
-};
-
-// reCAPTCHA callback
-function onRecaptchaSuccess(token) {
-    window.recaptchaToken = token;
-}
-
-// Enhanced form validation with security checks
-function validateForm(event) {
-    event.preventDefault();
-
-    // Check reCAPTCHA
-    if (!window.recaptchaToken) {
-        alert('Please complete the reCAPTCHA verification.');
-        return false;
-    }
-
-    // Get form elements
-    const form = document.getElementById('contactForm');
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const phoneInput = document.getElementById('phone');
-    const messageInput = document.getElementById('message');
-    const honeypotInput = document.getElementById('honeypot');
-    const submitBtn = document.getElementById('submitBtn');
-
-    // Enhanced security checks
-    if (!checkRateLimit() || !checkMessageLength(messageInput.value)) {
-        return false;
-    }
-
-    // Honeypot check
-    if (honeypotInput.value !== '') {
-        console.log('Potential spam detected');
-        incrementAttempts();
-        return false;
-    }
-
-    // CSRF check
-    if (!validateCSRFToken()) {
-        console.error('Invalid security token');
-        return false;
-    }
-
-    // Enhanced input sanitization
-    const formData = sanitizeFormData({
-        name: nameInput.value,
-        email: emailInput.value,
-        phone: phoneInput.value,
-        message: messageInput.value,
-        recaptchaToken: window.recaptchaToken
-    });
-
-    // Submit button protection
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
-
-    // Simulated secure submission
-    submitSecurely(formData)
-        .then(() => {
-            form.reset();
-            grecaptcha.reset();
-            window.recaptchaToken = null;
-            generateNewCSRFToken();
-            showSuccess();
-        })
-        .catch(error => {
-            console.error('Submission error:', error);
-            showError();
-        })
-        .finally(() => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
-        });
-
-    return false;
-}
-
-// Security utility functions
-function checkRateLimit() {
-    const clientIP = 'client-ip'; // In real implementation, this would be server-side
-    const attempts = securityConfig.attempts.get(clientIP) || 0;
-    
-    if (securityConfig.bannedIPs.has(clientIP)) {
-        console.error('IP is temporarily banned');
-        return false;
-    }
-
-    if (attempts >= securityConfig.maxAttempts) {
-        securityConfig.bannedIPs.add(clientIP);
-        setTimeout(() => securityConfig.bannedIPs.delete(clientIP), 3600000); // 1 hour ban
-        return false;
-    }
-
-    return true;
-}
-
-function incrementAttempts() {
-    const clientIP = 'client-ip';
-    const attempts = (securityConfig.attempts.get(clientIP) || 0) + 1;
-    securityConfig.attempts.set(clientIP, attempts);
-}
-
-function checkMessageLength(message) {
-    if (message.length > securityConfig.maxMessageLength) {
-        alert('Message is too long. Please keep it under 1000 characters.');
-        return false;
-    }
-    return true;
-}
-
-function sanitizeFormData(data) {
-    const sanitized = {};
-    for (let [key, value] of Object.entries(data)) {
-        // Remove HTML tags and trim
-        sanitized[key] = value.toString()
-            .replace(/<[^>]*>/g, '')
-            .replace(/[^\w\s@.-]/gi, '')
-            .trim();
-    }
-    return sanitized;
-}
-
-function validateCSRFToken() {
-    const formToken = document.getElementById('csrf_token').value;
-    const storedToken = sessionStorage.getItem('csrf_token');
-    return formToken === storedToken;
-}
-
-function generateNewCSRFToken() {
-    const newToken = generateCSRFToken();
-    document.getElementById('csrf_token').value = newToken;
-    sessionStorage.setItem('csrf_token', newToken);
-}
-
-async function submitSecurely(formData) {
-    // In a real implementation, this would be an encrypted HTTPS POST request
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('Secure form submission:', formData);
-            resolve();
-        }, 1000);
-    });
-}
-
-function showSuccess() {
-    alert('Thank you for your message! We will get back to you soon.');
-}
-
-function showError() {
-    alert('There was an error submitting your message. Please try again later.');
-}
-
-// Error logging
-window.onerror = function(msg, url, lineNo, columnNo, error) {
-    const errorLog = {
-        message: msg,
-        url: url,
-        line: lineNo,
-        column: columnNo,
-        error: error ? error.stack : 'No error stack available',
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent
-    };
-    
-    console.error('Logged Error:', errorLog);
-    // In production, send this to your error logging service
-    return false;
-};
-
-// Rate limiting for form submission
-let lastSubmissionTime = 0;
-const SUBMISSION_COOLDOWN = 30000; // 30 seconds
-
-document.getElementById('contactForm').addEventListener('submit', (event) => {
-    const now = Date.now();
-    if (now - lastSubmissionTime < SUBMISSION_COOLDOWN) {
-        event.preventDefault();
-        alert('Please wait a moment before submitting another message.');
-        return false;
-    }
-    lastSubmissionTime = now;
-    validateForm(event);
-});
-
-// FAQ Accordion
-document.addEventListener('DOMContentLoaded', function() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        
-        question.addEventListener('click', () => {
-            const isActive = item.classList.contains('active');
-            
-            // Close all FAQ items
-            faqItems.forEach(otherItem => {
-                otherItem.classList.remove('active');
-            });
-            
-            // Toggle current item
-            if (!isActive) {
-                item.classList.add('active');
-            }
-        });
-    });
-});
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    fetchGoogleReviews();
-});

@@ -124,6 +124,78 @@
     text-decoration: none;
 }
 
+/* HubSpot Form Styles */
+#calculator-hubspot-form,
+#contact-hubspot-form {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+#calculator-hubspot-form .hs-form,
+#contact-hubspot-form .hs-form {
+    font-family: inherit;
+}
+
+#calculator-hubspot-form .hs-form-field,
+#contact-hubspot-form .hs-form-field {
+    margin-bottom: 1.5rem;
+}
+
+#calculator-hubspot-form .hs-form-field > label,
+#contact-hubspot-form .hs-form-field > label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-weight: 500;
+}
+
+#calculator-hubspot-form .hs-input,
+#contact-hubspot-form .hs-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+#calculator-hubspot-form .hs-input:focus,
+#contact-hubspot-form .hs-input:focus {
+    outline: none;
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+#calculator-hubspot-form .hs-button,
+#contact-hubspot-form .hs-button {
+    display: inline-block;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#calculator-hubspot-form .hs-button:hover,
+#contact-hubspot-form .hs-button:hover {
+    background-color: #357ABD;
+}
+
+#calculator-hubspot-form .hs-error-msgs,
+#contact-hubspot-form .hs-error-msgs {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
     .estimate-tool {
@@ -143,5 +215,10 @@
     .quote-item span:first-child {
         margin-bottom: 0.25rem;
         color: #666;
+    }
+    
+    #calculator-hubspot-form,
+    #contact-hubspot-form {
+        padding: 15px;
     }
 }
