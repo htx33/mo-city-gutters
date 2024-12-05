@@ -2371,6 +2371,12 @@ footer {
     textarea {
         font-size: 16px !important;
     }
+    
+    select {
+        text-indent: 1px;
+        text-overflow: '';
+        padding-right: 25px;
+    }
 }
 
 /* Base calculator styles */
@@ -2603,216 +2609,72 @@ footer {
     }
 }
 
-/* Mobile-friendly styles for date, time, and notes fields */
-input[type="date"],
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+/* Calculator Form Styles */
+#calculator-fields {
+    margin-top: 2rem;
+}
+
+#calculator-fields .form-step {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#calculator-fields h3 {
     color: #333;
-    font-size: 16px !important;
-    height: 48px;
-    padding: 10px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+#calculator-fields .form-field {
+    margin-bottom: 1.5rem;
+}
+
+#calculator-fields label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+#calculator-fields input,
+#calculator-fields select {
     width: 100%;
-    margin-bottom: 15px;
-}
-
-/* Fix for iOS date picker */
-@supports (-webkit-touch-callout: none) {
-    input[type="date"] {
-        min-height: 48px;
-        display: block;
-    }
-}
-
-/* Style for time selection dropdown */
-select {
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 12px;
-    padding-right: 30px;
-}
-
-/* Additional notes textarea styling */
-textarea#additionalNotes {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    width: 100%;
-    padding: 10px;
+    padding: 0.75rem;
     border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 16px !important;
-    min-height: 100px;
-    margin-bottom: 15px;
+    font-size: 1rem;
 }
 
-/* Prevent zoom on focus for iOS */
-@media screen and (max-width: 768px) {
-    input[type="date"],
-    select,
-    textarea {
-        font-size: 16px !important;
-    }
-    
-    select {
-        text-indent: 1px;
-        text-overflow: '';
-        padding-right: 25px;
-    }
+#calculator-fields input:focus,
+#calculator-fields select:focus {
+    outline: none;
+    border-color: #4A90E2;
 }
 
-/* Mobile-optimized styles for buttons, form elements, and error messages */
 .next-button,
-.back-button {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    cursor: pointer;
-    user-select: none;
-    min-height: 44px;
-    padding: 12px 24px;
-    margin: 10px 0;
-    font-size: 16px;
-    border-radius: 4px;
+.submit-button {
+    background: #4A90E2;
+    color: white;
     border: none;
-    background-color: #007bff;
-    color: white;
-    transition: background-color 0.3s ease;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
     width: 100%;
-    max-width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-top: 1rem;
 }
 
-.next-button:active,
-.back-button:active {
-    background-color: #0056b3;
-    transform: translateY(1px);
+.next-button:hover,
+.submit-button:hover {
+    background: #357ABD;
 }
 
-.error-message {
-    color: #dc3545;
-    font-size: 14px;
-    margin-top: 5px;
-    padding: 5px 0;
-}
-
-.form-group input.error,
-.form-group select.error,
-.form-group textarea.error {
-    border-color: #dc3545;
-    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
-}
-
-.progress-indicator {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-    padding: 0;
-    list-style: none;
-}
-
-.progress-step {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 2px solid #007bff;
-    background-color: white;
-    color: #007bff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 10px;
-    font-size: 14px;
-    position: relative;
-}
-
-.progress-step.active {
-    background-color: #007bff;
-    color: white;
-}
-
-.progress-step.completed {
-    background-color: #28a745;
-    border-color: #28a745;
-    color: white;
-}
-
-.progress-step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    width: 20px;
-    height: 2px;
-    background-color: #007bff;
-    transform: translateY(-50%);
-}
-
-@media screen and (max-width: 768px) {
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    input[type="date"],
-    select,
-    textarea {
-        font-size: 16px !important;
-        padding: 12px;
-        margin-bottom: 10px;
-        border-radius: 8px;
-        -webkit-appearance: none;
-        appearance: none;
-    }
-
-    .next-button,
-    .back-button {
-        margin: 15px auto;
-        width: 100%;
-        max-width: none;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
-    }
-
-    input,
-    select,
-    textarea {
-        font-size: 16px !important;
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-
-    .error-message {
-        margin-bottom: 10px;
-    }
-}
-
-@supports (-webkit-touch-callout: none) {
-    input,
-    select,
-    textarea {
-        font-size: 16px !important;
-    }
-
-    input[type="date"] {
-        position: relative;
-        min-height: 48px;
-    }
-
-    select {
-        background-position: right 12px center;
-        padding-right: 30px;
-    }
+/* Error state for form fields */
+#calculator-fields input.error,
+#calculator-fields select.error {
+    border-color: #ff4444;
 }
