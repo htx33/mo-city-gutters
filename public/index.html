@@ -396,6 +396,7 @@
             <div class="estimate-content">
                 <h2>Get Your Free Estimate</h2>
                 <p>Find out how much your gutter installation or repair will cost</p>
+                <button id="showCalculatorBtn" class="cta-button" onclick="showCalculatorForm()">Get Quote</button>
                 <div id="calculator-hubspot-form" style="display: none;"></div>
             </div>
         </div>
@@ -498,6 +499,18 @@
             <p>&copy; 2024 Mo City Gutters. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Show calculator form function
+        function showCalculatorForm() {
+            const form = document.getElementById('calculator-hubspot-form');
+            const button = document.getElementById('showCalculatorBtn');
+            if (form && button) {
+                form.style.display = 'block';
+                button.style.display = 'none';
+            }
+        }
+    </script>
 
     <script src="/scripts/main.js" defer></script>
 </body>
