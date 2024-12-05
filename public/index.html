@@ -49,7 +49,7 @@
     
     <!-- Initialize HubSpot Forms -->
     <script>
-        // Pricing configuration
+        // Configuration
         const CONFIG = {
             pricing: {
                 gutterSizes: {
@@ -68,38 +68,9 @@
             }
         };
 
-        // Calculate quote total
-        function calculateQuote(linearFeet, gutterSize, stories, guards) {
-            try {
-                // Get base price per foot based on gutter size
-                const basePrice = CONFIG.pricing.gutterSizes[gutterSize] || CONFIG.pricing.gutterSizes['5'];
-                
-                // Get story multiplier
-                const storyMultiplier = CONFIG.pricing.storyMultipliers[stories] || CONFIG.pricing.storyMultipliers['1'];
-                
-                // Get guard price per foot
-                const guardPrice = CONFIG.pricing.guardPrices[guards] || 0;
-                
-                // Calculate total
-                const subtotal = linearFeet * (basePrice + guardPrice) * storyMultiplier;
-                
-                return {
-                    subtotal: subtotal,
-                    total: Math.ceil(subtotal), // Round up to nearest dollar
-                    breakdown: {
-                        basePrice: basePrice,
-                        guardPrice: guardPrice,
-                        storyMultiplier: storyMultiplier,
-                        linearFeet: linearFeet
-                    }
-                };
-            } catch (error) {
-                console.error('Error calculating quote:', error);
-                return null;
-            }
-        }
-
-        window.addEventListener('load', function() {
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize HubSpot form
             if (window.hbspt) {
                 console.log('Initializing HubSpot forms...');
                 try {
@@ -111,14 +82,45 @@
                         target: "#calculator-hubspot-form",
                         onFormReady: function($form) {
                             console.log('Calculator form ready');
-                            // Add calculation logic to form
-                            $form.addEventListener('input', function(e) {
-                                // Get form values
-                                const linearFeet = $form.querySelector('input[name="linear_feet"]')?.value;
-                                const gutterSize = $form.querySelector('select[name="gutter_size"]')?.value;
-                                const stories = $form.querySelector('select[name="stories"]')?.value;
-                                const guards = $form.querySelector('select[name="guards"]')?.value;
+                            
+                            // Log all form fields
+                            const inputs = $form.querySelectorAll('input, select');
+                            console.log('Form fields found:', inputs.length);
+                            inputs.forEach(input => {
+                                console.log('Field:', {
+                                    name: input.name,
+                                    id: input.id,
+                                    type: input.type,
+                                    value: input.value
+                                });
+                            });
 
+                            // Add calculation logic to form
+                            $form.addEventListener('change', function(e) {
+                                console.log('Form field changed:', e.target.name, e.target.value);
+                                
+                                // Get all form fields
+                                const inputs = $form.querySelectorAll('input, select');
+                                const fields = {};
+                                inputs.forEach(input => {
+                                    fields[input.name] = input.value;
+                                    console.log(`Field ${input.name}:`, input.value);
+                                });
+
+                                // Map HubSpot field names to our expected names
+                                const linearFeet = fields['gutter_length'] || fields['linear_feet'] || fields['length'];
+                                const gutterSize = fields['gutter_size'] || fields['size'];
+                                const stories = fields['home_stories'] || fields['stories'];
+                                const guards = fields['gutter_guards'] || fields['guards'];
+
+                                console.log('Mapped fields:', {
+                                    linearFeet,
+                                    gutterSize,
+                                    stories,
+                                    guards
+                                });
+
+                                // Calculate total if we have all required fields
                                 if (linearFeet && gutterSize && stories && guards) {
                                     const quote = calculateQuote(
                                         parseFloat(linearFeet),
@@ -128,11 +130,27 @@
                                     );
 
                                     if (quote) {
-                                        // Update total field if it exists
-                                        const totalField = $form.querySelector('input[name="total"]');
-                                        if (totalField) {
-                                            totalField.value = `$${quote.total}`;
-                                        }
+                                        // Try to find the total field
+                                        const totalFields = Array.from(inputs).filter(input => 
+                                            input.name.toLowerCase().includes('total') ||
+                                            input.name.toLowerCase().includes('quote') ||
+                                            input.name.toLowerCase().includes('estimate')
+                                        );
+
+                                        console.log('Found total fields:', totalFields.length);
+                                        totalFields.forEach(field => {
+                                            console.log('Updating total field:', field.name);
+                                            field.value = `$${quote.total}`;
+                                        });
+
+                                        // Also update any hidden total fields
+                                        const hiddenFields = $form.querySelectorAll('input[type="hidden"]');
+                                        hiddenFields.forEach(field => {
+                                            if (field.name.toLowerCase().includes('total')) {
+                                                field.value = quote.total;
+                                                console.log('Updated hidden total field:', field.name);
+                                            }
+                                        });
                                     }
                                 }
                             });
@@ -152,19 +170,43 @@
             } else {
                 console.error('HubSpot forms script not loaded');
             }
-        });
 
-        // Show calculator form when button is clicked
-        function showCalculatorForm() {
-            const form = document.getElementById('calculator-hubspot-form');
-            const button = document.querySelector('.cta-button');
-            if (form && button) {
-                form.style.display = 'block';
-                button.style.display = 'none';
+            // Calculate quote function
+            function calculateQuote(linearFeet, gutterSize, stories, guards) {
+                console.log('Calculating quote with:', { linearFeet, gutterSize, stories, guards });
+                try {
+                    // Get base price per foot based on gutter size
+                    const basePrice = CONFIG.pricing.gutterSizes[gutterSize] || CONFIG.pricing.gutterSizes['5'];
+                    
+                    // Get story multiplier
+                    const storyMultiplier = CONFIG.pricing.storyMultipliers[stories] || CONFIG.pricing.storyMultipliers['1'];
+                    
+                    // Get guard price per foot
+                    const guardPrice = CONFIG.pricing.guardPrices[guards] || 0;
+                    
+                    // Calculate total
+                    const subtotal = linearFeet * (basePrice + guardPrice) * storyMultiplier;
+                    
+                    const result = {
+                        subtotal: subtotal,
+                        total: Math.ceil(subtotal), // Round up to nearest dollar
+                        breakdown: {
+                            basePrice: basePrice,
+                            guardPrice: guardPrice,
+                            storyMultiplier: storyMultiplier,
+                            linearFeet: linearFeet
+                        }
+                    };
+                    console.log('Quote calculation result:', result);
+                    return result;
+                } catch (error) {
+                    console.error('Error calculating quote:', error);
+                    return null;
+                }
             }
-        }
+        });
     </script>
-
+    
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles/styles.css">
     
@@ -215,7 +257,7 @@
         <div class="hero-content">
             <h1>Quality Gutters for Your Home</h1>
             <p>Protect your home with Missouri City's trusted gutter experts. Professional installation, reliable service, fair prices.</p>
-            <a href="#estimate" class="cta-button" onclick="document.getElementById('showCalculator').click()">Get a Free Quote Today</a>
+            <a href="#estimate" class="cta-button show-calculator-btn">Get a Free Quote Today</a>
         </div>
     </section>
 
@@ -354,7 +396,6 @@
             <div class="estimate-content">
                 <h2>Get Your Free Estimate</h2>
                 <p>Find out how much your gutter installation or repair will cost</p>
-                <button onclick="showCalculatorForm()" class="cta-button">Get Quote</button>
                 <div id="calculator-hubspot-form" style="display: none;"></div>
             </div>
         </div>
@@ -458,15 +499,6 @@
         </div>
     </footer>
 
-    <script>
-        function showCalculatorForm() {
-            document.getElementById('calculator-hubspot-form').style.display = 'block';
-            document.querySelector('.cta-button').style.display = 'none';
-        }
-    </script>
-    <script src="/scripts/config.js" defer></script>
     <script src="/scripts/main.js" defer></script>
-    <script src="/scripts/estimate-calculator.js" defer></script>
-    <script src="/scripts/reviews.js"></script>
 </body>
 </html>
