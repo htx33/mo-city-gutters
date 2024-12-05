@@ -54,6 +54,80 @@ function calculateQuote(linearFeet, gutterSize, stories, guards) {
     }
 }
 
+// Function to show calculator form
+function showCalculatorForm() {
+    const calculatorForm = document.createElement('div');
+    calculatorForm.className = 'calculator-form';
+    calculatorForm.innerHTML = `
+        <h3>Calculate Your Gutter Installation</h3>
+        <div class="form-field">
+            <label for="gutter_length">Linear Feet of Gutters Needed</label>
+            <input type="number" id="gutter_length" name="gutter_length" required>
+        </div>
+        <div class="form-field">
+            <label for="gutter_size">Gutter Size</label>
+            <select id="gutter_size" name="gutter_size" required>
+                <option value="5">5-inch (Standard)</option>
+                <option value="6">6-inch (Large)</option>
+            </select>
+        </div>
+        <div class="form-field">
+            <label for="home_stories">Home Stories</label>
+            <select id="home_stories" name="home_stories" required>
+                <option value="1">Single Story</option>
+                <option value="2">Two Story</option>
+            </select>
+        </div>
+        <div class="form-field">
+            <label for="gutter_guards">Gutter Guards</label>
+            <select id="gutter_guards" name="gutter_guards" required>
+                <option value="none">No Guards</option>
+                <option value="standard">Standard Guards</option>
+                <option value="premium">Premium Guards</option>
+            </select>
+        </div>
+        <button type="button" class="calculate-button">Calculate Quote</button>
+    `;
+
+    const container = document.getElementById('calculator-hubspot-form');
+    container.innerHTML = '';
+    container.appendChild(calculatorForm);
+
+    // Add event listeners to form fields
+    const inputs = calculatorForm.querySelectorAll('input, select');
+    const calculateButton = calculatorForm.querySelector('.calculate-button');
+
+    calculateButton.addEventListener('click', function() {
+        const fields = {
+            linearFeet: document.getElementById('gutter_length').value,
+            gutterSize: document.getElementById('gutter_size').value,
+            stories: document.getElementById('home_stories').value,
+            guards: document.getElementById('gutter_guards').value
+        };
+
+        if (fields.linearFeet && fields.gutterSize && fields.stories && fields.guards) {
+            currentQuote = calculateQuote(
+                parseFloat(fields.linearFeet),
+                fields.gutterSize,
+                fields.stories,
+                fields.guards
+            );
+
+            if (currentQuote) {
+                showQuoteSummary({
+                    linearFeet: fields.linearFeet,
+                    gutterSize: fields.gutterSize,
+                    stories: fields.stories,
+                    guards: fields.guards,
+                    total: currentQuote.total
+                });
+            }
+        } else {
+            alert('Please fill in all fields to calculate your quote.');
+        }
+    });
+}
+
 // Function to show quote summary
 function showQuoteSummary(quoteData) {
     if (!quoteData) return;
@@ -74,155 +148,156 @@ function showQuoteSummary(quoteData) {
             <p class="quote-total"><strong>Estimated Total:</strong> $${quoteData.total}</p>
         </div>
         <p class="quote-note">Thank you for your interest! We'll contact you shortly to discuss your project in detail.</p>
+        <button type="button" class="recalculate-button">Calculate Another Quote</button>
     `;
 
     // Replace the form with the summary
     calculatorForm.innerHTML = '';
     calculatorForm.appendChild(summaryDiv);
-    calculatorForm.style.display = 'block';
+
+    // Add event listener to recalculate button
+    const recalculateButton = summaryDiv.querySelector('.recalculate-button');
+    recalculateButton.addEventListener('click', showCalculatorForm);
 }
 
-// Initialize HubSpot form with calculator functionality
 document.addEventListener('DOMContentLoaded', function() {
-    if (window.hbspt) {
-        console.log('Initializing HubSpot calculator form...');
-        try {
-            // Initialize contact info form first
-            window.hbspt.forms.create({
-                region: "na1",
-                portalId: "48384794",
-                formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
-                target: "#calculator-hubspot-form",
-                onFormReady: function($form) {
-                    console.log('Contact form ready');
-                    
-                    // Create a container for the calculator fields
-                    const calculatorFields = document.createElement('div');
-                    calculatorFields.id = 'calculator-fields';
-                    calculatorFields.style.display = 'none';
-                    calculatorFields.innerHTML = `
-                        <div class="form-step">
-                            <h3>Calculate Your Gutter Installation</h3>
-                            <div class="form-field">
-                                <label for="gutter_length">Linear Feet of Gutters Needed</label>
-                                <input type="number" id="gutter_length" name="gutter_length" required>
-                            </div>
-                            <div class="form-field">
-                                <label for="gutter_size">Gutter Size</label>
-                                <select id="gutter_size" name="gutter_size" required>
-                                    <option value="5">5-inch (Standard)</option>
-                                    <option value="6">6-inch (Large)</option>
-                                </select>
-                            </div>
-                            <div class="form-field">
-                                <label for="home_stories">Home Stories</label>
-                                <select id="home_stories" name="home_stories" required>
-                                    <option value="1">Single Story</option>
-                                    <option value="2">Two Story</option>
-                                </select>
-                            </div>
-                            <div class="form-field">
-                                <label for="gutter_guards">Gutter Guards</label>
-                                <select id="gutter_guards" name="gutter_guards" required>
-                                    <option value="none">No Guards</option>
-                                    <option value="standard">Standard Guards</option>
-                                    <option value="premium">Premium Guards</option>
-                                </select>
-                            </div>
-                            <input type="hidden" name="quote_total" id="quote_total">
-                            <button type="submit" class="submit-button">Get Quote</button>
-                        </div>
-                    `;
-                    
-                    // Add Next button after contact fields
-                    const nextButton = document.createElement('button');
-                    nextButton.type = 'button';
-                    nextButton.className = 'next-button';
-                    nextButton.textContent = 'Next';
-                    nextButton.onclick = function() {
-                        // Validate contact fields
-                        const requiredFields = $form.querySelectorAll('input[required], select[required]');
-                        let isValid = true;
-                        requiredFields.forEach(field => {
-                            if (!field.value) {
-                                isValid = false;
-                                field.style.borderColor = 'red';
-                            } else {
-                                field.style.borderColor = '';
-                            }
-                        });
+    // Initialize HubSpot form
+    const contactForm = document.querySelector('#contact-form');
+    const calculatorForm = document.querySelector('#calculator-form');
+    const startCalculatorButton = document.querySelector('#start-calculator-button');
+    const calculateButton = document.querySelector('#calculate-button');
+    const recalculateButton = document.querySelector('#recalculate-button');
+    const quoteResults = document.querySelector('#quote-results');
 
-                        if (isValid) {
-                            // Hide contact fields and next button
-                            const contactFields = $form.querySelectorAll('.hs-form-field, .hs-submit');
-                            contactFields.forEach(field => field.style.display = 'none');
-                            nextButton.style.display = 'none';
-                            
-                            // Show calculator fields
-                            calculatorFields.style.display = 'block';
-                            $form.appendChild(calculatorFields);
+    // Hide calculator form and results initially
+    if (calculatorForm) calculatorForm.style.display = 'none';
+    if (quoteResults) quoteResults.style.display = 'none';
+    if (startCalculatorButton) startCalculatorButton.style.display = 'none';
 
-                            // Add calculation logic to calculator fields
-                            const calcInputs = calculatorFields.querySelectorAll('input, select');
-                            calcInputs.forEach(input => {
-                                input.addEventListener('change', function() {
-                                    const fields = {
-                                        linearFeet: document.getElementById('gutter_length').value,
-                                        gutterSize: document.getElementById('gutter_size').value,
-                                        stories: document.getElementById('home_stories').value,
-                                        guards: document.getElementById('gutter_guards').value
-                                    };
+    // Handle contact form submission
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate contact form fields
+            const name = document.querySelector('#name').value;
+            const email = document.querySelector('#email').value;
+            const phone = document.querySelector('#phone').value;
 
-                                    if (fields.linearFeet && fields.gutterSize && fields.stories && fields.guards) {
-                                        currentQuote = calculateQuote(
-                                            parseFloat(fields.linearFeet),
-                                            fields.gutterSize,
-                                            fields.stories,
-                                            fields.guards
-                                        );
+            if (!name || !email || !phone) {
+                alert('Please fill in all contact information fields.');
+                return;
+            }
 
-                                        if (currentQuote) {
-                                            document.getElementById('quote_total').value = currentQuote.total;
-                                            
-                                            // Store the current field values
-                                            localStorage.setItem('quoteData', JSON.stringify({
-                                                linearFeet: fields.linearFeet,
-                                                gutterSize: fields.gutterSize,
-                                                stories: fields.stories,
-                                                guards: fields.guards,
-                                                total: currentQuote.total
-                                            }));
-                                        }
-                                    }
-                                });
-                            });
-                        }
-                    };
-                    
-                    // Add next button after HubSpot form fields
-                    const submitButton = $form.querySelector('.hs-submit');
-                    submitButton.parentNode.insertBefore(nextButton, submitButton);
-                },
-                onFormSubmit: function($form) {
-                    console.log('Form submitted');
-                    localStorage.setItem('formSubmitted', 'true');
-                },
-                onFormSubmitted: function($form) {
-                    console.log('Form submission completed');
-                    const quoteData = JSON.parse(localStorage.getItem('quoteData'));
-                    showQuoteSummary(quoteData);
-                }
-            });
-        } catch (error) {
-            console.error('Error creating HubSpot calculator form:', error);
-        }
-    } else {
-        console.error('HubSpot forms script not loaded');
+            // Store contact information
+            localStorage.setItem('contactInfo', JSON.stringify({
+                name: name,
+                email: email,
+                phone: phone
+            }));
+
+            // Show the start calculator button
+            if (startCalculatorButton) {
+                startCalculatorButton.style.display = 'block';
+                contactForm.style.display = 'none';
+            }
+        });
     }
 
-    // Check if we should show the quote summary
-    if (localStorage.getItem('formSubmitted') === 'true') {
-        const quoteData = JSON.parse(localStorage.getItem('quoteData'));
-        showQuoteSummary(quoteData);
+    // Handle starting the calculator
+    if (startCalculatorButton) {
+        startCalculatorButton.addEventListener('click', function() {
+            startCalculatorButton.style.display = 'none';
+            if (calculatorForm) calculatorForm.style.display = 'block';
+        });
+    }
+
+    // Handle calculator form submission
+    if (calculateButton) {
+        calculateButton.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Get calculator inputs
+            const gutterLength = parseFloat(document.querySelector('#gutter-length').value);
+            const gutterSize = document.querySelector('#gutter-size').value;
+            const stories = parseInt(document.querySelector('#stories').value);
+            const gutterGuards = document.querySelector('#gutter-guards').value === 'yes';
+            const guardType = document.querySelector('#guard-type').value;
+
+            // Validate calculator inputs
+            if (isNaN(gutterLength) || !gutterSize || isNaN(stories)) {
+                alert('Please fill in all calculator fields with valid values.');
+                return;
+            }
+
+            // Calculate quote
+            let baseRate = gutterSize === '6-inch' ? 11.50 : 9.20;  // Updated rates for 6-inch and 5-inch gutters
+            if (stories === 2) {
+                baseRate *= 1.25;
+            }
+            let totalCost = gutterLength * baseRate;
+            if (gutterGuards) {
+                const guardRate = guardType === 'premium' ? 14.00 : 9.00;
+                totalCost += gutterLength * guardRate;
+            }
+            const quote = Math.round(totalCost * 100) / 100;
+
+            // Display quote results
+            displayQuoteResults(quote, gutterSize, stories, gutterLength, gutterGuards, guardType);
+
+            // Store calculator information
+            localStorage.setItem('calculatorInfo', JSON.stringify({
+                gutterLength: gutterLength,
+                gutterSize: gutterSize,
+                stories: stories,
+                gutterGuards: gutterGuards,
+                guardType: guardType,
+                quote: quote
+            }));
+
+            // Hide calculator form and show results
+            calculatorForm.style.display = 'none';
+            quoteResults.style.display = 'block';
+        });
+    }
+
+    // Handle recalculate button
+    if (recalculateButton) {
+        recalculateButton.addEventListener('click', function() {
+            // Clear stored calculator info
+            localStorage.removeItem('calculatorInfo');
+            
+            // Hide results and show calculator form
+            quoteResults.style.display = 'none';
+            calculatorForm.style.display = 'block';
+        });
+    }
+
+    // Display quote results function
+    function displayQuoteResults(quote, gutterSize, stories, length, guards, guardType) {
+        let breakdown = `
+            <h3>Your Estimated Quote</h3>
+            <p class="total-estimate">Total Estimate: $${quote.toFixed(2)}</p>
+            <div class="quote-breakdown">
+                <h4>Quote Breakdown:</h4>
+                <ul>
+                    <li>${gutterSize} Gutters (${length} ft): $${(length * (gutterSize === '6-inch' ? 11.50 : 9.20)).toFixed(2)}</li>
+                    ${stories === 2 ? `<li>Two-Story Home Additional Cost: 25% premium</li>` : ''}
+                    ${guards ? `<li>Gutter Guards (${guardType}): $${(length * (guardType === 'premium' ? 14.00 : 9.00)).toFixed(2)}</li>` : ''}
+                </ul>
+            </div>
+            <p>This estimate includes:</p>
+            <ul>
+                <li>Professional installation</li>
+                <li>Quality materials</li>
+                <li>Labor costs</li>
+                <li>Clean up and disposal</li>
+            </ul>
+            <p class="estimate-note">Note: This is an estimate. Final pricing may vary based on specific requirements and on-site inspection.</p>
+        `;
+        
+        if (quoteResults) {
+            quoteResults.innerHTML = breakdown;
+        }
     }
 });
