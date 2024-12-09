@@ -65,14 +65,8 @@ header {
     background: rgba(255, 255, 255, 0.98);
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
     z-index: 1000;
-    padding: 10px 5%;
+    padding: 15px 5%;
     transition: all 0.3s ease;
-}
-
-header.scrolled {
-    padding: 8px 5%;
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
 nav {
@@ -143,54 +137,6 @@ nav {
 
 .mobile-menu-btn {
     display: none;
-    background: none;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    position: relative;
-    z-index: 1000;
-}
-
-.hamburger-icon {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background: #2c5282;
-    position: relative;
-    transition: background 0.2s ease-out;
-}
-
-.hamburger-icon:before,
-.hamburger-icon:after {
-    content: '';
-    display: block;
-    width: 25px;
-    height: 3px;
-    background: #2c5282;
-    position: absolute;
-    transition: all 0.2s ease-out;
-}
-
-.hamburger-icon:before {
-    top: -8px;
-}
-
-.hamburger-icon:after {
-    bottom: -8px;
-}
-
-.mobile-menu-btn.active .hamburger-icon {
-    background: transparent;
-}
-
-.mobile-menu-btn.active .hamburger-icon:before {
-    top: 0;
-    transform: rotate(45deg);
-}
-
-.mobile-menu-btn.active .hamburger-icon:after {
-    bottom: 0;
-    transform: rotate(-45deg);
 }
 
 .mobile-estimate-btn {
@@ -200,6 +146,54 @@ nav {
 @media (max-width: 768px) {
     .mobile-menu-btn {
         display: block;
+        background: none;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        position: relative;
+        z-index: 1000;
+    }
+
+    .hamburger-icon {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: #2c5282;
+        position: relative;
+        transition: background 0.2s ease-out;
+    }
+
+    .hamburger-icon:before,
+    .hamburger-icon:after {
+        content: '';
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: #2c5282;
+        position: absolute;
+        transition: all 0.2s ease-out;
+    }
+
+    .hamburger-icon:before {
+        top: -8px;
+    }
+
+    .hamburger-icon:after {
+        bottom: -8px;
+    }
+
+    .mobile-menu-btn.active .hamburger-icon {
+        background: transparent;
+    }
+
+    .mobile-menu-btn.active .hamburger-icon:before {
+        top: 0;
+        transform: rotate(45deg);
+    }
+
+    .mobile-menu-btn.active .hamburger-icon:after {
+        bottom: 0;
+        transform: rotate(-45deg);
     }
 
     .nav-links {
@@ -227,12 +221,11 @@ nav {
         width: 100%;
         text-align: center;
         border-bottom: 1px solid #eee;
-        color: #2c5282;
     }
 
     .mobile-estimate-btn {
         display: block;
-        background: #2c5282;
+        background: var(--primary-color);
         color: white !important;
         padding: 15px 30px;
         border-radius: 5px;
@@ -241,28 +234,13 @@ nav {
         border: none !important;
     }
 
-    .mobile-estimate-btn:hover {
-        background: #1a365d;
+    .logo img {
+        height: 60px;
+        width: 60px;
     }
 
-    /* Adjust header for mobile */
     header {
         padding: 10px 20px;
-        position: fixed;
-        width: 100%;
-        background: white;
-        z-index: 1000;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .logo img {
-        height: 50px;
     }
 }
 
@@ -1453,5 +1431,53 @@ footer {
 
     .mobile-cta:active {
         opacity: 0.8;
+    }
+}
+
+/* Desktop Styles (min-width: 769px) */
+@media (min-width: 769px) {
+    .nav-links {
+        display: flex !important; /* Always show on desktop */
+        position: static;
+        padding: 0;
+        background: none;
+        flex-direction: row;
+    }
+
+    .nav-links a {
+        width: auto;
+        border-bottom: none;
+        padding: 8px 0;
+    }
+
+    .nav-links a:hover {
+        background: none;
+    }
+
+    header {
+        padding: 15px 5%;
+    }
+
+    .logo img {
+        height: 90px;
+        width: 90px;
+    }
+
+    .mobile-menu-btn,
+    .mobile-estimate-btn {
+        display: none !important;
+    }
+
+    /* Desktop-specific hero section */
+    .hero-content {
+        padding: 0 40px;
+    }
+
+    .hero-content h1 {
+        font-size: 64px;
+    }
+
+    .hero-content p {
+        font-size: 24px;
     }
 }
