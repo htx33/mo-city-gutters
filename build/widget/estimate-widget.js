@@ -83,8 +83,8 @@ function validateStep(step) {
         const contactInfo = { name, phone, email, address, city, state, zipCode };
         localStorage.setItem('gutterContactInfo', JSON.stringify(contactInfo));
 
-        // Redirect to estimate.html
-        window.top.location.href = '/estimate.html';
+        // Redirect to estimate.html with relative path
+        window.top.location.href = '../estimate.html';
         return false; // Prevent further execution
     } else if (step === 2) {
         form = document.getElementById('propertyForm');

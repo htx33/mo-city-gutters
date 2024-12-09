@@ -201,7 +201,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const contactInfo = JSON.parse(localStorage.getItem('gutterContactInfo'));
             if (!contactInfo) {
-                window.location.href = '/'; // Redirect back if no contact info
+                window.location.href = './index.html'; // Redirect back if no contact info
                 return;
             }
 
