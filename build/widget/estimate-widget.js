@@ -56,54 +56,36 @@ function isValidPhone(phone) {
 function validateStep(step) {
     let form;
     if (step === 1) {
-        form = document.getElementById('customerForm');
-        // Check if all required contact fields are filled and valid
-        const name = document.getElementById('name');
-        const phone = document.getElementById('phone');
-        const email = document.getElementById('email');
-        const address = document.getElementById('address');
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const state = document.getElementById('state').value.trim();
+        const zipCode = document.getElementById('zipCode').value.trim();
 
-        let isValid = true;
-
-        // Validate name
-        if (!name.value.trim()) {
-            name.classList.add('is-invalid');
-            isValid = false;
-        }
-
-        // Validate phone
-        if (!isValidPhone(phone.value.trim())) {
-            phone.classList.add('is-invalid');
-            if (!phone.nextElementSibling || !phone.nextElementSibling.classList.contains('invalid-feedback')) {
-                const feedback = document.createElement('div');
-                feedback.className = 'invalid-feedback';
-                feedback.textContent = 'Please enter a valid phone number';
-                phone.parentNode.appendChild(feedback);
-            }
-            isValid = false;
-        }
-
-        // Validate email
-        if (!isValidEmail(email.value.trim())) {
-            email.classList.add('is-invalid');
-            if (!email.nextElementSibling || !email.nextElementSibling.classList.contains('invalid-feedback')) {
-                const feedback = document.createElement('div');
-                feedback.className = 'invalid-feedback';
-                feedback.textContent = 'Please enter a valid email address';
-                email.parentNode.appendChild(feedback);
-            }
-            isValid = false;
-        }
-
-        // Validate address
-        if (!address.value.trim()) {
-            address.classList.add('is-invalid');
-            isValid = false;
-        }
-
-        if (!isValid) {
+        if (!name || !phone || !email || !address || !city || !state || !zipCode) {
+            alert('Please fill in all contact information fields.');
             return false;
         }
+
+        if (!isValidEmail(email)) {
+            alert('Please enter a valid email address.');
+            return false;
+        }
+
+        if (!isValidPhone(phone)) {
+            alert('Please enter a valid phone number.');
+            return false;
+        }
+
+        // Store contact info in localStorage
+        const contactInfo = { name, phone, email, address, city, state, zipCode };
+        localStorage.setItem('gutterContactInfo', JSON.stringify(contactInfo));
+
+        // Redirect to estimate.html
+        window.top.location.href = '/estimate.html';
+        return false; // Prevent further execution
     } else if (step === 2) {
         form = document.getElementById('propertyForm');
     }
