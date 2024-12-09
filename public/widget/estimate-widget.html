@@ -58,28 +58,28 @@
             <h4 class="mb-4">Contact Information</h4>
             <form id="customerForm" novalidate>
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="name" placeholder="Full Name" required>
+                    <input type="text" class="form-control" id="name" placeholder="Full Name" required autocomplete="name">
                 </div>
                 <div class="mb-3">
-                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required>
+                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required autocomplete="tel">
                 </div>
                 <div class="mb-3">
-                    <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+                    <input type="email" class="form-control" id="email" placeholder="Email Address" required autocomplete="email">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="address" placeholder="Street Address" required>
+                    <input type="text" class="form-control" id="address" placeholder="Street Address" required autocomplete="street-address">
                 </div>
                 <div class="row mb-3">
                     <div class="col">
-                        <input type="text" class="form-control" id="city" placeholder="City" required>
+                        <input type="text" class="form-control" id="city" placeholder="City" required autocomplete="address-level2">
                     </div>
                     <div class="col-md-4">
-                        <select class="form-select" id="state" required>
+                        <select class="form-select" id="state" required autocomplete="address-level1">
                             <option value="TX" selected>TX</option>
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="zipCode" placeholder="Zip Code" required>
+                        <input type="text" class="form-control" id="zipCode" placeholder="Zip Code" required autocomplete="postal-code">
                     </div>
                 </div>
                 <div class="text-end">

@@ -2,222 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mo City Gutters & Remodeling - Professional Gutter & Home Improvement Services</title>
-    
-    <!-- Styles with dynamic versioning -->
-    <script>
-        // Add timestamp to force cache refresh
-        function addVersionToCSS() {
-            const timestamp = new Date().getTime();
-            const cssLinks = document.querySelectorAll('link[rel="stylesheet"][href*="main.css"]');
-            cssLinks.forEach(link => {
-                const href = link.getAttribute('href').split('?')[0];
-                link.setAttribute('href', `${href}?v=${timestamp}`);
-            });
-        }
-        window.addEventListener('load', addVersionToCSS);
-    </script>
-    <link rel="stylesheet" href="styles/main.css">
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Trusted, professional gutter solutions for discerning Missouri City homeowners. Seamless installation, elegant design options, and worry-free maintenance. Schedule your personalized consultation today.">
-    <meta name="keywords" content="luxury gutter solutions Missouri City, professional home maintenance Missouri City, trusted gutter contractor Missouri City, home protection experts TX, reliable home services Missouri City, premium gutter installation, elegant gutter designs, property value protection Missouri City, stress-free home maintenance, executive home services">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mocitygutters.com/">
-    <meta property="og:title" content="Mo City Gutters - Elegant Home Solutions & Professional Service">
-    <meta property="og:description" content="Experience peace of mind with Missouri City's most trusted gutter professionals. Elegant solutions, reliable service, and complete home protection for the discerning homeowner.">
-    <meta property="og:image" content="https://mocitygutters.com/images/hero-home.jpg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://mocitygutters.com/">
-    <meta property="twitter:title" content="Mo City Gutters - Elegant Home Solutions & Professional Service">
-    <meta property="twitter:description" content="Experience peace of mind with Missouri City's most trusted gutter professionals. Elegant solutions, reliable service, and complete home protection for the discerning homeowner.">
-    <meta property="twitter:image" content="https://mocitygutters.com/images/hero-home.jpg">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
-    <!-- HubSpot Forms -->
-    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
-    
-    <!-- Initialize HubSpot Forms -->
-    <script>
-        // Configuration
-        const CONFIG = {
-            pricing: {
-                gutterSizes: {
-                    '5': 8.50,  // 5-inch gutters price per linear foot
-                    '6': 9.50   // 6-inch gutters price per linear foot
-                },
-                storyMultipliers: {
-                    '1': 1.0,   // Single story multiplier
-                    '2': 1.3    // Two story multiplier
-                },
-                guardPrices: {
-                    'none': 0,
-                    'standard': 4.50,  // Standard guards price per linear foot
-                    'premium': 6.50    // Premium guards price per linear foot
-                }
-            }
-        };
-
-        // Wait for DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize HubSpot form
-            if (window.hbspt) {
-                console.log('Initializing HubSpot forms...');
-                try {
-                    // Initialize calculator form
-                    window.hbspt.forms.create({
-                        region: "na1",
-                        portalId: "48384794",
-                        formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
-                        target: "#calculator-hubspot-form",
-                        onFormReady: function($form) {
-                            console.log('Calculator form ready');
-                            
-                            // Log all form fields
-                            const inputs = $form.querySelectorAll('input, select');
-                            console.log('Form fields found:', inputs.length);
-                            inputs.forEach(input => {
-                                console.log('Field:', {
-                                    name: input.name,
-                                    id: input.id,
-                                    type: input.type,
-                                    value: input.value
-                                });
-                            });
-
-                            // Add calculation logic to form
-                            $form.addEventListener('change', function(e) {
-                                console.log('Form field changed:', e.target.name, e.target.value);
-                                
-                                // Get all form fields
-                                const inputs = $form.querySelectorAll('input, select');
-                                const fields = {};
-                                inputs.forEach(input => {
-                                    fields[input.name] = input.value;
-                                    console.log(`Field ${input.name}:`, input.value);
-                                });
-
-                                // Map HubSpot field names to our expected names
-                                const linearFeet = fields['gutter_length'] || fields['linear_feet'] || fields['length'];
-                                const gutterSize = fields['gutter_size'] || fields['size'];
-                                const stories = fields['home_stories'] || fields['stories'];
-                                const guards = fields['gutter_guards'] || fields['guards'];
-
-                                console.log('Mapped fields:', {
-                                    linearFeet,
-                                    gutterSize,
-                                    stories,
-                                    guards
-                                });
-
-                                // Calculate total if we have all required fields
-                                if (linearFeet && gutterSize && stories && guards) {
-                                    const quote = calculateQuote(
-                                        parseFloat(linearFeet),
-                                        gutterSize,
-                                        stories,
-                                        guards
-                                    );
-
-                                    if (quote) {
-                                        // Try to find the total field
-                                        const totalFields = Array.from(inputs).filter(input => 
-                                            input.name.toLowerCase().includes('total') ||
-                                            input.name.toLowerCase().includes('quote') ||
-                                            input.name.toLowerCase().includes('estimate')
-                                        );
-
-                                        console.log('Found total fields:', totalFields.length);
-                                        totalFields.forEach(field => {
-                                            console.log('Updating total field:', field.name);
-                                            field.value = `$${quote.total}`;
-                                        });
-
-                                        // Also update any hidden total fields
-                                        const hiddenFields = $form.querySelectorAll('input[type="hidden"]');
-                                        hiddenFields.forEach(field => {
-                                            if (field.name.toLowerCase().includes('total')) {
-                                                field.value = quote.total;
-                                                console.log('Updated hidden total field:', field.name);
-                                            }
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                    });
-
-                    // Initialize contact form
-                    window.hbspt.forms.create({
-                        region: "na1",
-                        portalId: "48384794",
-                        formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
-                        target: "#contact-hubspot-form"
-                    });
-                } catch (error) {
-                    console.error('Error creating HubSpot forms:', error);
-                }
-            } else {
-                console.error('HubSpot forms script not loaded');
-            }
-
-            // Calculate quote function
-            function calculateQuote(linearFeet, gutterSize, stories, guards) {
-                console.log('Calculating quote with:', { linearFeet, gutterSize, stories, guards });
-                try {
-                    // Get base price per foot based on gutter size
-                    const basePrice = CONFIG.pricing.gutterSizes[gutterSize] || CONFIG.pricing.gutterSizes['5'];
-                    
-                    // Get story multiplier
-                    const storyMultiplier = CONFIG.pricing.storyMultipliers[stories] || CONFIG.pricing.storyMultipliers['1'];
-                    
-                    // Get guard price per foot
-                    const guardPrice = CONFIG.pricing.guardPrices[guards] || 0;
-                    
-                    // Calculate total
-                    const subtotal = linearFeet * (basePrice + guardPrice) * storyMultiplier;
-                    
-                    const result = {
-                        subtotal: subtotal,
-                        total: Math.ceil(subtotal), // Round up to nearest dollar
-                        breakdown: {
-                            basePrice: basePrice,
-                            guardPrice: guardPrice,
-                            storyMultiplier: storyMultiplier,
-                            linearFeet: linearFeet
-                        }
-                    };
-                    console.log('Quote calculation result:', result);
-                    return result;
-                } catch (error) {
-                    console.error('Error calculating quote:', error);
-                    return null;
-                }
-            }
-        });
-    </script>
-    
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="styles/styles.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- HubSpot Integration -->
-    <script charset="utf-8" type="text/javascript" src="//js.hs-scripts.com/48384794.js"></script>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="widget/embed.js" defer></script>
 </head>
 <body>
     <header>
@@ -225,67 +15,53 @@
             <a href="#" class="logo">
                 <img src="images/logo.png" alt="Mo City Gutters Logo">
             </a>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span class="hamburger-icon"></span>
+            </button>
             <div class="nav-links">
                 <a href="#services">Services</a>
-                <a href="#gallery">Our Work</a>
-                <a href="#testimonials">Reviews</a>
+                <a href="#gallery">Gallery</a>
                 <a href="#contact">Contact</a>
+                <a href="estimate.html" class="mobile-estimate-btn">Get Free Estimate</a>
             </div>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
         </nav>
-        <div class="mobile-menu">
-            <a href="#services">Services</a>
-            <a href="#gallery">Our Work</a>
-            <a href="#testimonials">Reviews</a>
-            <a href="#contact">Contact</a>
-            <div class="mobile-contact">
-                <a href="tel:+12818279457" class="mobile-cta">
-                    <i class="fas fa-phone"></i> Call Now
-                </a>
-                <a href="sms:+12818279457" class="mobile-cta">
-                    <i class="fas fa-comment-dots"></i> Text Us
-                </a>
-            </div>
-        </div>
     </header>
 
     <section class="hero">
-        <img src="images/hero-home.jpg" alt="Elegant home with premium gutter system" class="hero-background">
+        <img src="images/hero-home.jpg" alt="Beautiful home with quality gutters" class="hero-background">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Quality Gutters for Your Home</h1>
-            <p>Protect your home with Missouri City's trusted gutter experts. Professional installation, reliable service, fair prices.</p>
-            <a href="#estimate" class="cta-button show-calculator-btn">Get a Free Quote Today</a>
+            <h1>Professional Gutter Solutions</h1>
+            <p>Transform your home with Professional Seamless Gutters and Expert Remodeling Solutions.</p>
+            <a href="#contact" class="cta-button">Get a Free Quote</a>
         </div>
     </section>
 
     <section class="mission">
         <div class="mission-content">
-            <h2>Our Commitment to Excellence</h2>
-            <p>At Mo City Gutters and Remodeling, we understand that your home is more than just a property—it's your sanctuary. Our mission is to provide elegant, lasting solutions that protect your investment while maintaining your home's aesthetic appeal. As a faith-based company, we're committed to delivering exceptional service with integrity, ensuring your complete peace of mind.</p>
+            <h2>Our Mission</h2>
+            <p>At Mo City Gutters and Remodeling, our mission is to enhance and protect homes with top-quality seamless gutters and exceptional exterior remodeling services. Rooted in faith, we are committed to serving our community with integrity, craftsmanship, and care, honoring God in every project while providing solutions that bring lasting value and peace of mind to our customers.</p>
         </div>
     </section>
 
     <section id="services" class="services">
         <div class="section-header">
             <h2>Our Services</h2>
-            <p>Professional solutions to protect and enhance your home</p>
+            <p>Professional gutter solutions and home improvements with integrity and excellence</p>
         </div>
-        <div class="service-cards-container">
-            <!-- Gutter Installation -->
+        <div class="services-grid">
+            <!-- Seamless Gutters -->
             <div class="service-card">
                 <div class="service-symbol">
-                    <i class="fa-solid fa-house"></i>
+                    <i class="fa-solid fa-water"></i>
                 </div>
-                <h3>Gutter Installation</h3>
-                <p>Professional installation of high-quality gutters to protect your home from water damage.</p>
+                <h3>Seamless Gutters</h3>
+                <p>Custom-fit seamless gutters designed and installed to protect your home from water damage.</p>
                 <ul class="service-features">
-                    <li>Free consultation</li>
-                    <li>Quality materials</li>
-                    <li>Expert installation</li>
-                    <li>Warranty included</li>
+                    <li>On-site custom fabrication</li>
+                    <li>Professional installation</li>
+                    <li>Various colors and styles</li>
+                    <li>Weather-resistant materials</li>
                 </ul>
             </div>
 
@@ -295,12 +71,12 @@
                     <i class="fa-solid fa-broom"></i>
                 </div>
                 <h3>Gutter Cleaning</h3>
-                <p>Keep your gutters working properly with our thorough cleaning service. Prevent costly water damage.</p>
+                <p>Thorough cleaning and maintenance to ensure your gutters function properly year-round.</p>
                 <ul class="service-features">
-                    <li>Complete debris removal</li>
+                    <li>Debris removal</li>
                     <li>Downspout cleaning</li>
-                    <li>Gutter inspection</li>
-                    <li>Scheduled maintenance</li>
+                    <li>System inspection</li>
+                    <li>Preventive maintenance</li>
                 </ul>
             </div>
 
@@ -310,12 +86,12 @@
                     <i class="fa-solid fa-hammer"></i>
                 </div>
                 <h3>Home Remodeling</h3>
-                <p>Transform your home with our expert remodeling services. Quality work at competitive prices.</p>
+                <p>Quality home improvements and renovations to enhance your living space.</p>
                 <ul class="service-features">
-                    <li>Free design consultation</li>
-                    <li>Quality materials</li>
-                    <li>Expert installation</li>
-                    <li>Clean worksite</li>
+                    <li>Kitchen & bath remodeling</li>
+                    <li>Interior renovations</li>
+                    <li>Exterior upgrades</li>
+                    <li>Custom solutions</li>
                 </ul>
             </div>
 
@@ -325,12 +101,12 @@
                     <i class="fa-solid fa-shield-alt"></i>
                 </div>
                 <h3>Gutter Guards</h3>
-                <p>Stop cleaning gutters forever. Our guards keep leaves and debris out while letting water flow.</p>
+                <p>Advanced protection systems to keep debris out while letting water flow freely.</p>
                 <ul class="service-features">
-                    <li>Leaf protection</li>
-                    <li>Reduced maintenance</li>
-                    <li>Prevents clogs</li>
+                    <li>Premium materials</li>
                     <li>Professional installation</li>
+                    <li>Leaf & debris protection</li>
+                    <li>Reduced maintenance</li>
                 </ul>
             </div>
 
@@ -340,12 +116,12 @@
                     <i class="fa-solid fa-wrench"></i>
                 </div>
                 <h3>Gutter Repair</h3>
-                <p>Fix leaks, sagging, and other issues with our professional repair service.</p>
+                <p>Expert repair services to fix leaks, sagging, and other gutter system issues.</p>
                 <ul class="service-features">
-                    <li>Leak repair</li>
-                    <li>Sag correction</li>
+                    <li>Leak detection & repair</li>
+                    <li>Sagging correction</li>
                     <li>Joint sealing</li>
-                    <li>Fast service</li>
+                    <li>System restoration</li>
                 </ul>
             </div>
         </div>
@@ -359,45 +135,31 @@
     </section>
 
     <section id="gallery">
-        <div class="section-header">
-            <h2>See Our Work</h2>
-            <p>Quality installations by our expert team</p>
-        </div>
+        <h2>Our Work</h2>
         <div class="gallery-grid">
             <div class="gallery-item">
-                <img src="./images/gallery/img_3815.jpg" alt="Professional gutter installation" loading="lazy">
+                <img src="images/gallery/IMG_3815.jpg" alt="Professional gutter installation" loading="lazy">
                 <div class="gallery-caption">Seamless Gutter Installation</div>
             </div>
             <div class="gallery-item">
-                <img src="./images/gallery/img_3895.jpg" alt="Custom gutter work" loading="lazy">
+                <img src="images/gallery/IMG_3895.jpg" alt="Custom gutter work" loading="lazy">
                 <div class="gallery-caption">Custom Gutter Solutions</div>
             </div>
             <div class="gallery-item">
-                <img src="./images/gallery/img_3897.jpg" alt="Home exterior with new gutters" loading="lazy">
+                <img src="images/gallery/IMG_3897.jpg" alt="Home exterior with new gutters" loading="lazy">
                 <div class="gallery-caption">Complete Home Gutter System</div>
             </div>
             <div class="gallery-item">
-                <img src="./images/gallery/img_3902.jpg" alt="Detailed gutter installation" loading="lazy">
+                <img src="images/gallery/IMG_3902.jpg" alt="Detailed gutter installation" loading="lazy">
                 <div class="gallery-caption">Professional Installation</div>
             </div>
             <div class="gallery-item">
-                <img src="./images/gallery/img_3903.jpg" alt="Modern gutter system" loading="lazy">
+                <img src="images/gallery/IMG_3903.jpg" alt="Modern gutter system" loading="lazy">
                 <div class="gallery-caption">Modern Gutter Solutions</div>
             </div>
             <div class="gallery-item">
-                <img src="./images/gallery/img_3907.jpg" alt="Quality gutter work" loading="lazy">
+                <img src="images/gallery/IMG_3907.jpg" alt="Quality gutter work" loading="lazy">
                 <div class="gallery-caption">Quality Craftsmanship</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="estimate" class="estimate-section">
-        <div class="container">
-            <div class="estimate-content">
-                <h2>Get Your Free Estimate</h2>
-                <p>Find out how much your gutter installation or repair will cost</p>
-                <button id="showCalculatorBtn" class="cta-button" onclick="showCalculatorForm()">Get Quote</button>
-                <div id="calculator-hubspot-form" style="display: none;"></div>
             </div>
         </div>
     </section>
@@ -407,57 +169,79 @@
             <h2>What Our Clients Say</h2>
             <p>Read reviews from our satisfied customers</p>
         </div>
-        <div id="reviews-container"></div>
+        <div class="testimonials-container">
+            <div class="testimonials-slider">
+                <!-- Reviews will be dynamically inserted here -->
+            </div>
+            <div class="testimonial-navigation">
+                <!-- Navigation dots will be dynamically inserted here -->
+            </div>
+        </div>
     </section>
 
-    <section class="faq-section">
+    <!-- Instant Estimate Calculator -->
+    <section class="estimate-tool" id="estimate">
         <div class="section-header">
-            <h2>Frequently Asked Questions</h2>
-            <p>Get answers to common questions about our gutter services</p>
+            <h2>Get Your Instant Estimate</h2>
+            <p>Calculate your gutter project cost in seconds</p>
         </div>
-        <div class="faq-grid">
-            <div class="faq-item">
-                <h3 class="faq-question">How often should I get my gutters cleaned?</h3>
-                <div class="faq-answer">We recommend cleaning your gutters at least twice a year - in spring and fall. However, if you have many trees near your home, you may need more frequent cleaning. Regular maintenance prevents water damage and extends the life of your gutters.</div>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-question">Should I get 5-inch or 6-inch gutters?</h3>
-                <div class="faq-answer">For most homes, 5-inch gutters are standard and work well. However, 6-inch gutters are recommended if you have a steep roof pitch, large roof area, or experience heavy rainfall. We'll assess your home's specific needs and recommend the best size for your situation.</div>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-question">Can you match the color of my gutters?</h3>
-                <div class="faq-answer">Yes! We offer a wide range of colors to match your home's exterior perfectly. Our gutters are available in standard colors that match most major manufacturers' trim and siding colors. We'll help you select the perfect match for your home.</div>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-question">Do you have a warranty?</h3>
-                <div class="faq-answer">Yes, we provide a 1-year workmanship warranty on our installation. This warranty covers issues related to our installation work but does not include materials or damage from natural disasters/acts of God. We'll provide the complete warranty details during your consultation.</div>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-question">Do I need gutter guards?</h3>
-                <div class="faq-answer">Gutter guards can be a great investment if you want to reduce maintenance and prevent clogs. They're especially useful if you have trees near your home or want to avoid climbing ladders for cleaning. While not mandatory, they can save time and money on regular cleaning.</div>
-            </div>
-        </div>
+        <div id="estimate-container"></div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new MoCityGuttersEstimate('estimate-container', {
+                width: '100%',
+                height: '800px',
+                onSubmit: function(data) {
+                    console.log('Estimate submitted:', data);
+                    alert('Thank you! Your estimate has been submitted. We will contact you shortly.');
+                }
+            });
+        });
+    </script>
 
     <section id="contact">
         <div class="contact-container">
             <div class="contact-info">
-                <h2>Contact Us Today</h2>
-                <p>Get a free quote for your gutter project. We'll help you choose the right solution for your home and budget.</p>
+                <h2>Get in Touch</h2>
+                <p>Ready to protect your home with professional gutter solutions? Contact us today for a free consultation and quote.</p>
                 <div class="contact-details">
                     <p><i class="fas fa-phone"></i> (281) 827-9457</p>
                     <p><i class="fas fa-envelope"></i> mocityclean@gmail.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Serving Missouri City and surrounding areas</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Missouri City, TX</p>
                     <a href="sms:+12818279457" class="text-cta">
                         <i class="fas fa-comment-dots"></i> Text Us for Quick Response
                     </a>
                 </div>
             </div>
-            <div id="contact-hubspot-form"></div>
+            <form class="contact-form" id="contactForm" onsubmit="return validateForm(event)">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" placeholder="Your Name" required 
+                           pattern="[A-Za-z\s]{2,50}" 
+                           title="Please enter a valid name (2-50 characters, letters only)">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="Email Address" required
+                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                           title="Please enter a valid email address">
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" name="phone" placeholder="Phone Number"
+                           pattern="[\d\-\(\)\s]{10,}"
+                           title="Please enter a valid phone number">
+                </div>
+                <div class="form-group">
+                    <textarea id="message" name="message" placeholder="Tell us about your project" rows="5" required
+                            maxlength="1000"></textarea>
+                </div>
+                <!-- Hidden honeypot field to prevent spam -->
+                <div class="form-group" style="display: none;">
+                    <input type="text" name="honeypot" id="honeypot" tabindex="-1" autocomplete="off">
+                </div>
+                <input type="hidden" name="csrf_token" id="csrf_token">
+                <button type="submit" id="submitBtn">Send Message</button>
+            </form>
         </div>
     </section>
 
@@ -500,18 +284,30 @@
         </div>
     </footer>
 
-    <script>
-        // Show calculator form function
-        function showCalculatorForm() {
-            const form = document.getElementById('calculator-hubspot-form');
-            const button = document.getElementById('showCalculatorBtn');
-            if (form && button) {
-                form.style.display = 'block';
-                button.style.display = 'none';
-            }
-        }
-    </script>
+    <script src="scripts/main.js"></script>
 
-    <script src="/scripts/main.js" defer></script>
+    <script>
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            const body = document.body;
+
+            menuBtn.addEventListener('click', function() {
+                menuBtn.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                body.classList.toggle('menu-open');
+            });
+
+            // Close menu when clicking a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    menuBtn.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('menu-open');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

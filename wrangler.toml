@@ -1,4 +1,4 @@
 [site]
-bucket = "./build"
-site_root = "./build"
-entry-point = "build"
+bucket = "./public"
+site_root = "./public"
+entry-point = "public"
