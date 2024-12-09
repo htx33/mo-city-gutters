@@ -17,13 +17,9 @@ class MoCityGuttersEstimate {
             return;
         }
 
-        // Create iframe with local development URL
+        // Create iframe
         const iframe = document.createElement('iframe');
-        const baseUrl = window.location.hostname === 'localhost' ? 
-            `http://localhost:3000` : 
-            window.location.origin;
-        
-        iframe.src = `${baseUrl}/widget/estimate-widget.html`;
+        iframe.src = 'widget/estimate-widget.html';  // Use relative path
         iframe.style.width = this.options.width;
         iframe.style.height = this.options.height;
         iframe.style.border = 'none';
