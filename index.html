@@ -25,10 +25,14 @@
             <a href="#" class="logo">
                 <img src="images/logo.png" alt="Mo City Gutters Logo">
             </a>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span class="hamburger-icon"></span>
+            </button>
             <div class="nav-links">
                 <a href="#services">Services</a>
                 <a href="#gallery">Gallery</a>
                 <a href="#contact">Contact</a>
+                <a href="estimate.html" class="mobile-estimate-btn">Get Free Estimate</a>
             </div>
         </nav>
     </header>
@@ -166,5 +170,29 @@
     <footer>
         <p>&copy; 2024 Mo City Gutters. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            const body = document.body;
+
+            menuBtn.addEventListener('click', function() {
+                menuBtn.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                body.classList.toggle('menu-open');
+            });
+
+            // Close menu when clicking a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    menuBtn.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('menu-open');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

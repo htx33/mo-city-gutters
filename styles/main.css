@@ -145,10 +145,108 @@ nav {
     display: none;
     background: none;
     border: none;
-    color: var(--primary-color);
-    font-size: 1.5rem;
-    cursor: pointer;
     padding: 10px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1000;
+}
+
+.hamburger-icon {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #2c5282;
+    position: relative;
+    transition: background 0.2s ease-out;
+}
+
+.hamburger-icon:before,
+.hamburger-icon:after {
+    content: '';
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #2c5282;
+    position: absolute;
+    transition: all 0.2s ease-out;
+}
+
+.hamburger-icon:before {
+    top: -8px;
+}
+
+.hamburger-icon:after {
+    bottom: -8px;
+}
+
+.mobile-menu-btn.active .hamburger-icon {
+    background: transparent;
+}
+
+.mobile-menu-btn.active .hamburger-icon:before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.mobile-menu-btn.active .hamburger-icon:after {
+    bottom: 0;
+    transform: rotate(-45deg);
+}
+
+.mobile-estimate-btn {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.98);
+        padding: 80px 20px 20px;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        font-size: 1.2em;
+        padding: 15px;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    .mobile-estimate-btn {
+        display: block;
+        background: #2c5282;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 20px;
+    }
+
+    .mobile-estimate-btn:hover {
+        background: #1a365d;
+    }
+}
+
+/* Prevent body scroll when menu is open */
+body.menu-open {
+    overflow: hidden;
 }
 
 .mobile-menu {
