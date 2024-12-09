@@ -1,0 +1,90 @@
+.page-content {
+    padding: 20px 0;
+}
+
+.table th {
+    white-space: nowrap;
+}
+
+.table td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+.status-pending {
+    background-color: #ffd700;
+    color: #000;
+}
+
+.status-contacted {
+    background-color: #87ceeb;
+    color: #000;
+}
+
+.status-scheduled {
+    background-color: #98fb98;
+    color: #000;
+}
+
+.status-completed {
+    background-color: #90ee90;
+    color: #000;
+}
+
+.status-cancelled {
+    background-color: #ff6b6b;
+    color: #fff;
+}
+
+.status-new {
+    background-color: #ffd700;
+    color: #000;
+}
+
+.status-read {
+    background-color: #87ceeb;
+    color: #000;
+}
+
+.status-responded {
+    background-color: #90ee90;
+    color: #000;
+}
+
+.status-archived {
+    background-color: #808080;
+    color: #fff;
+}
+
+.action-btn {
+    padding: 2px 8px;
+    margin: 0 2px;
+    font-size: 0.85em;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.detail-row {
+    margin-bottom: 15px;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #666;
+}

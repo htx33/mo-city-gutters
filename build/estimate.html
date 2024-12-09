@@ -3,217 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gutter Estimate Calculator - Mo City Gutters</title>
+    <title>Get Your Gutter Estimate - Mo City Gutters & Remodeling</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            padding: 20px;
+        .estimate-page {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            background: #f9fafb;
         }
-        .container {
+        
+        .estimate-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 20px;
         }
-        .calculator-section {
+        
+        .widget-container {
             background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-top: 20px;
-        }
-        .contact-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        .btn-primary {
-            background-color: #2c5282;
-            border-color: #2c5282;
-            width: 100%;
-            max-width: 300px;
-            padding: 12px;
-            font-size: 1.1em;
-        }
-        .btn-primary:hover {
-            background-color: #1a365d;
-            border-color: #1a365d;
-        }
-        .estimate-result {
-            text-align: center;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        .estimate-amount {
-            font-size: 2em;
-            color: #2c5282;
-            font-weight: bold;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
         }
         
-        /* Mobile-specific styles */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            .calculator-section {
-                padding: 20px;
-            }
-            .contact-info {
-                padding: 15px;
-            }
-            h1 {
-                font-size: 1.8em;
-            }
-            h4 {
-                font-size: 1.3em;
-            }
-            .form-label {
-                font-size: 1.1em;
-            }
-            .form-control, .form-select {
-                height: 45px;
-                font-size: 16px;
-            }
-            .form-check {
-                margin-bottom: 12px;
-            }
-            .form-check-label {
-                font-size: 1em;
-                padding-left: 5px;
-            }
-            .form-check-input {
-                width: 20px;
-                height: 20px;
-            }
-            .estimate-amount {
-                font-size: 1.8em;
-            }
-            .btn-primary {
-                padding: 15px;
-                font-size: 1.2em;
-                width: 100%;
-            }
+        .form-step {
+            display: none;
         }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 10px;
-            }
-            h1 {
-                font-size: 1.5em;
-            }
-            .calculator-section {
-                padding: 15px;
-            }
-            .contact-info {
-                padding: 12px;
-            }
-            .estimate-amount {
-                font-size: 1.5em;
-            }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-control {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            margin: 10px 5px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+        
+        .estimate-result {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .estimate-amount {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .estimate-note {
+            color: #666;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center mb-4">Gutter Estimate Calculator</h1>
-        
-        <div class="contact-info" id="contactInfo">
-            <h4>Contact Information</h4>
-            <div class="row">
-                <div class="col-md-6">
-                    <p><strong>Name:</strong> <span id="displayName"></span></p>
-                    <p><strong>Phone:</strong> <span id="displayPhone"></span></p>
-                    <p><strong>Email:</strong> <span id="displayEmail"></span></p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Address:</strong> <span id="displayAddress"></span></p>
-                    <p><strong>City:</strong> <span id="displayCity"></span></p>
-                    <p><strong>State:</strong> <span id="displayState"></span></p>
-                    <p><strong>Zip Code:</strong> <span id="displayZip"></span></p>
+    <section class="estimate-page">
+        <div class="section-header">
+            <h1>Get Your Instant Estimate</h1>
+            <p>Calculate your gutter project cost in seconds</p>
+        </div>
+        <div class="estimate-container">
+            <div class="widget-container">
+                <form id="estimateForm">
+                    <!-- Step 1: Project Details -->
+                    <div id="step1" class="form-step active">
+                        <h4 class="mb-4">Project Details</h4>
+                        <div class="form-group">
+                            <label for="gutterType">Gutter Type</label>
+                            <select class="form-control" id="gutterType" required>
+                                <option value="">Select Gutter Type</option>
+                                <option value="standard">Standard 5" K-Style</option>
+                                <option value="premium">Premium 6" K-Style</option>
+                                <option value="custom">Custom Box Gutters</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="linearFeet">Linear Feet of Gutters Needed</label>
+                            <input type="number" class="form-control" id="linearFeet" required min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="stories">Number of Stories</label>
+                            <select class="form-control" id="stories" required>
+                                <option value="1">1 Story</option>
+                                <option value="2">2 Stories</option>
+                                <option value="3">3 Stories</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(1)">Next</button>
+                    </div>
+
+                    <!-- Step 2: Additional Services -->
+                    <div id="step2" class="form-step">
+                        <h4 class="mb-4">Additional Services</h4>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="cleaningService">
+                                <label class="form-check-label" for="cleaningService">Professional Gutter Cleaning</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="gutterGuards">
+                                <label class="form-check-label" for="gutterGuards">Gutter Guard Installation</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="repairService">
+                                <label class="form-check-label" for="repairService">Fascia/Soffit Repair</label>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="previousStep(2)">Previous</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                    </div>
+
+                    <!-- Step 3: Contact Information -->
+                    <div id="step3" class="form-step">
+                        <h4 class="mb-4">Your Information</h4>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Property Address</label>
+                            <input type="text" class="form-control" id="address" required>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="previousStep(3)">Previous</button>
+                        <button type="submit" class="btn btn-primary">Get Estimate</button>
+                    </div>
+                </form>
+
+                <div id="estimateResult" class="estimate-result" style="display: none;">
+                    <h3>Your Estimate</h3>
+                    <div class="estimate-amount"></div>
+                    <p class="estimate-note">This is an approximate estimate. Final pricing may vary based on specific project requirements.</p>
+                    <button type="button" class="btn btn-primary" onclick="startOver()">Start Over</button>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="calculator-section">
-            <form id="estimateForm">
-                <div class="mb-3">
-                    <label class="form-label">Total Gutter Length (feet)</label>
-                    <input type="number" class="form-control" id="gutterLength" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Number of Stories</label>
-                    <select class="form-select" id="stories" required>
-                        <option value="1">1 Story</option>
-                        <option value="2">2 Stories</option>
-                        <option value="3">3 Stories</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Gutter Type</label>
-                    <select class="form-select" id="gutterType" required>
-                        <option value="standard">Standard 5" K-Style</option>
-                        <option value="premium">Premium 6" K-Style</option>
-                        <option value="custom">Custom Box Gutters</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Additional Services</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="cleaningService">
-                        <label class="form-check-label" for="cleaningService">
-                            Professional Gutter Cleaning
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gutterGuards">
-                        <label class="form-check-label" for="gutterGuards">
-                            Gutter Guard Installation
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="repairService">
-                        <label class="form-check-label" for="repairService">
-                            Fascia/Soffit Repair
-                        </label>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Calculate Estimate</button>
-                </div>
-            </form>
-
-            <div id="estimateResult" class="estimate-result" style="display: none;">
-                <h4>Your Estimate</h4>
-                <div class="estimate-amount" id="estimateAmount"></div>
-                <p class="text-muted">This is an approximate estimate. Final pricing may vary based on site inspection.</p>
-            </div>
-        </div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Load contact information
-        document.addEventListener('DOMContentLoaded', function() {
-            const contactInfo = JSON.parse(localStorage.getItem('gutterContactInfo'));
-            if (!contactInfo) {
-                window.location.href = './index.html'; // Redirect back if no contact info
-                return;
-            }
+        // Form navigation functions
+        function nextStep(currentStep) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep + 1}`).classList.add('active');
+        }
 
-            // Display contact information
-            document.getElementById('displayName').textContent = contactInfo.name;
-            document.getElementById('displayPhone').textContent = contactInfo.phone;
-            document.getElementById('displayEmail').textContent = contactInfo.email;
-            document.getElementById('displayAddress').textContent = contactInfo.address;
-            document.getElementById('displayCity').textContent = contactInfo.city;
-            document.getElementById('displayState').textContent = contactInfo.state;
-            document.getElementById('displayZip').textContent = contactInfo.zipCode;
-        });
+        function previousStep(currentStep) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep - 1}`).classList.add('active');
+        }
+
+        function startOver() {
+            document.getElementById('estimateForm').reset();
+            document.getElementById('estimateResult').style.display = 'none';
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.remove('active');
+        }
 
         // Pricing configuration
         const PRICING = {
@@ -238,7 +226,7 @@
         document.getElementById('estimateForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const length = parseFloat(document.getElementById('gutterLength').value);
+            const length = parseFloat(document.getElementById('linearFeet').value);
             const stories = document.getElementById('stories').value;
             const gutterType = document.getElementById('gutterType').value;
             
@@ -260,8 +248,9 @@
             }
             
             // Display result
-            document.getElementById('estimateAmount').textContent = `$${total.toFixed(2)}`;
+            document.querySelector('.estimate-amount').textContent = `$${total.toFixed(2)}`;
             document.getElementById('estimateResult').style.display = 'block';
+            document.getElementById('step3').classList.remove('active');
         });
     </script>
 </body>
