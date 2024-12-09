@@ -40,11 +40,70 @@ function updateProgressBar(step) {
     progressBar.textContent = `Step ${step} of 3`;
 }
 
+// Input validation functions
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function isValidPhone(phone) {
+    // Allow formats: (123) 456-7890, 123-456-7890, 1234567890
+    const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    return phoneRegex.test(phone);
+}
+
 // Form validation
 function validateStep(step) {
     let form;
     if (step === 1) {
         form = document.getElementById('customerForm');
+        // Check if all required contact fields are filled and valid
+        const name = document.getElementById('name');
+        const phone = document.getElementById('phone');
+        const email = document.getElementById('email');
+        const address = document.getElementById('address');
+
+        let isValid = true;
+
+        // Validate name
+        if (!name.value.trim()) {
+            name.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate phone
+        if (!isValidPhone(phone.value.trim())) {
+            phone.classList.add('is-invalid');
+            if (!phone.nextElementSibling || !phone.nextElementSibling.classList.contains('invalid-feedback')) {
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = 'Please enter a valid phone number';
+                phone.parentNode.appendChild(feedback);
+            }
+            isValid = false;
+        }
+
+        // Validate email
+        if (!isValidEmail(email.value.trim())) {
+            email.classList.add('is-invalid');
+            if (!email.nextElementSibling || !email.nextElementSibling.classList.contains('invalid-feedback')) {
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = 'Please enter a valid email address';
+                email.parentNode.appendChild(feedback);
+            }
+            isValid = false;
+        }
+
+        // Validate address
+        if (!address.value.trim()) {
+            address.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return false;
+        }
     } else if (step === 2) {
         form = document.getElementById('propertyForm');
     }
@@ -167,10 +226,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const inputs = form.querySelectorAll('input, select');
         inputs.forEach(input => {
             input.addEventListener('input', function() {
-                if (this.classList.contains('is-invalid')) {
-                    if (this.checkValidity()) {
-                        this.classList.remove('is-invalid');
-                    }
+                // Remove invalid class when user starts typing
+                this.classList.remove('is-invalid');
+                // Remove any existing feedback messages
+                const feedback = this.nextElementSibling;
+                if (feedback && feedback.classList.contains('invalid-feedback')) {
+                    feedback.remove();
                 }
             });
         });

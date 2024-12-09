@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
+    <script src="widget/embed.js" defer></script>
     <!-- Scripts -->
 </head>
 <!-- Google tag (gtag.js) -->
@@ -100,68 +101,26 @@
         </div>
     </section>
 
-    <section id="estimate" class="estimate-section">
+    <section class="estimate-tool" id="estimate">
         <div class="section-header">
-            <h2>Calculate Your Gutter Cost</h2>
-            <p>Get an instant estimate for your gutter project</p>
-            <button id="showCalculator" class="show-calculator-btn">Show Calculator</button>
+            <h2>Get Your Instant Estimate</h2>
+            <p>Calculate your gutter project cost in seconds</p>
         </div>
-        <div id="calculatorWrapper" class="calculator-container" style="display: none;">
-            <form id="gutterCalculator" class="estimate-form">
-                <div class="form-group">
-                    <label for="homeLength">Total Length of Gutters Needed (feet):</label>
-                    <input type="number" id="homeLength" name="homeLength" required min="1" 
-                           placeholder="Enter total linear feet">
-                </div>
-
-                <div class="form-group">
-                    <label for="gutterType">Gutter Type:</label>
-                    <select id="gutterType" name="gutterType" required>
-                        <option value="">Select Gutter Type</option>
-                        <option value="standard">5-inch Standard (K-Style)</option>
-                        <option value="premium">6-inch Premium (K-Style)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="stories">Home Stories:</label>
-                    <select id="stories" name="stories" required>
-                        <option value="1">Single Story</option>
-                        <option value="2">Two Story</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="downspouts">Number of Downspouts Needed:</label>
-                    <input type="number" id="downspouts" name="downspouts" required min="0" 
-                           placeholder="Enter number of downspouts">
-                </div>
-
-                <div class="form-group">
-                    <label>Additional Services:</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="additionalServices" value="guards"> Gutter Guards
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="additionalServices" value="cleaning"> Gutter Cleaning
-                        </label>
-                    </div>
-                </div>
-
-                <button type="submit" class="estimate-button">Calculate Estimate</button>
-            </form>
-
-            <div id="estimateResult" class="estimate-result" style="display: none;">
-                <h3>Your Estimated Cost</h3>
-                <div class="total-cost">
-                    <span id="totalCost">$0.00</span>
-                </div>
-                <p class="estimate-note">* This is an approximate estimate. Final pricing may vary based on specific project requirements.</p>
-                <p class="estimate-note">* Minimum project cost is $300.</p>
-            </div>
-        </div>
+        <div id="estimate-container"></div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new MoCityGuttersEstimate('estimate-container', {
+                width: '100%',
+                height: '800px',
+                onSubmit: function(data) {
+                    console.log('Estimate submitted:', data);
+                    alert('Thank you! Your estimate has been submitted. We will contact you shortly.');
+                }
+            });
+        });
+    </script>
 
     <section id="contact">
         <div class="contact-container">
