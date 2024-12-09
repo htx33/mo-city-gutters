@@ -1,2 +1,4 @@
 [site]
 bucket = "./build"
+site_root = "./build"
+entry-point = "build"
