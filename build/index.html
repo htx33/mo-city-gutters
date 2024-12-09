@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
+    <script src="widget/embed.js" defer></script>
 </head>
 <body>
     <header>
@@ -192,26 +193,27 @@
         </div>
     </section>
 
-    <script src="widget/embed.js"></script>
+    <!-- Instant Estimate Calculator -->
     <section class="estimate-tool" id="estimate">
         <div class="section-header">
             <h2>Get Your Instant Estimate</h2>
             <p>Calculate your gutter project cost in seconds</p>
         </div>
         <div id="estimate-container"></div>
-        <script>
-            window.addEventListener('load', function() {
-                const estimateTool = new MoCityGuttersEstimate('estimate-container', {
-                    width: '100%',
-                    height: '800px',
-                    onSubmit: function(data) {
-                        console.log('Estimate submitted:', data);
-                        alert('Thank you! Your estimate has been submitted. We will contact you shortly.');
-                    }
-                });
-            });
-        </script>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new MoCityGuttersEstimate('estimate-container', {
+                width: '100%',
+                height: '800px',
+                onSubmit: function(data) {
+                    console.log('Estimate submitted:', data);
+                    alert('Thank you! Your estimate has been submitted. We will contact you shortly.');
+                }
+            });
+        });
+    </script>
 
     <section id="contact">
         <div class="contact-container">
