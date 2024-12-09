@@ -88,22 +88,6 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="/" class="logo">
-                <img src="images/logo.png" alt="Mo City Gutters Logo">
-            </a>
-            <button class="mobile-menu-btn" aria-label="Toggle menu">
-                <span class="hamburger-icon"></span>
-            </button>
-            <div class="nav-links">
-                <a href="/#services">Services</a>
-                <a href="/#gallery">Gallery</a>
-                <a href="/#contact">Contact</a>
-            </div>
-        </nav>
-    </header>
-
     <section class="estimate-page">
         <div class="section-header">
             <h1>Get Your Instant Estimate</h1>
@@ -267,12 +251,6 @@
             document.querySelector('.estimate-amount').textContent = `$${total.toFixed(2)}`;
             document.getElementById('estimateResult').style.display = 'block';
             document.getElementById('step3').classList.remove('active');
-        });
-
-        // Mobile menu functionality
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.querySelector('.nav-links').classList.toggle('active');
         });
     </script>
 </body>
