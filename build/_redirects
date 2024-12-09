@@ -1,0 +1,5 @@
+# Redirect all URLs to index.html for client-side routing
+/*    /index.html   200
+
+# Specific redirects for estimate page
+/estimate    /estimate.html   200
