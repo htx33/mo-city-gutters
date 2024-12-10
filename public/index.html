@@ -134,34 +134,80 @@
         </div>
     </section>
 
-    <section id="gallery">
-        <h2>Our Work</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3815.jpg" alt="Professional gutter installation" loading="lazy">
-                <div class="gallery-caption">Seamless Gutter Installation</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3895.jpg" alt="Custom gutter work" loading="lazy">
-                <div class="gallery-caption">Custom Gutter Solutions</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3897.jpg" alt="Home exterior with new gutters" loading="lazy">
-                <div class="gallery-caption">Complete Home Gutter System</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3902.jpg" alt="Detailed gutter installation" loading="lazy">
-                <div class="gallery-caption">Professional Installation</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3903.jpg" alt="Modern gutter system" loading="lazy">
-                <div class="gallery-caption">Modern Gutter Solutions</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3907.jpg" alt="Quality gutter work" loading="lazy">
-                <div class="gallery-caption">Quality Craftsmanship</div>
+    <section id="gallery" class="py-5">
+        <div class="section-header">
+            <h2>Our Work</h2>
+            <p>View our recent gutter installation and repair projects</p>
+        </div>
+        <div class="gallery-container">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3815.jpg" alt="Gutter Installation Project 1" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3895.jpg" alt="Gutter Installation Project 2" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3897.jpg" alt="Gutter Installation Project 3" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3902.jpg" alt="Gutter Installation Project 4" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3903.jpg" alt="Gutter Installation Project 5" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3907.jpg" alt="Gutter Installation Project 6" loading="lazy">
+                </div>
             </div>
         </div>
+        <style>
+            .gallery-container {
+                padding: 2rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            .gallery-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .gallery-item {
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease;
+            }
+            
+            .gallery-item:hover {
+                transform: translateY(-5px);
+            }
+            
+            .gallery-item img {
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.3s ease;
+            }
+            
+            .gallery-item:hover img {
+                transform: scale(1.05);
+            }
+            
+            @media (max-width: 768px) {
+                .gallery-grid {
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                }
+                
+                .gallery-item img {
+                    height: 250px;
+                }
+            }
+        </style>
     </section>
 
     <section id="contact" class="py-5">
