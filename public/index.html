@@ -8,13 +8,103 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <script src="widget/embed.js" defer></script>
+    <style>
+        .logo-container {
+            text-align: center;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .logo {
+            max-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .gallery-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: top center; /* Focus on the top part where gutters are typically located */
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Individual image position adjustments to ensure gutters are visible */
+        .gallery-item:nth-child(1) img {
+            object-position: center 50%; /* Adjusted first image to pan down 50% */
+        }
+        
+        .gallery-item:nth-child(2) img {
+            object-position: center 15%;
+        }
+        
+        .gallery-item:nth-child(3) img {
+            object-position: center 25%;
+        }
+        
+        .gallery-item:nth-child(4) img {
+            object-position: center 30%;
+        }
+        
+        .gallery-item:nth-child(5) img {
+            object-position: center 35%; /* Adjusted second to last image to pan down 35% */
+        }
+        
+        .gallery-item:nth-child(6) img {
+            object-position: center 25%;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .gallery-item img {
+                height: 250px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Mo City Gutters Logo" class="logo">
+        </div>
         <nav>
-            <a href="#" class="logo">
-                <img src="images/logo.png" alt="Mo City Gutters Logo">
-            </a>
             <button class="mobile-menu-btn" aria-label="Toggle menu">
                 <span class="hamburger-icon"></span>
             </button>
@@ -161,79 +251,6 @@
                 </div>
             </div>
         </div>
-        <style>
-            .gallery-container {
-                padding: 2rem;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-            
-            .gallery-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 1.5rem;
-            }
-            
-            .gallery-item {
-                position: relative;
-                overflow: hidden;
-                border-radius: 10px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease;
-            }
-            
-            .gallery-item:hover {
-                transform: translateY(-5px);
-            }
-            
-            .gallery-item img {
-                width: 100%;
-                height: 300px;
-                object-fit: cover;
-                object-position: top center; /* Focus on the top part where gutters are typically located */
-                display: block;
-                transition: transform 0.3s ease;
-            }
-            
-            /* Individual image position adjustments to ensure gutters are visible */
-            .gallery-item:nth-child(1) img {
-                object-position: center 50%; /* Adjusted first image to pan down 50% */
-            }
-            
-            .gallery-item:nth-child(2) img {
-                object-position: center 15%;
-            }
-            
-            .gallery-item:nth-child(3) img {
-                object-position: center 25%;
-            }
-            
-            .gallery-item:nth-child(4) img {
-                object-position: center 30%;
-            }
-            
-            .gallery-item:nth-child(5) img {
-                object-position: center 35%; /* Adjusted second to last image to pan down 35% */
-            }
-            
-            .gallery-item:nth-child(6) img {
-                object-position: center 25%;
-            }
-            
-            .gallery-item:hover img {
-                transform: scale(1.05);
-            }
-            
-            @media (max-width: 768px) {
-                .gallery-grid {
-                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                }
-                
-                .gallery-item img {
-                    height: 250px;
-                }
-            }
-        </style>
     </section>
 
     <section id="contact" class="py-5">
