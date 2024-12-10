@@ -9,15 +9,70 @@
     <link rel="stylesheet" href="styles/main.css">
     <script src="widget/embed.js" defer></script>
     <style>
-        .logo-container {
+        :root {
+            --primary-color: #2C3E50;
+            --accent-color: #3498DB;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --spacing-lg: 4rem;
+            --spacing-md: 2rem;
+            --border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: var(--spacing-lg) 0;
+        }
+
+        .text-center {
             text-align: center;
-            margin: 2rem auto;
-            padding: 1rem;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
         }
 
         .logo {
             max-width: 100px;
-            border-radius: 10px;
+            border-radius: var(--border-radius);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
@@ -25,7 +80,155 @@
         .logo:hover {
             transform: scale(1.05);
         }
-        
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* CTA Button Styling */
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: white !important;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Bottom CTA Section */
+        #contact {
+            background-color: var(--light-bg);
+            padding: var(--spacing-lg) 0;
+            margin-top: var(--spacing-md);
+        }
+
+        #contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        #contact p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .logo-container {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                padding: 0.5rem;
+                cursor: pointer;
+            }
+
+            .hamburger-icon {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: var(--primary-color);
+                position: relative;
+                transition: all 0.3s ease;
+            }
+
+            .hamburger-icon::before,
+            .hamburger-icon::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: var(--primary-color);
+                transition: all 0.3s ease;
+            }
+
+            .hamburger-icon::before {
+                top: -8px;
+            }
+
+            .hamburger-icon::after {
+                bottom: -8px;
+            }
+
+            .mobile-menu-btn.active .hamburger-icon {
+                background: transparent;
+            }
+
+            .mobile-menu-btn.active .hamburger-icon::before {
+                top: 0;
+                transform: rotate(45deg);
+            }
+
+            .mobile-menu-btn.active .hamburger-icon::after {
+                bottom: 0;
+                transform: rotate(-45deg);
+            }
+
+            #contact {
+                padding: var(--spacing-md) 20px;
+            }
+
+            #contact h2 {
+                font-size: 2rem;
+            }
+
+            #contact p {
+                font-size: 1.1rem;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
         .gallery-container {
             padding: 2rem;
             max-width: 1200px;
@@ -302,26 +505,32 @@
     <script src="scripts/main.js"></script>
 
     <script>
-        // Mobile menu functionality
         document.addEventListener('DOMContentLoaded', function() {
             const menuBtn = document.querySelector('.mobile-menu-btn');
             const navLinks = document.querySelector('.nav-links');
-            const body = document.body;
-
-            menuBtn.addEventListener('click', function() {
-                menuBtn.classList.toggle('active');
-                navLinks.classList.toggle('active');
-                body.classList.toggle('menu-open');
-            });
-
-            // Close menu when clicking a link
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
-                    menuBtn.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    body.classList.remove('menu-open');
+            
+            if (menuBtn && navLinks) {
+                menuBtn.addEventListener('click', function() {
+                    menuBtn.classList.toggle('active');
+                    navLinks.classList.toggle('active');
                 });
-            });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!menuBtn.contains(event.target) && !navLinks.contains(event.target)) {
+                        menuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                });
+
+                // Close menu when clicking a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        menuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
         });
     </script>
 </body>
