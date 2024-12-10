@@ -353,6 +353,18 @@
                             document.getElementById('step2').style.display = 'none';
                             document.getElementById('estimateResult').style.display = 'block';
                             document.querySelector('.estimate-amount').textContent = document.getElementById('calculatedEstimate').value;
+                            
+                            // Reset the HubSpot form
+                            const hubspotForm = document.querySelector('.hbspt-form form');
+                            if (hubspotForm) {
+                                hubspotForm.reset();
+                                // Clear any validation messages
+                                const validationMsgs = hubspotForm.querySelectorAll('.hs-error-msg');
+                                validationMsgs.forEach(msg => msg.remove());
+                                // Remove any error classes
+                                const errorFields = hubspotForm.querySelectorAll('.hs-error');
+                                errorFields.forEach(field => field.classList.remove('hs-error'));
+                            }
                         }
                     });
                     window.hubspotFormCreated = true;
