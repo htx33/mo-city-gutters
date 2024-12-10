@@ -300,6 +300,63 @@
                 height: 250px;
             }
         }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            background-color: var(--light-bg);
+            padding: var(--spacing-lg) 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1rem 1.5rem;
+            max-height: 500px;
+        }
     </style>
 </head>
 <body>
@@ -456,6 +513,48 @@
         </div>
     </section>
 
+    <section class="faq-section section">
+        <div class="container">
+            <h2 class="text-center mb-5">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">How often should I clean my gutters?</div>
+                    <div class="faq-answer">
+                        We recommend cleaning your gutters at least twice a year - in spring and fall. However, if you have many trees near your home, you might need more frequent cleanings. Installing gutter guards can significantly reduce the need for regular cleaning.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What are the benefits of seamless gutters?</div>
+                    <div class="faq-answer">
+                        Seamless gutters offer numerous advantages: they have fewer leak points, provide better water flow, require less maintenance, and look more aesthetically pleasing. They're custom-fit to your home, reducing the risk of water damage and foundation issues.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Do you offer gutter guards? Are they worth it?</div>
+                    <div class="faq-answer">
+                        Yes, we offer both standard and premium gutter guards. They're definitely worth the investment as they prevent debris buildup, reduce maintenance needs, prevent ice dams in winter, and extend the life of your gutters. Our premium guards offer enhanced protection and durability.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">How long does gutter installation take?</div>
+                    <div class="faq-answer">
+                        For most residential properties, we can complete a full gutter installation in one day. Larger homes or more complex installations might take 2-3 days. We always aim to minimize disruption to your daily routine while ensuring quality installation.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What type of warranty do you offer?</div>
+                    <div class="faq-answer">
+                        We stand behind our work with a comprehensive warranty that covers both materials and labor. Our seamless gutters come with a 20-year warranty on materials and a 5-year warranty on workmanship. Gutter guards carry their own specific warranty terms.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="contact" class="section">
         <div class="container text-center">
             <h2>Ready to Transform Your Home?</h2>
@@ -531,6 +630,25 @@
                     });
                 });
             }
+
+            // FAQ functionality
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
         });
     </script>
 </body>
