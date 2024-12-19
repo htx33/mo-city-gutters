@@ -4,126 +4,584 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mo City Gutters & Remodeling - Professional Gutter & Home Improvement Services</title>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "HomeAndConstructionBusiness",
-      "name": "Mo City Gutters & Remodeling",
-      "image": "images/logo.png",
-      "description": "Professional gutter solutions and home improvements with integrity and excellence",
-      "@id": "https://mocitygutters.com",
-      "url": "https://mocitygutters.com",
-      "telephone": "(281) 827-9457",
-      "email": "mocityclean@gmail.com",
-      "priceRange": "$$",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Missouri City",
-        "addressRegion": "TX",
-        "addressCountry": "US"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "29.6185",
-        "longitude": "-95.5377"
-      },
-      "areaServed": {
-        "@type": "GeoCircle",
-        "geoMidpoint": {
-          "@type": "GeoCoordinates",
-          "latitude": "29.6185",
-          "longitude": "-95.5377"
-        },
-        "geoRadius": "30000"
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          "opens": "07:00",
-          "closes": "19:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Saturday"],
-          "opens": "08:00",
-          "closes": "17:00"
-        }
-      ],
-      "sameAs": [
-        "https://www.facebook.com/mocitygutters",
-        "https://www.instagram.com/mocitygutters",
-        "https://www.linkedin.com/company/mocitygutters",
-        "https://nextdoor.com/pages/mo-city-gutters-missouri-city-tx"
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Gutter Services",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Seamless Gutters",
-              "description": "Custom fabrication and professional installation of seamless gutters"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Gutter Cleaning",
-              "description": "Thorough cleaning and maintenance to ensure your gutters function properly year-round"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Home Remodeling",
-              "description": "Quality home improvements and renovations including kitchen & bath remodeling"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Gutter Guards",
-              "description": "Advanced protection systems to keep debris out while letting water flow freely"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Gutter Repair",
-              "description": "Expert repair services to fix leaks, sagging, and other gutter system issues"
-            }
-          }
-        ]
-      }
-    }
-    </script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <script src="widget/embed.js" defer></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --light-bg: #f8f9fa;
+            --spacing-lg: 4rem;
+            --spacing-md: 2rem;
+            --border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: var(--spacing-lg) 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nav-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-container {
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+
+        .logo {
+            max-width: 100px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            list-style: none;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+            margin-top: -1px;
+        }
+
+        .hero-background {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 200px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mission Section */
+        .mission {
+            background-color: white;
+            padding: var(--spacing-lg) 0;
+        }
+
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .mission-content h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-content p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        /* Services Section */
+        .services {
+            background-color: var(--light-bg);
+            padding: var(--spacing-lg) 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-symbol {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .service-features {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        .service-features li {
+            margin: 0.5rem 0;
+            color: var(--text-color);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: white !important;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Bottom CTA Section */
+        #contact {
+            background-color: var(--light-bg);
+            padding: var(--spacing-lg) 0;
+            margin-top: var(--spacing-md);
+        }
+
+        #contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        #contact p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            #contact {
+                padding: var(--spacing-md) 20px;
+            }
+
+            #contact h2 {
+                font-size: 2rem;
+            }
+
+            #contact p {
+                font-size: 1.1rem;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 100;
+            position: absolute;
+            right: 20px;
+        }
+
+        .mobile-menu-btn i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-container {
+                margin-bottom: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                padding: 1rem 0;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .logo-container {
+                margin: 0;
+                padding: 0.5rem 0;
+            }
+
+            .logo {
+                max-width: 80px;
+            }
+
+            .cta-button {
+                width: 90%;
+                margin: 0.5rem auto;
+            }
+
+            .hero {
+                height: 500px;
+            }
+
+            .hero-content {
+                padding-top: 150px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .mission-content h2 {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+            }
+
+            #contact {
+                padding: var(--spacing-md) 1rem;
+            }
+
+            #contact h2 {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-section {
+                margin-bottom: 2rem;
+            }
+        }
+
+        .gallery-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: top center; /* Focus on the top part where gutters are typically located */
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Individual image position adjustments to ensure gutters are visible */
+        .gallery-item:nth-child(1) img {
+            object-position: center 50%; /* Adjusted first image to pan down 50% */
+        }
+        
+        .gallery-item:nth-child(2) img {
+            object-position: center 15%;
+        }
+        
+        .gallery-item:nth-child(3) img {
+            object-position: center 25%;
+        }
+        
+        .gallery-item:nth-child(4) img {
+            object-position: center 30%;
+        }
+        
+        .gallery-item:nth-child(5) img {
+            object-position: center 35%; /* Adjusted second to last image to pan down 35% */
+        }
+        
+        .gallery-item:nth-child(6) img {
+            object-position: center 25%;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .gallery-item img {
+                height: 250px;
+            }
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            background-color: var(--light-bg);
+            padding: var(--spacing-lg) 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1rem 1.5rem;
+            max-height: 500px;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
-            <a href="#" class="logo">
-                <img src="images/logo.png" alt="Mo City Gutters Logo">
-            </a>
-            <button class="mobile-menu-btn" aria-label="Toggle menu">
-                <span class="hamburger-icon"></span>
-            </button>
-            <div class="nav-links">
-                <a href="#services">Services</a>
-                <a href="#gallery">Gallery</a>
-                <a href="#contact">Contact</a>
-                <a href="/estimate" class="mobile-estimate-btn">Get Free Estimate</a>
+            <div class="nav-container">
+                <div class="logo-container">
+                    <img src="images/logo.png" alt="Mo City Gutters Logo" class="logo">
+                </div>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gallery">Our Work</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="estimate.html" class="cta-button">Get Estimate</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -133,7 +591,7 @@
         <div class="hero-content">
             <h1>Professional Gutter Solutions</h1>
             <p>Transform your home with Professional Seamless Gutters and Expert Remodeling Solutions.</p>
-            <a href="/estimate" class="cta-button">Get Your Free Estimate</a>
+            <a href="estimate.html" class="cta-button">Get Your Free Estimate</a>
         </div>
     </section>
 
@@ -234,75 +692,184 @@
         </div>
     </section>
 
-    <section id="gallery">
-        <h2>Our Work</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3815.jpg" alt="Professional gutter installation" loading="lazy">
-                <div class="gallery-caption">Seamless Gutter Installation</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3895.jpg" alt="Custom gutter work" loading="lazy">
-                <div class="gallery-caption">Custom Gutter Solutions</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3897.jpg" alt="Home exterior with new gutters" loading="lazy">
-                <div class="gallery-caption">Complete Home Gutter System</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3902.jpg" alt="Detailed gutter installation" loading="lazy">
-                <div class="gallery-caption">Professional Installation</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3903.jpg" alt="Modern gutter system" loading="lazy">
-                <div class="gallery-caption">Modern Gutter Solutions</div>
-            </div>
-            <div class="gallery-item">
-                <img src="/images/gallery/IMG_3907.jpg" alt="Quality gutter work" loading="lazy">
-                <div class="gallery-caption">Quality Craftsmanship</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="testimonials">
-        <div class="testimonials-header">
-            <h2>What Our Clients Say</h2>
-            <p>Read reviews from our satisfied customers</p>
-        </div>
-        <div class="testimonials-container">
-            <div class="testimonials-slider">
-                <!-- Reviews will be dynamically inserted here -->
-            </div>
-            <div class="testimonial-navigation">
-                <!-- Navigation dots will be dynamically inserted here -->
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
+    <section id="gallery" class="py-5">
         <div class="section-header">
-            <h2>Contact Us</h2>
-            <p>Get in touch for a consultation or quote</p>
+            <h2>Our Work</h2>
+            <p>View our recent gutter installation and repair projects</p>
         </div>
-        <div class="contact-container">
-            <div class="contact-info">
-                <div class="contact-details">
-                    <p><i class="fas fa-phone"></i> (281) 827-9457</p>
-                    <p><i class="fas fa-envelope"></i> mocityclean@gmail.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Missouri City, TX</p>
-                    <a href="sms:+12818279457" class="text-cta">
-                        <i class="fas fa-comment-dots"></i> Text Us for Quick Response
-                    </a>
+        <div class="gallery-container">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3815.jpg" alt="Gutter Installation Project 1" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3895.jpg" alt="Gutter Installation Project 2" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3897.jpg" alt="Gutter Installation Project 3" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3902.jpg" alt="Gutter Installation Project 4" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3903.jpg" alt="Gutter Installation Project 5" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3907.jpg" alt="Gutter Installation Project 6" loading="lazy">
                 </div>
             </div>
-            <!-- HubSpot Form -->
-            <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
-            <script>
-              hbspt.forms.create({
-                portalId: "48384794",
-                formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07"
-              });
-            </script>
+        </div>
+    </section>
+
+    <section class="faq-section section">
+        <div class="container">
+            <h2 class="text-center mb-5">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">How much should Seamless Gutters Cost?</div>
+                    <div class="faq-answer">
+                        Seamless gutter installation costs are determined by several key factors: the total linear footage required, your home's architectural design, accessibility considerations, and chosen material quality. For partial installations addressing specific sections of your home, professional services typically range from $1,200 to $2,500. Complete home installations generally range from $3,000 to $6,000, reflecting the comprehensive scope of work. These estimates include professional grade materials, expert installation by certified technicians, proper drainage system integration, and thorough testing to ensure optimal performance. Additionally, factors such as copper vs. aluminum material selection, gutter size requirements (5" or 6"), and the inclusion of gutter guards can influence the final investment. For a quick estimate, try our <a href="estimate.html" class="estimate-tool-link">online gutter pricing calculator</a> to get an approximate cost for your project. For a precise quote tailored to your property's specific requirements, we recommend scheduling a complimentary on-site consultation with our experienced team.
+                    </div>
+                </div>
+                
+                <!-- Keep your existing FAQ items here -->
+            </div>
+        </div>
+    </section>
+    
+    <style>
+    /* Enhanced FAQ Styles */
+    .faq-section {
+        background-color: var(--light-bg);
+        padding: var(--spacing-lg) 0;
+    }
+    
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .faq-item {
+        background: white;
+        border-radius: var(--border-radius);
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .faq-item:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    
+    .faq-question {
+        padding: 1.8rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: var(--primary-color);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .faq-question::after {
+        content: '\f107';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+        color: var(--accent-color);
+    }
+    
+    .faq-item.active .faq-question::after {
+        transform: rotate(-180deg);
+    }
+    
+    .faq-answer {
+        padding: 0 1.8rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.35s ease-in-out;
+        opacity: 0;
+        line-height: 1.8;
+        color: var(--text-color);
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 1.8rem 1.8rem 1.8rem;
+        max-height: 1000px;
+        opacity: 1;
+    }
+    
+    .estimate-tool-link {
+        color: var(--accent-color);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+    
+    .estimate-tool-link:hover {
+        color: #c0392b;
+        text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+        .faq-question {
+            padding: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+    }
+    </style>
+    
+    <script>
+    // Enhanced FAQ JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').style.maxHeight = '0';
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+                
+                // Set max-height for smooth animation
+                if (!isActive) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                } else {
+                    answer.style.maxHeight = '0';
+                }
+            });
+        });
+    });
+    </script>
+
+    <section id="contact" class="section">
+        <div class="container text-center">
+            <h2>Ready to Transform Your Home?</h2>
+            <p class="mb-4">Get a free, no-obligation quote for your gutter project today!</p>
+            <a href="estimate.html" class="cta-button">Get Your Free Quote</a>
         </div>
     </section>
 
@@ -326,7 +893,6 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <a href="#gallery">Our Work</a>
-                <a href="#testimonials">Reviews</a>
                 <a href="#contact">Get a Quote</a>
             </div>
 
@@ -348,24 +914,49 @@
     <script src="scripts/main.js"></script>
 
     <script>
-        // Mobile menu functionality
         document.addEventListener('DOMContentLoaded', function() {
             const menuBtn = document.querySelector('.mobile-menu-btn');
             const navLinks = document.querySelector('.nav-links');
-            const body = document.body;
+            
+            if (menuBtn && navLinks) {
+                menuBtn.addEventListener('click', function() {
+                    menuBtn.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
 
-            menuBtn.addEventListener('click', function() {
-                menuBtn.classList.toggle('active');
-                navLinks.classList.toggle('active');
-                body.classList.toggle('menu-open');
-            });
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!menuBtn.contains(event.target) && !navLinks.contains(event.target)) {
+                        menuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                });
 
-            // Close menu when clicking a link
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
-                    menuBtn.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    body.classList.remove('menu-open');
+                // Close menu when clicking a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        menuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
+
+            // FAQ functionality
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
                 });
             });
         });
