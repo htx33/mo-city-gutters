@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mo City Gutters Estimate Tool Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        #estimate-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mo City Gutters Estimate Tool</h1>
+            <p>Preview Mode</p>
+        </div>
+        
+        <!-- Estimate Tool Container -->
+        <div id="estimate-container"></div>
+    </div>
+
+    <!-- Include the embed script -->
+    <script src="/widget/embed.js"></script>
+    <script>
+        // Initialize the estimate tool
+        const estimateTool = new MoCityGuttersEstimate('estimate-container', {
+            width: '100%',
+            height: '800px',
+            onSubmit: function(data) {
+                console.log('Estimate submitted:', data);
+                alert('Estimate submitted successfully! Check the console for details.');
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,6 @@
+# Handle both /estimate and /estimate.html paths
+/estimate     /estimate.html   200!
+/estimate/*   /estimate.html   200!
+
+# All other paths go to index
+/*    /index.html   200!
