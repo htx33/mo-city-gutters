@@ -1,0 +1,4 @@
+[site]
+bucket = "./public"
+site_root = "./public"
+entry-point = "public"

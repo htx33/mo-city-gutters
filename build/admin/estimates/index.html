@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gutter Estimate Tool - Mo City Gutters</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../styles/estimates.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../dashboard.html">
+                <i class="bi bi-house-fill me-2"></i>Mo City Gutters Admin
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="progress mb-4">
+            <div class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">Step 1 of 3</div>
+        </div>
+
+        <!-- Step 1: Customer Information -->
+        <div class="card mb-4" id="step1">
+            <div class="card-header">
+                <h3><i class="bi bi-person-fill me-2"></i>Customer Information</h3>
+            </div>
+            <div class="card-body">
+                <form id="customerForm" class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                            <div class="invalid-feedback">Please enter the customer's full name</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" 
+                                   pattern="[0-9]{10}" placeholder="1234567890" required>
+                            <div class="invalid-feedback">Please enter a valid 10-digit phone number</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="invalid-feedback">Please enter a valid email address</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Property Address</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                        <div class="invalid-feedback">Please enter the property address</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city" name="city" required>
+                            <div class="invalid-feedback">Please enter the city</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="state" class="form-label">State</label>
+                            <select class="form-select" id="state" name="state" required>
+                                <option value="">Select State</option>
+                                <option value="TX" selected>Texas</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a state</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="zipCode" class="form-label">ZIP Code</label>
+                            <input type="text" class="form-control" id="zipCode" name="zipCode" 
+                                   pattern="[0-9]{5}" placeholder="77489" required>
+                            <div class="invalid-feedback">Please enter a valid ZIP code</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">
+                        Next: Property Details <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Step 2: Property Details -->
+        <div class="card mb-4" id="step2" style="display: none;">
+            <div class="card-header">
+                <h3><i class="bi bi-house-fill me-2"></i>Property Details</h3>
+            </div>
+            <div class="card-body">
+                <form id="propertyForm" class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="homeLength" class="form-label">Total Linear Feet of Gutters</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="homeLength" name="homeLength" 
+                                       min="1" step="1" required>
+                                <span class="input-group-text">feet</span>
+                            </div>
+                            <div class="form-text">Measure the total length where gutters will be installed</div>
+                            <div class="invalid-feedback">Please enter the total linear feet</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="stories" class="form-label">Number of Stories</label>
+                            <select class="form-select" id="stories" name="stories" required>
+                                <option value="">Select Stories</option>
+                                <option value="1">1 Story</option>
+                                <option value="2">2 Stories</option>
+                                <option value="3">3+ Stories</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the number of stories</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="gutterType" class="form-label">Gutter Type</label>
+                        <select class="form-select" id="gutterType" name="gutterType" required>
+                            <option value="">Select Gutter Type</option>
+                            <option value="standard">Standard 5" K-Style Gutters</option>
+                            <option value="premium">Premium 6" K-Style Gutters</option>
+                            <option value="custom">Custom Box Gutters</option>
+                        </select>
+                        <div class="form-text">Choose the type of gutters you'd like installed</div>
+                        <div class="invalid-feedback">Please select a gutter type</div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Additional Services</label>
+                        <div class="form-check mb-2">
+                            <input type="checkbox" class="form-check-input" id="cleaningService" name="additionalServices" value="cleaningService">
+                            <label class="form-check-label" for="cleaningService">
+                                Professional Gutter Cleaning (+$150)
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input type="checkbox" class="form-check-input" id="gutterGuards" name="additionalServices" value="gutterGuards">
+                            <label class="form-check-label" for="gutterGuards">
+                                Gutter Guard Installation (+$500)
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input type="checkbox" class="form-check-input" id="repairService" name="additionalServices" value="repairService">
+                            <label class="form-check-label" for="repairService">
+                                Fascia/Soffit Repair (+$250)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-secondary me-2" onclick="previousStep(2)">
+                            <i class="bi bi-arrow-left me-2"></i>Back
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="calculateEstimate()">
+                            Calculate Estimate <i class="bi bi-calculator ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Step 3: Estimate Result -->
+        <div class="card mb-4" id="step3" style="display: none;">
+            <div class="card-header">
+                <h3><i class="bi bi-check-circle-fill me-2"></i>Your Estimate</h3>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <h4 class="mb-3">Estimated Cost</h4>
+                    <h2 class="display-4 text-primary mb-4" id="estimateAmount">$0.00</h2>
+                    <div class="alert alert-info" role="alert">
+                        <i class="bi bi-info-circle me-2"></i>
+                        This is an estimate based on the information provided. Final pricing may vary based on site inspection.
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Customer Details</h5>
+                        <div id="customerDetails" class="card bg-light">
+                            <div class="card-body"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Project Details</h5>
+                        <div id="projectDetails" class="card bg-light">
+                            <div class="card-body"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <button type="button" class="btn btn-success" onclick="saveEstimate()">
+                        <i class="bi bi-save me-2"></i>Save Estimate
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="startOver()">
+                        <i class="bi bi-plus-circle me-2"></i>New Estimate
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="printEstimate()">
+                        <i class="bi bi-printer me-2"></i>Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="estimates.js"></script>
+</body>
+</html>

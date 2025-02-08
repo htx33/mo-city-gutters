@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get an Estimate - Mo City Gutters</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --light-gray: #f8f9fa;
+            --border-radius: 10px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--light-gray);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            max-width: 100px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: white;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            border-bottom: none;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border-radius: var(--border-radius);
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .form-text {
+            color: #6c757d;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-check {
+            margin-bottom: 1rem;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            border-color: #95a5a6;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            border-color: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        .estimate-result {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .estimate-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 1rem 0;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .container {
+                margin: 1rem auto;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Mo City Gutters Logo" class="logo">
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2>Get Your Instant Gutter Estimate</h2>
+            </div>
+            <div class="card-body">
+                <form id="estimateForm">
+                    <!-- Step 1: Project Details -->
+                    <div id="step1" class="step active">
+                        <h4 class="mb-4">Project Details</h4>
+                        <div class="form-group">
+                            <label for="gutterType" class="form-label">Gutter Type</label>
+                            <select class="form-control" id="gutterType" required>
+                                <option value="">Select Gutter Type</option>
+                                <option value="standard">Standard 5" K-Style Gutters</option>
+                                <option value="premium">Premium 6" K-Style Gutters</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a gutter type.</div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="linearFeet" class="form-label">Total Linear Feet of Gutters Needed</label>
+                            <input type="number" class="form-control" id="linearFeet" required>
+                            <small class="form-text text-muted">
+                                Note: Measurement should be in linear feet (the length around your house), not square feet. 
+                                To calculate linear feet, measure the length of each side of your house where gutters are needed and add them together.
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="stories" class="form-label">Number of Stories</label>
+                            <select class="form-control" id="stories" required>
+                                <option value="">Select Number of Stories</option>
+                                <option value="1">1 Story</option>
+                                <option value="2">2 Stories</option>
+                                <option value="3">3 Stories</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the number of stories.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Additional Services</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="standardGuards">
+                                <label class="form-check-label" for="standardGuards">
+                                    Standard Gutter Guards
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="premiumGuards">
+                                <label class="form-check-label" for="premiumGuards">
+                                    Premium Gutter Guards
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cleaning" name="cleaning">
+                                <label class="form-check-label" for="cleaning">
+                                    Gutter Cleaning
+                                </label>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="validateAndCalculate()">Calculate Estimate</button>
+                    </div>
+
+                    <!-- Step 2: Contact Information (Initially Hidden) -->
+                    <div id="step2" class="step">
+                        <h4 class="mb-4">Contact Information</h4>
+                        <p class="text-muted mb-4">Please provide your contact information to receive your custom estimate.</p>
+                        <!-- Hidden field to store the calculated estimate -->
+                        <input type="hidden" id="calculatedEstimate" value="">
+                        <!-- HubSpot Form -->
+                        <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+                        <div id="hubspotForm"></div>
+                        <button type="button" class="btn btn-secondary mt-3" onclick="goBack()">Back</button>
+                    </div>
+                </form>
+
+                <div id="estimateResult" class="estimate-result" style="display: none;">
+                    <h3>Your Estimate</h3>
+                    <div class="estimate-amount"></div>
+                    <p class="estimate-note">This is an approximate estimate. Our team will contact you shortly to confirm the details and schedule a free inspection.</p>
+                    <button type="button" class="btn btn-primary" onclick="startOver()">Start Over</button>
+                    <a href="/" class="btn btn-secondary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function validateAndCalculate() {
+                const form = document.getElementById('estimateForm');
+                const inputs = form.querySelectorAll('input[required], select[required]');
+                let isValid = true;
+
+                inputs.forEach(input => {
+                    if (!input.value) {
+                        input.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        input.classList.remove('is-invalid');
+                    }
+                });
+
+                if (!isValid) return;
+
+                // Calculate the estimate but don't show it yet
+                const gutterType = document.getElementById('gutterType').value;
+                const linearFeet = parseFloat(document.getElementById('linearFeet').value);
+                const stories = parseInt(document.getElementById('stories').value);
+                const standardGuards = document.getElementById('standardGuards').checked;
+                const premiumGuards = document.getElementById('premiumGuards').checked;
+                const cleaning = document.getElementById('cleaning').checked;
+
+                // Base prices
+                const prices = {
+                    standard: 9.20,  // 5" K-Style
+                    premium: 11.50   // 6" K-Style
+                };
+
+                // Story multipliers
+                const storyMultiplier = {
+                    1: 1.0,
+                    2: 1.3,
+                    3: 1.6
+                };
+
+                // Calculate base gutter cost
+                let totalCost = prices[gutterType] * linearFeet;
+
+                // Calculate number of downspouts needed (1 per 30 feet)
+                const numDownspouts = Math.ceil(linearFeet / 30);
+                
+                // Calculate downspout length based on stories
+                const downspoutLength = stories === 1 ? 15 : 25;  // 15ft for 1 story, 25ft for 2+ stories
+                
+                // Add downspout cost using same price per foot as gutters
+                const downspoutCost = prices[gutterType] * downspoutLength * numDownspouts;
+                totalCost += downspoutCost;
+
+                // Apply story multiplier to total cost (gutters + downspouts)
+                totalCost *= storyMultiplier[stories];
+
+                // Add gutter guards if selected
+                if (standardGuards) {
+                    totalCost += 9.00 * linearFeet;  // Standard guards
+                } else if (premiumGuards) {
+                    totalCost += 14.00 * linearFeet;  // Premium guards
+                }
+
+                // Add cleaning if selected
+                if (cleaning) {
+                    let cleaningCost = 1.82 * linearFeet;  // $1.82 per foot
+                    // If cleaning cost is less than $300, set it to the minimum
+                    cleaningCost = Math.max(cleaningCost, 300);
+                    totalCost += cleaningCost;
+                }
+
+                // Format the total cost
+                const formattedTotal = totalCost.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                // Store the estimate in a hidden field
+                document.getElementById('calculatedEstimate').value = formattedTotal;
+
+                // Hide step 1 and show HubSpot form
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step2').classList.add('active');
+
+                // Create HubSpot form if it hasn't been created yet
+                if (!window.hubspotFormCreated) {
+                    hbspt.forms.create({
+                        region: "na1",
+                        portalId: "48384794",
+                        formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+                        target: "#hubspotForm",
+                        onFormSubmit: function($form) {
+                            // Add the estimate value to a hidden field
+                            var estimate = document.getElementById('calculatedEstimate').value;
+                            $form.find('input[name="estimate_amount"]').val(estimate);
+                        },
+                        onFormSubmitted: function() {
+                            // Show the estimate after form submission
+                            document.getElementById('step2').style.display = 'none';
+                            document.getElementById('estimateResult').style.display = 'block';
+                            document.querySelector('.estimate-amount').textContent = document.getElementById('calculatedEstimate').value;
+                            
+                            // Reset the HubSpot form
+                            const hubspotForm = document.querySelector('.hbspt-form form');
+                            if (hubspotForm) {
+                                hubspotForm.reset();
+                                // Clear any validation messages
+                                const validationMsgs = hubspotForm.querySelectorAll('.hs-error-msg');
+                                validationMsgs.forEach(msg => msg.remove());
+                                // Remove any error classes
+                                const errorFields = hubspotForm.querySelectorAll('.hs-error');
+                                errorFields.forEach(field => field.classList.remove('hs-error'));
+                            }
+                        }
+                    });
+                    window.hubspotFormCreated = true;
+                }
+            }
+
+            function goBack() {
+                document.getElementById('step2').classList.remove('active');
+                document.getElementById('step1').classList.add('active');
+            }
+
+            document.getElementById('estimateForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const gutterType = document.querySelector('input[name="gutterType"]:checked').value;
+                const linearFeet = parseFloat(document.getElementById('linearFeet').value);
+                const stories = parseInt(document.querySelector('input[name="stories"]:checked').value);
+                const standardGuards = document.getElementById('standardGuards').checked;
+                const premiumGuards = document.getElementById('premiumGuards').checked;
+                const cleaning = document.getElementById('cleaning').checked;
+
+                // Base prices
+                const prices = {
+                    standard: 9.20,  // 5" K-Style
+                    premium: 11.50   // 6" K-Style
+                };
+
+                // Story multipliers
+                const storyMultiplier = {
+                    1: 1.0,
+                    2: 1.3,
+                    3: 1.6
+                };
+
+                // Calculate base gutter cost
+                let totalCost = prices[gutterType] * linearFeet;
+
+                // Calculate number of downspouts needed (1 per 30 feet)
+                const numDownspouts = Math.ceil(linearFeet / 30);
+                
+                // Calculate downspout length based on stories
+                const downspoutLength = stories === 1 ? 15 : 25;  // 15ft for 1 story, 25ft for 2+ stories
+                
+                // Add downspout cost using same price per foot as gutters
+                const downspoutCost = prices[gutterType] * downspoutLength * numDownspouts;
+                totalCost += downspoutCost;
+
+                // Apply story multiplier to total cost (gutters + downspouts)
+                totalCost *= storyMultiplier[stories];
+
+                // Add gutter guards if selected
+                if (standardGuards) {
+                    totalCost += 9.00 * linearFeet;  // Standard guards
+                } else if (premiumGuards) {
+                    totalCost += 14.00 * linearFeet;  // Premium guards
+                }
+
+                // Add cleaning if selected
+                if (cleaning) {
+                    let cleaningCost = 1.82 * linearFeet;  // $1.82 per foot
+                    // If cleaning cost is less than $300, set it to the minimum
+                    cleaningCost = Math.max(cleaningCost, 300);
+                    totalCost += cleaningCost;
+                }
+
+                // Format the total cost
+                const formattedTotal = totalCost.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                // Display result
+                document.getElementById('estimateForm').style.display = 'none';
+                document.getElementById('estimateResult').style.display = 'block';
+                document.querySelector('.estimate-amount').textContent = formattedTotal;
+            });
+
+            function startOver() {
+                window.location.reload();
+            }
+
+            // Test function to verify calculations
+            function runTests() {
+                console.log("Running estimate calculations tests...");
+                
+                // Test Case 1: Simple 1-story home with standard gutters
+                let test1 = {
+                    linearFeet: 100,
+                    gutterType: 'standard',
+                    stories: 1,
+                    standardGuards: false,
+                    premiumGuards: false,
+                    cleaning: false
+                };
+                
+                // Test Case 2: 2-story home with premium everything
+                let test2 = {
+                    linearFeet: 150,
+                    gutterType: 'premium',
+                    stories: 2,
+                    standardGuards: false,
+                    premiumGuards: true,
+                    cleaning: true
+                };
+                
+                // Test Case 3: Small home with cleaning only
+                let test3 = {
+                    linearFeet: 50,
+                    gutterType: 'standard',
+                    stories: 1,
+                    standardGuards: false,
+                    premiumGuards: false,
+                    cleaning: true
+                };
+
+                function calculateTest(test) {
+                    const prices = {
+                        standard: 9.20,
+                        premium: 11.50
+                    };
+
+                    const storyMultiplier = {
+                        1: 1.0,
+                        2: 1.3,
+                        3: 1.6
+                    };
+
+                    // Calculate base gutter cost
+                    let totalCost = prices[test.gutterType] * test.linearFeet;
+
+                    // Calculate number of downspouts needed (1 per 30 feet)
+                    const numDownspouts = Math.ceil(test.linearFeet / 30);
+                    
+                    // Calculate downspout length based on stories
+                    const downspoutLength = test.stories === 1 ? 15 : 25;
+                    
+                    // Add downspout cost using same price per foot as gutters
+                    const downspoutCost = prices[test.gutterType] * downspoutLength * numDownspouts;
+                    totalCost += downspoutCost;
+
+                    // Apply story multiplier to total cost (gutters + downspouts)
+                    totalCost *= storyMultiplier[test.stories];
+
+                    // Add gutter guards if selected
+                    if (test.standardGuards) {
+                        totalCost += 9.00 * test.linearFeet;
+                    } else if (test.premiumGuards) {
+                        totalCost += 14.00 * test.linearFeet;
+                    }
+
+                    // Add cleaning if selected
+                    if (test.cleaning) {
+                        let cleaningCost = 1.82 * test.linearFeet;
+                        cleaningCost = Math.max(cleaningCost, 300);
+                        totalCost += cleaningCost;
+                    }
+
+                    return totalCost;
+                }
+
+                // Run tests and log results with detailed breakdown
+                console.log("Test 1 - Simple 1-story home:");
+                console.log("Input:", test1);
+                console.log("Expected: $1,440.00");
+                console.log("Actual:", calculateTest(test1).toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                }));
+                console.log("Breakdown:");
+                console.log("- Gutters: 100ft × $9 = $900");
+                console.log("- Downspouts: 4 × 15ft × $9 = $540");
+                console.log("\n");
+
+                console.log("Test 2 - 2-story premium home:");
+                console.log("Input:", test2);
+                console.log("Expected: $6,332.50");
+                console.log("Actual:", calculateTest(test2).toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                }));
+                console.log("Breakdown:");
+                console.log("- Gutters: 150ft × $11 = $1,650");
+                console.log("- Downspouts: 5 × 25ft × $11 = $1,375");
+                console.log("- Subtotal with 1.3 multiplier = $3,932.50");
+                console.log("- Premium guards: 150ft × $14 = $2,100");
+                console.log("- Cleaning: $300 minimum");
+                console.log("\n");
+
+                console.log("Test 3 - Small home with cleaning:");
+                console.log("Input:", test3);
+                console.log("Expected: $300.00");
+                console.log("Actual:", calculateTest(test3).toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                }));
+                console.log("Breakdown:");
+                console.log("- Cleaning only: 50ft × $1.82 = $91 (increased to $300 minimum)");
+            }
+
+            // Run tests immediately
+            runTests();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mo City Gutters & Remodeling - Professional Gutter & Home Improvement Services</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="widget/embed.js" defer></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --light-bg: #f8f9fa;
+            --spacing-lg: 4rem;
+            --spacing-md: 2rem;
+            --border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: var(--spacing-lg) 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nav-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-container {
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+
+        .logo {
+            max-width: 100px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            list-style: none;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+            margin-top: -1px;
+        }
+
+        .hero-background {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 200px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mission Section */
+        .mission {
+            background-color: white;
+            padding: var(--spacing-lg) 0;
+        }
+
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .mission-content h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-content p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        /* Services Section */
+        .services {
+            background-color: var(--light-bg);
+            padding: var(--spacing-lg) 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-symbol {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .service-features {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        .service-features li {
+            margin: 0.5rem 0;
+            color: var(--text-color);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: white !important;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Bottom CTA Section */
+        #contact {
+            background-color: var(--light-bg);
+            padding: var(--spacing-lg) 0;
+            margin-top: var(--spacing-md);
+        }
+
+        #contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        #contact p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            #contact {
+                padding: var(--spacing-md) 20px;
+            }
+
+            #contact h2 {
+                font-size: 2rem;
+            }
+
+            #contact p {
+                font-size: 1.1rem;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 100;
+            position: absolute;
+            right: 20px;
+        }
+
+        .mobile-menu-btn i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-container {
+                margin-bottom: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                padding: 1rem 0;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .logo-container {
+                margin: 0;
+                padding: 0.5rem 0;
+            }
+
+            .logo {
+                max-width: 80px;
+            }
+
+            .cta-button {
+                width: 90%;
+                margin: 0.5rem auto;
+            }
+
+            .hero {
+                height: 500px;
+            }
+
+            .hero-content {
+                padding-top: 150px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .mission-content h2 {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+            }
+
+            #contact {
+                padding: var(--spacing-md) 1rem;
+            }
+
+            #contact h2 {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-section {
+                margin-bottom: 2rem;
+            }
+        }
+
+        .gallery-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: top center; /* Focus on the top part where gutters are typically located */
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Individual image position adjustments to ensure gutters are visible */
+        .gallery-item:nth-child(1) img {
+            object-position: center 50%; /* Adjusted first image to pan down 50% */
+        }
+        
+        .gallery-item:nth-child(2) img {
+            object-position: center 15%;
+        }
+        
+        .gallery-item:nth-child(3) img {
+            object-position: center 25%;
+        }
+        
+        .gallery-item:nth-child(4) img {
+            object-position: center 30%;
+        }
+        
+        .gallery-item:nth-child(5) img {
+            object-position: center 35%; /* Adjusted second to last image to pan down 35% */
+        }
+        
+        .gallery-item:nth-child(6) img {
+            object-position: center 25%;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .gallery-item img {
+                height: 250px;
+            }
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            background-color: var(--light-bg);
+            padding: var(--spacing-lg) 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1rem 1.5rem;
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo-container">
+                    <img src="images/logo.png" alt="Mo City Gutters Logo" class="logo">
+                </div>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gallery">Our Work</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="blog.html">Blog</a></li>    
+                <li><a href="estimate.html">Get Estimate</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <img src="/images/hero-home.jpg" alt="Beautiful home with quality gutters" class="hero-background">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Professional Gutter Solutions</h1>
+            <p>Transform your home with Professional Seamless Gutters and Expert Remodeling Solutions.</p>
+            <a href="estimate.html" class="cta-button">Get Your Free Estimate</a>
+        </div>
+    </section>
+
+    <section class="mission">
+        <div class="mission-content">
+            <h2>Our Mission</h2>
+            <p>At Mo City Gutters and Remodeling, our mission is to enhance and protect homes with top-quality seamless gutters and exceptional exterior remodeling services. Rooted in faith, we are committed to serving our community with integrity, craftsmanship, and care, honoring God in every project while providing solutions that bring lasting value and peace of mind to our customers.</p>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="section-header">
+            <h2>Our Services</h2>
+            <p>Professional gutter solutions and home improvements with integrity and excellence</p>
+        </div>
+        <div class="services-grid">
+            <!-- Seamless Gutters -->
+            <div class="service-card">
+                <div class="service-symbol">
+                    <i class="fa-solid fa-water"></i>
+                </div>
+                <h3>Seamless Gutters</h3>
+                <p>Custom-fit seamless gutters designed and installed to protect your home from water damage.</p>
+                <ul class="service-features">
+                    <li>On-site custom fabrication</li>
+                    <li>Professional installation</li>
+                    <li>Various colors and styles</li>
+                    <li>Weather-resistant materials</li>
+                </ul>
+            </div>
+
+            <!-- Gutter Cleaning -->
+            <div class="service-card">
+                <div class="service-symbol">
+                    <i class="fa-solid fa-broom"></i>
+                </div>
+                <h3>Gutter Cleaning</h3>
+                <p>Thorough cleaning and maintenance to ensure your gutters function properly year-round.</p>
+                <ul class="service-features">
+                    <li>Debris removal</li>
+                    <li>Downspout cleaning</li>
+                    <li>System inspection</li>
+                    <li>Preventive maintenance</li>
+                </ul>
+            </div>
+
+            <!-- Home Remodeling -->
+            <div class="service-card">
+                <div class="service-symbol">
+                    <i class="fa-solid fa-hammer"></i>
+                </div>
+                <h3>Home Remodeling</h3>
+                <p>Quality home improvements and renovations to enhance your living space.</p>
+                <ul class="service-features">
+                    <li>Kitchen & bath remodeling</li>
+                    <li>Interior renovations</li>
+                    <li>Exterior upgrades</li>
+                    <li>Custom solutions</li>
+                </ul>
+            </div>
+
+            <!-- Gutter Guards -->
+            <div class="service-card">
+                <div class="service-symbol">
+                    <i class="fa-solid fa-shield-alt"></i>
+                </div>
+                <h3>Gutter Guards</h3>
+                <p>Advanced protection systems to keep debris out while letting water flow freely.</p>
+                <ul class="service-features">
+                    <li>Premium materials</li>
+                    <li>Professional installation</li>
+                    <li>Leaf & debris protection</li>
+                    <li>Reduced maintenance</li>
+                </ul>
+            </div>
+
+            <!-- Gutter Repair -->
+            <div class="service-card">
+                <div class="service-symbol">
+                    <i class="fa-solid fa-wrench"></i>
+                </div>
+                <h3>Gutter Repair</h3>
+                <p>Expert repair services to fix leaks, sagging, and other gutter system issues.</p>
+                <ul class="service-features">
+                    <li>Leak detection & repair</li>
+                    <li>Sagging correction</li>
+                    <li>Joint sealing</li>
+                    <li>System restoration</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="bible-verse-banner">
+        <div class="bible-verse-content" id="verse-display">
+            <p class="verse-text">Commit to the LORD whatever you do, and he will establish your plans.</p>
+            <p class="verse-reference">- Proverbs 16:3</p>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-5">
+        <div class="section-header">
+            <h2>Our Work</h2>
+            <p>View our recent gutter installation and repair projects</p>
+        </div>
+        <div class="gallery-container">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3815.jpg" alt="Gutter Installation Project 1" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3895.jpg" alt="Gutter Installation Project 2" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3897.jpg" alt="Gutter Installation Project 3" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3902.jpg" alt="Gutter Installation Project 4" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3903.jpg" alt="Gutter Installation Project 5" loading="lazy">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/img_3907.jpg" alt="Gutter Installation Project 6" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section section">
+        <div class="container">
+            <h2 class="text-center mb-5">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">Why get Gutters anyways?</div>
+                    <div class="faq-answer">
+                        Gutters are essential for protecting your home's foundation, preventing soil erosion, protecting your landscaping, and avoiding water damage to your walls and basement. They direct rainwater away from your home, preventing costly water damage that could lead to foundation cracks, basement flooding, or mold growth. In the long run, a quality gutter system is a crucial investment in protecting your home's value and structural integrity.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Should I have 5 inch or 6 inch gutters?</div>
+                    <div class="faq-answer">
+                        The choice between 5" and 6" gutters depends on several factors. 5" gutters are standard for most homes and work well for average rainfall areas. However, 6" gutters are recommended if you have a steeper roof pitch, large roof area, or live in an area with heavy rainfall. 6" gutters can handle about 40% more water than 5" gutters. We can assess your specific situation and recommend the best size for your home during our free consultation.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">How often should I clean my gutters?</div>
+                    <div class="faq-answer">
+                        We recommend cleaning your gutters at least twice a year - in spring and fall. However, if you have many trees near your home, you might need more frequent cleanings. Installing gutter guards can significantly reduce the need for regular cleaning.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What are the benefits of seamless gutters?</div>
+                    <div class="faq-answer">
+                        Seamless gutters offer numerous advantages: they have fewer leak points, provide better water flow, require less maintenance, and look more aesthetically pleasing. They're custom-fit to your home, reducing the risk of water damage and foundation issues.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Do you offer gutter guards? Are they worth it?</div>
+                    <div class="faq-answer">
+                        Yes, we offer both standard and premium gutter guards. They're definitely worth the investment as they prevent debris buildup, reduce maintenance needs, prevent ice dams in winter, and extend the life of your gutters. Our premium guards offer enhanced protection and durability.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">How long does gutter installation take?</div>
+                    <div class="faq-answer">
+                        For most residential properties, we can complete a full gutter installation in one day. Larger homes or more complex installations might take 2-3 days. We always aim to minimize disruption to your daily routine while ensuring quality installation.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What type of warranty do you offer?</div>
+                    <div class="faq-answer">
+                        We stand behind our work with a warranty that covers labor up to 1 year. This warranty does not cover acts of God for example if a tree hits the gutter this would not be covered.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- HTML -->
+<div class="htb-container">
+    <a href="https://www.htownbest.com/best-gutter-houston/" class="htb-link">
+        <img src="H Town Best_B-01.png" alt="H-Town Best HTB Logo" class="htb-logo">
+    </a>
+</div>
+
+<!-- CSS -->
+<style>
+.htb-container {
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.htb-link {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+}
+
+.htb-link:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.htb-logo {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 50%; /* Makes the image circular */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds subtle shadow */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .htb-logo {
+        max-width: 150px; /* Smaller size on mobile devices */
+    }
+    
+    .htb-container {
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+}
+</style>
+
+    <section id="contact" class="section">
+        <div class="container text-center">
+            <h2>Ready to Transform Your Home?</h2>
+            <p class="mb-4">Get a free, no-obligation quote for your gutter project today!</p>
+            <a href="estimate.html" class="cta-button">Get Your Free Quote</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Missouri City, TX</p>
+                <p>Phone: (281)-201-4870</p>
+                <p>Email: mocityclean@gmail.com</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <a href="#services">Seamless Gutters</a>
+                <a href="#services">Gutter Guards</a>
+                <a href="#services">Gutter Cleaning</a>
+                <a href="#services">Home Remodeling</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#gallery">Our Work</a>
+                <a href="#contact">Get a Quote</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mo City Gutters and Remodeling. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuBtn && navLinks) {
+                menuBtn.addEventListener('click', function() {
+                    menuBtn.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!menuBtn.contains(event.target) && !navLinks.contains(event.target)) {
+                        menuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                });
+
+                // Close menu when clicking a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        menuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
+
+            // FAQ functionality
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

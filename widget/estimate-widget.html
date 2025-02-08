@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mo City Gutters Estimate Widget</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: transparent;
+            margin: 0;
+            padding: 15px;
+        }
+        .widget-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-step:not(.active) {
+            display: none;
+        }
+        .btn-primary {
+            background-color: #2c5282;
+            border-color: #2c5282;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1em;
+        }
+        .btn-primary:hover {
+            background-color: #1a365d;
+            border-color: #1a365d;
+        }
+        .progress {
+            height: 10px;
+            margin-bottom: 20px;
+        }
+        .form-control, .form-select {
+            height: 45px;
+            font-size: 16px; /* Prevent zoom on iOS */
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .widget-container {
+                padding: 15px;
+            }
+            h4 {
+                font-size: 1.3em;
+            }
+            .form-label {
+                font-size: 1.1em;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .btn-primary {
+                padding: 15px;
+                font-size: 1.2em;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            .widget-container {
+                padding: 12px;
+            }
+            h4 {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+            .progress {
+                margin-bottom: 15px;
+            }
+        }
+        .estimate-result {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .estimate-amount {
+            font-size: 2em;
+            color: #2c5282;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="widget-container">
+        <div class="progress mb-4">
+            <div class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">Step 1 of 3</div>
+        </div>
+
+        <!-- Step 1: Customer Information -->
+        <div id="step1" class="form-step active">
+            <h4 class="mb-4">Contact Information</h4>
+            <form id="customerForm" novalidate>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="name" placeholder="Full Name" required autocomplete="name">
+                </div>
+                <div class="mb-3">
+                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required autocomplete="tel">
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="email" placeholder="Email Address" required autocomplete="email">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="address" placeholder="Street Address" required autocomplete="street-address">
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <input type="text" class="form-control" id="city" placeholder="City" required autocomplete="address-level2">
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="state" required autocomplete="address-level1">
+                            <option value="TX" selected>TX</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="zipCode" placeholder="Zip Code" required autocomplete="postal-code">
+                    </div>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Next</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Step 2: Property Details -->
+        <div id="step2" class="form-step">
+            <h4 class="mb-4">Property Details</h4>
+            <form id="propertyForm" novalidate>
+                <div class="mb-3">
+                    <label class="form-label">Total Gutter Length (feet)</label>
+                    <input type="number" class="form-control" id="homeLength" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Number of Stories</label>
+                    <select class="form-select" id="stories" required>
+                        <option value="">Select number of stories</option>
+                        <option value="1">1 Story</option>
+                        <option value="2">2 Stories</option>
+                        <option value="3">3+ Stories</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Gutter Type</label>
+                    <select class="form-select" id="gutterType" required>
+                        <option value="">Select gutter type</option>
+                        <option value="standard">Standard 5" K-Style</option>
+                        <option value="premium">Premium 6" K-Style</option>
+                        <option value="custom">Custom Box Gutters</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Additional Services</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="cleaningService" name="additionalServices" id="cleaning">
+                        <label class="form-check-label" for="cleaning">Professional Gutter Cleaning</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="gutterGuards" name="additionalServices" id="guards">
+                        <label class="form-check-label" for="guards">Gutter Guard Installation</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="repairService" name="additionalServices" id="repair">
+                        <label class="form-check-label" for="repair">Fascia/Soffit Repair</label>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-secondary me-2" onclick="previousStep(2)">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="calculateEstimate()">Calculate</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Step 3: Estimate Result -->
+        <div id="step3" class="form-step">
+            <h4 class="mb-4">Your Estimate</h4>
+            <div class="estimate-result">
+                <h5>Estimated Cost</h5>
+                <div class="estimate-amount" id="estimateAmount">$0.00</div>
+                <p class="text-muted mt-2">This is an estimated cost. Final pricing may vary based on site inspection.</p>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">Customer Details</div>
+                        <div class="card-body" id="customerDetails"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">Project Details</div>
+                        <div class="card-body" id="projectDetails"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <button type="button" class="btn btn-secondary me-2" onclick="startOver()">Start Over</button>
+                <button type="button" class="btn btn-primary" onclick="submitEstimate()">Request Quote</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="estimate-widget.js"></script>
+</body>
+</html>
