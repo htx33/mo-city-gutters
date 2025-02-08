@@ -1,15 +1,44 @@
 // Smooth scrolling for navigation
-document.querySelectorAll('nav a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href.startsWith('#')) {
-            e.preventDefault();
-            const section = document.querySelector(href);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu elements
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const body = document.body;
+
+    // Mobile menu toggle
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            body.classList.toggle('menu-open');
+        });
+    }
+
+    // Handle all navigation clicks
+    const navContainer = document.querySelector('nav');
+    if (navContainer) {
+        navContainer.addEventListener('click', function(e) {
+            // Only handle clicks on nav links
+            if (e.target.tagName === 'A') {
+                const href = e.target.getAttribute('href');
+                
+                // Handle internal links (starting with #)
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const section = document.querySelector(href);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    
+                    // Close mobile menu if open
+                    mobileMenuBtn.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+                // External links will work normally without any interference
             }
-        }
-    });
+        });
+    }
 });
 
 // Form submission handling
@@ -211,51 +240,31 @@ function showTestimonial(index) {
 // Mobile Menu Functionality
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-    const body = document.body;
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const header = document.querySelector('header');
 
-    mobileMenuBtn.addEventListener('click', function() {
-        this.classList.toggle('active');
-        navLinks.classList.toggle('active');
-        body.classList.toggle('menu-open');
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
+        mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
     });
 
-    // Close menu when clicking a link
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            mobileMenuBtn.classList.remove('active');
-            navLinks.classList.remove('active');
-            body.classList.remove('menu-open');
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!header.contains(e.target) && mobileMenu.classList.contains('active')) {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+            mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+        }
+    });
+
+    // Close mobile menu when clicking a link
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+            mobileMenuBtn.querySelector('i').classList.remove('fa-times');
         });
-    });
-});
-
-// Mobile Menu Functionality
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const mobileMenu = document.querySelector('.mobile-menu');
-const header = document.querySelector('header');
-
-mobileMenuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
-    mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-    mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
-});
-
-// Close mobile menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (!header.contains(e.target) && mobileMenu.classList.contains('active')) {
-        mobileMenu.classList.remove('active');
-        mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-        mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-    }
-});
-
-// Close mobile menu when clicking a link
-mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-        mobileMenuBtn.querySelector('i').classList.remove('fa-times');
     });
 });
 
