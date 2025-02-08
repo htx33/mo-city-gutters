@@ -19,30 +19,49 @@ document.addEventListener('DOMContentLoaded', function() {
     const navContainer = document.querySelector('nav');
     if (navContainer) {
         navContainer.addEventListener('click', function(e) {
-            // Only handle clicks on nav links
-            if (e.target.tagName === 'A') {
-                console.log('Nav link clicked:', e.target.href);
-                const href = e.target.getAttribute('href');
-                
-                // Handle internal links (starting with #)
-                if (href && href.startsWith('#')) {
-                    e.preventDefault();
-                    const section = document.querySelector(href);
-                    if (section) {
-                        section.scrollIntoView({ behavior: 'smooth' });
-                    }
-                    
-                    // Close mobile menu if open
-                    mobileMenuBtn.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    body.classList.remove('menu-open');
-                }
-                // External links will work normally without any interference
-            }
-        });
-    }
-});
-
+   document.addEventListener('DOMContentLoaded', function() {
+       // Mobile menu elements
+       const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+       const navLinks = document.querySelector('.nav-links');
+       const body = document.body;
+   
+       // Mobile menu toggle
+       if (mobileMenuBtn && navLinks && body) {
+           mobileMenuBtn.addEventListener('click', function() {
+               console.log('Mobile menu button clicked');
+               this.classList.toggle('active');
+               navLinks.classList.toggle('active');
+               body.classList.toggle('menu-open');
+           });
+       }
+   
+       // Handle all navigation clicks
+       const navContainer = document.querySelector('nav');
+       if (navContainer) {
+           navContainer.addEventListener('click', function(e) {
+               if (e.target.tagName === 'A') {
+                   console.log('Nav link clicked:', e.target.href);
+                   const href = e.target.getAttribute('href');
+   
+                   if (href && href.startsWith('#')) {
+                       e.preventDefault();
+                       const section = document.querySelector(href);
+                       if (section) {
+                           section.scrollIntoView({ behavior: 'smooth' });
+                       } else {
+                           console.error('Section not found:', href);
+                       }
+   
+                       // Close mobile menu if open
+                       if (mobileMenuBtn && navLinks && body) {
+                           mobileMenuBtn.classList.remove('active');
+                           navLinks.classList.remove('active');
+                           body.classList.remove('menu-open');
+                       }
+                   }
+               }
+           });
+       }
 // Form submission handling
 document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
