@@ -217,10 +217,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            mobileMenuBtn.classList.remove('active');
-            navLinks.classList.remove('active');
-            body.classList.remove('menu-open');
+        link.addEventListener('click', function(event) {
+            if (event.target.href.startsWith('#')) {
+                mobileMenuBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.classList.remove('menu-open');
+            }
         });
     });
 });
