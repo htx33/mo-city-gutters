@@ -1,10 +1,10 @@
-# Handle blog pages
-/blog        /blog.html        301
-/blog/*      /blog.html        301
+# Handle both /estimate and /estimate.html paths
+/estimate     /estimate.html   200!
+/estimate/*   /estimate.html   200!
 
-# Handle estimate pages
-/estimate    /estimate.html    301
-/estimate/*  /estimate.html    301
+# Handle blog page
+/blog        /blog.html       200!
+/blog/*      /blog.html       200!
 
 # All other paths go to index
-/*    /index.html   200
+/*    /index.html   200!
