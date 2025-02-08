@@ -2,5 +2,9 @@
 /estimate     /estimate.html   200!
 /estimate/*   /estimate.html   200!
 
+# Handle blog page
+/blog        /blog.html       200!
+/blog/*      /blog.html       200!
+
 # All other paths go to index
 /*    /index.html   200!
