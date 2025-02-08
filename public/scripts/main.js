@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle
     if (mobileMenuBtn) {
         mobileMenuBtn.addEventListener('click', function() {
+            console.log('Mobile menu button clicked');
             this.classList.toggle('active');
             navLinks.classList.toggle('active');
             body.classList.toggle('menu-open');
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         navContainer.addEventListener('click', function(e) {
             // Only handle clicks on nav links
             if (e.target.tagName === 'A') {
+                console.log('Nav link clicked:', e.target.href);
                 const href = e.target.getAttribute('href');
                 
                 // Handle internal links (starting with #)
