@@ -1,9 +1,14 @@
 // Smooth scrolling for navigation
-document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+document.querySelectorAll('nav a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const section = document.querySelector(this.getAttribute('href'));
-        section.scrollIntoView({ behavior: 'smooth' });
+        const href = this.getAttribute('href');
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            const section = document.querySelector(href);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     });
 });
 
@@ -217,12 +222,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function(event) {
-            if (event.target.href.startsWith('#')) {
-                mobileMenuBtn.classList.remove('active');
-                navLinks.classList.remove('active');
-                body.classList.remove('menu-open');
-            }
+        link.addEventListener('click', function() {
+            mobileMenuBtn.classList.remove('active');
+            navLinks.classList.remove('active');
+            body.classList.remove('menu-open');
         });
     });
 });
