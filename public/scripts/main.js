@@ -76,6 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             console.log('Link clicked:', href);
 
+            // Skip handling for external links
+            if (href.startsWith('http')) {
+                return;
+            }
+            
             // Handle internal anchor links
             if (href.startsWith('#')) {
                 e.preventDefault();
