@@ -23,14 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const href = link.getAttribute('href');
             if (!href) return;
 
-            // Allow external links to work normally
-            if (href.startsWith('http')) {
-                e.preventDefault();
-                window.location.href = href;
-                return;
-            }
-
-            // Handle internal anchor links
+            // Only handle internal anchor links
             if (href.startsWith('#')) {
                 e.preventDefault();
                 const section = document.querySelector(href);
