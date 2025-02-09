@@ -1,43 +1,100 @@
-// Smooth scrolling for navigation
-document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu elements
+// Bible verses array
+const verses = [
+    {
+        text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
+        reference: "John 3:16"
+    },
+    {
+        text: "For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God—not by works, so that no one can boast. For we are God's handiwork.",
+        reference: "Ephesians 2:8-10"
+    },
+    {
+        text: "But God demonstrates his own love for us in this: While we were still sinners, Christ died for us.",
+        reference: "Romans 5:8"
+    },
+    {
+        text: "Commit to the LORD whatever you do, and he will establish your plans.",
+        reference: "Proverbs 16:3"
+    },
+    {
+        text: "But seek first his kingdom and his righteousness, and all these things will be given to you as well.",
+        reference: "Matthew 6:33"
+    },
+    {
+        text: "Whatever you do, work at it with all your heart, as working for the Lord, not for human masters.",
+        reference: "Colossians 3:23"
+    },
+    {
+        text: "In their hearts humans plan their course, but the LORD establishes their steps.",
+        reference: "Proverbs 16:9"
+    },
+    {
+        text: "Trust in the LORD with all your heart and lean not on your own understanding.",
+        reference: "Proverbs 3:5"
+    }
+];
+
+// Rate limiting variables
+let lastSubmissionTime = 0;
+const SUBMISSION_COOLDOWN = 30000; // 30 seconds
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded');
+
+    // Get navigation elements
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
-    const body = document.body;
+    const nav = document.querySelector('nav');
+
+    // Debug log to check if elements are found
+    console.log('Elements found:', {
+        mobileMenuBtn: !!mobileMenuBtn,
+        navLinks: !!navLinks,
+        nav: !!nav
+    });
 
     // Mobile menu toggle
-    if (mobileMenuBtn && navLinks && body) {
-        mobileMenuBtn.addEventListener('click', function() {
-            console.log('Mobile menu button clicked');
-            this.classList.toggle('active');
+    if (mobileMenuBtn && navLinks) {
+        console.log('Setting up mobile menu');
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenuBtn.classList.toggle('active');
             navLinks.classList.toggle('active');
-            body.classList.toggle('menu-open');
+            document.body.classList.toggle('menu-open');
         });
     }
 
-    // Handle all navigation clicks
-    const navContainer = document.querySelector('nav');
-    if (navContainer) {
-        navContainer.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A') {
-                console.log('Nav link clicked:', e.target.href);
-                const href = e.target.getAttribute('href');
+    // Navigation click handling
+    if (nav) {
+        console.log('Setting up navigation clicks');
+        nav.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (!link) return;
 
-                if (href && href.startsWith('#')) {
-                    e.preventDefault();
-                    const section = document.querySelector(href);
-                    if (section) {
-                        section.scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                        console.error('Section not found:', href);
-                    }
+            const href = link.getAttribute('href');
+            if (!href) return;
 
+            console.log('Link clicked:', href);
+
+            // Handle internal anchor links
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const section = document.querySelector(href);
+                if (section && typeof section.scrollIntoView === 'function') {
+                    console.log(`Scrolling to section: ${href}`);
+                    section.scrollIntoView({ behavior: 'smooth' });
                     // Close mobile menu if open
-                    if (mobileMenuBtn && navLinks && body) {
+                    if (mobileMenuBtn && navLinks && navLinks.classList.contains('active')) {
+                        console.log('Closing mobile menu after navigation');
                         mobileMenuBtn.classList.remove('active');
                         navLinks.classList.remove('active');
-                        body.classList.remove('menu-open');
+                        document.body.classList.remove('menu-open');
                     }
+                } else {
+                    console.error(`Section ${href} not found or scrollIntoView not supported`, {
+                        elementExists: !!section,
+                        scrollSupported: typeof section?.scrollIntoView === 'function'
+                    });
                 }
             }
         });
@@ -46,19 +103,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form submission handling
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Here you would typically send the form data to your server
-            alert('Thank you for your message! We will get back to you soon.');
-            this.reset();
+        contactForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const now = Date.now();
+            if (now - lastSubmissionTime < SUBMISSION_COOLDOWN) {
+                alert('Please wait a moment before submitting another message.');
+                return false;
+            }
+            lastSubmissionTime = now;
+            validateForm(event);
         });
     }
 
     // Responsive navigation for mobile
-    const nav = document.querySelector('nav ul');
-    const logo = document.querySelector('.logo');
-
-    // Add scroll effect to navigation
     const header = document.querySelector('header');
     if (header) {
         window.addEventListener('scroll', () => {
@@ -141,42 +198,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Bible verses array
-    const verses = [
-        {
-            text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
-            reference: "John 3:16"
-        },
-        {
-            text: "For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God—not by works, so that no one can boast. For we are God's handiwork.",
-            reference: "Ephesians 2:8-10"
-        },
-        {
-            text: "But God demonstrates his own love for us in this: While we were still sinners, Christ died for us.",
-            reference: "Romans 5:8"
-        },
-        {
-            text: "Commit to the LORD whatever you do, and he will establish your plans.",
-            reference: "Proverbs 16:3"
-        },
-        {
-            text: "But seek first his kingdom and his righteousness, and all these things will be given to you as well.",
-            reference: "Matthew 6:33"
-        },
-        {
-            text: "Whatever you do, work at it with all your heart, as working for the Lord, not for human masters.",
-            reference: "Colossians 3:23"
-        },
-        {
-            text: "In their hearts humans plan their course, but the LORD establishes their steps.",
-            reference: "Proverbs 16:9"
-        },
-        {
-            text: "Trust in the LORD with all your heart and lean not on your own understanding.",
-            reference: "Proverbs 3:5"
-        }
-    ];
-
     // Function to update the verse
     function updateVerse() {
         const verseDisplay = document.getElementById('verse-display');
@@ -185,299 +206,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 verseDisplay.querySelector('.verse-text').textContent === verse.text
             );
             const nextIndex = (currentIndex + 1) % verses.length;
-            
-            verseDisplay.classList.add('fade');
-            
-            setTimeout(() => {
-                verseDisplay.querySelector('.verse-text').textContent = verses[nextIndex].text;
-                verseDisplay.querySelector('.verse-reference').textContent = `- ${verses[nextIndex].reference}`;
-                verseDisplay.classList.remove('fade');
-            }, 500);
+            const nextVerse = verses[nextIndex];
+
+            verseDisplay.querySelector('.verse-text').textContent = nextVerse.text;
+            verseDisplay.querySelector('.verse-reference').textContent = nextVerse.reference;
         }
     }
 
     // Start verse rotation
     setInterval(updateVerse, 10000);
 
-    // Google Reviews Integration
-    async function fetchGoogleReviews() {
-        // Note: This is a placeholder. You'll need to replace this with actual Google My Business API integration
-        try {
-            const response = await fetch('YOUR_GOOGLE_REVIEWS_ENDPOINT');
-            const reviews = await response.json();
-            updateTestimonials(reviews);
-        } catch (error) {
-            console.error('Error fetching reviews:', error);
-        }
-    }
-
-    function updateTestimonials(reviews) {
-        const slider = document.querySelector('.testimonials-slider');
-        const navigation = document.querySelector('.testimonial-navigation');
-        
-        if (slider && navigation) {
-            reviews.forEach((review, index) => {
-                const card = document.createElement('div');
-                card.className = 'testimonial-card';
-                card.innerHTML = `
-                    <div class="testimonial-content">${review.text}</div>
-                    <div class="testimonial-author">
-                        <img src="${review.authorImage || 'default-avatar.png'}" alt="${review.authorName}">
-                        <div class="author-info">
-                            <div class="author-name">${review.authorName}</div>
-                            <div class="author-rating">★★★★★</div>
-                        </div>
-                    </div>
-                `;
-                slider.appendChild(card);
-                
-                const dot = document.createElement('div');
-                dot.className = 'testimonial-dot' + (index === 0 ? ' active' : '');
-                dot.addEventListener('click', () => showTestimonial(index));
-                navigation.appendChild(dot);
-            });
-        }
-    }
-
-    function showTestimonial(index) {
-        const slider = document.querySelector('.testimonials-slider');
-        if (slider) {
-            slider.style.transform = `translateX(-${index * 100}%)`;
-            
-            document.querySelectorAll('.testimonial-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-        }
-    }
-
-    // Mobile Menu Functionality
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const header = document.querySelector('header');
-
-    if (mobileMenuBtn && mobileMenu && header) {
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!header.contains(e.target) && mobileMenu.classList.contains('active')) {
-                mobileMenu.classList.remove('active');
-                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-                mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-            }
-        });
-
-        // Close mobile menu when clicking a link
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-                mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-            });
-        });
-    }
-
-    // Smooth scroll for mobile
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                const headerOffset = 80;
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Security and Form Validation
-    function generateCSRFToken() {
-        return Array.from(crypto.getRandomValues(new Uint8Array(32)))
-            .map(b => b.toString(16).padStart(2, '0'))
-            .join('');
-    }
-
-    // Set CSRF token on page load
-    const csrfTokenInput = document.getElementById('csrf_token');
-    if (csrfTokenInput) {
-        const csrfToken = generateCSRFToken();
-        csrfTokenInput.value = csrfToken;
-        // Store token in sessionStorage for verification
-        sessionStorage.setItem('csrf_token', csrfToken);
-    }
-
-    // Security Configuration
-    const securityConfig = {
-        maxAttempts: 5,
-        cooldownPeriod: 30000, // 30 seconds
-        maxMessageLength: 1000,
-        bannedIPs: new Set(),
-        attempts: new Map()
-    };
-
-    // reCAPTCHA callback
-    function onRecaptchaSuccess(token) {
-        window.recaptchaToken = token;
-    }
-
-    // Enhanced form validation with security checks
-    function validateForm(event) {
-        event.preventDefault();
-
-        // Check reCAPTCHA
-        if (!window.recaptchaToken) {
-            alert('Please complete the reCAPTCHA verification.');
-            return false;
-        }
-
-        // Get form elements
-        const form = document.getElementById('contactForm');
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const phoneInput = document.getElementById('phone');
-        const messageInput = document.getElementById('message');
-        const honeypotInput = document.getElementById('honeypot');
-        const submitBtn = document.getElementById('submitBtn');
-
-        if (form && nameInput && emailInput && phoneInput && messageInput && honeypotInput && submitBtn) {
-            // Enhanced security checks
-            if (!checkRateLimit() || !checkMessageLength(messageInput.value)) {
-                return false;
-            }
-
-            // Honeypot check
-            if (honeypotInput.value !== '') {
-                console.log('Potential spam detected');
-                incrementAttempts();
-                return false;
-            }
-
-            // CSRF check
-            if (!validateCSRFToken()) {
-                console.error('Invalid security token');
-                return false;
-            }
-
-            // Enhanced input sanitization
-            const formData = sanitizeFormData({
-                name: nameInput.value,
-                email: emailInput.value,
-                phone: phoneInput.value,
-                message: messageInput.value,
-                recaptchaToken: window.recaptchaToken
-            });
-
-            // Submit button protection
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-
-            // Simulated secure submission
-            submitSecurely(formData)
-                .then(() => {
-                    form.reset();
-                    grecaptcha.reset();
-                    window.recaptchaToken = null;
-                    generateNewCSRFToken();
-                    showSuccess();
-                })
-                .catch(error => {
-                    console.error('Submission error:', error);
-                    showError();
-                })
-                .finally(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Send Message';
-                });
-
-            return false;
-        }
-    }
-
-    // Security utility functions
-    function checkRateLimit() {
-        const clientIP = 'client-ip'; // In real implementation, this would be server-side
-        const attempts = securityConfig.attempts.get(clientIP) || 0;
-        
-        if (securityConfig.bannedIPs.has(clientIP)) {
-            console.error('IP is temporarily banned');
-            return false;
-        }
-
-        if (attempts >= securityConfig.maxAttempts) {
-            securityConfig.bannedIPs.add(clientIP);
-            setTimeout(() => securityConfig.bannedIPs.delete(clientIP), 3600000); // 1 hour ban
-            return false;
-        }
-
-        return true;
-    }
-
-    function incrementAttempts() {
-        const clientIP = 'client-ip';
-        const attempts = (securityConfig.attempts.get(clientIP) || 0) + 1;
-        securityConfig.attempts.set(clientIP, attempts);
-    }
-
-    function checkMessageLength(message) {
-        if (message.length > securityConfig.maxMessageLength) {
-            alert('Message is too long. Please keep it under 1000 characters.');
-            return false;
-        }
-        return true;
-    }
-
-    function sanitizeFormData(data) {
-        const sanitized = {};
-        for (let [key, value] of Object.entries(data)) {
-            // Remove HTML tags and trim
-            sanitized[key] = value.toString()
-                .replace(/<[^>]*>/g, '')
-                .replace(/[^\w\s@.-]/gi, '')
-                .trim();
-        }
-        return sanitized;
-    }
-
-    function validateCSRFToken() {
-        const formToken = document.getElementById('csrf_token').value;
-        const storedToken = sessionStorage.getItem('csrf_token');
-        return formToken === storedToken;
-    }
-
-    function generateNewCSRFToken() {
-        const newToken = generateCSRFToken();
-        document.getElementById('csrf_token').value = newToken;
-        sessionStorage.setItem('csrf_token', newToken);
-    }
-
-    async function submitSecurely(formData) {
-        // In a real implementation, this would be an encrypted HTTPS POST request
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                console.log('Secure form submission:', formData);
-                resolve();
-            }, 1000);
-        });
-    }
-
-    function showSuccess() {
-        alert('Thank you for your message! We will get back to you soon.');
-    }
-
-    function showError() {
-        alert('There was an error submitting your message. Please try again later.');
-    }
-
-    // Error logging
+    // Error logging setup
     window.onerror = function(msg, url, lineNo, columnNo, error) {
         const errorLog = {
             message: msg,
@@ -488,30 +227,226 @@ document.addEventListener('DOMContentLoaded', function() {
             timestamp: new Date().toISOString(),
             userAgent: navigator.userAgent
         };
-        
         console.error('Logged Error:', errorLog);
-        // In production, send this to your error logging service
-        return false;
+        return false; // Prevents the default error handling
     };
 
-    // Rate limiting for form submission
-    let lastSubmissionTime = 0;
-    const SUBMISSION_COOLDOWN = 30000; // 30 seconds
+    // Initialize features
+    if (typeof fetchGoogleReviews === 'function') {
+        fetchGoogleReviews();
+    }
+});
 
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (event) => {
-            const now = Date.now();
-            if (now - lastSubmissionTime < SUBMISSION_COOLDOWN) {
-                event.preventDefault();
-                alert('Please wait a moment before submitting another message.');
-                return false;
-            }
-            lastSubmissionTime = now;
-            validateForm(event);
-        });
+// Security Configuration
+const securityConfig = {
+    maxAttempts: 5,
+    cooldownPeriod: 30000,
+    maxMessageLength: 1000,
+    bannedIPs: new Set(),
+    recaptchaSiteKey: 'YOUR_KEY_HERE'
+};
+
+// CSRF Token Generation
+function generateCSRFToken() {
+    const token = crypto.randomUUID();
+    document.cookie = `csrf_token=${token}; SameSite=Strict; Secure`;
+    return token;
+}
+
+// External function declarations
+function validateForm(event) {
+    event.preventDefault();
+
+    // Check reCAPTCHA
+    if (!window.recaptchaToken) {
+        alert('Please complete the reCAPTCHA verification.');
+        return false;
     }
 
-    // Initialize
-    fetchGoogleReviews();
-});
+    // Get form elements
+    const form = document.getElementById('contactForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const messageInput = document.getElementById('message');
+    const honeypotInput = document.getElementById('honeypot');
+    const submitBtn = document.getElementById('submitBtn');
+
+    if (form && nameInput && emailInput && phoneInput && messageInput && honeypotInput && submitBtn) {
+        // Enhanced security checks
+        if (!checkRateLimit() || !checkMessageLength(messageInput.value)) {
+            return false;
+        }
+
+        // Honeypot check
+        if (honeypotInput.value !== '') {
+            console.log('Potential spam detected');
+            incrementAttempts();
+            return false;
+        }
+
+        // CSRF check
+        if (!validateCSRFToken()) {
+            console.error('Invalid security token');
+            return false;
+        }
+
+        // Enhanced input sanitization
+        const formData = sanitizeFormData({
+            name: nameInput.value,
+            email: emailInput.value,
+            phone: phoneInput.value,
+            message: messageInput.value,
+            recaptchaToken: window.recaptchaToken
+        });
+
+        // Submit button protection
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+
+        // Simulated secure submission
+        submitSecurely(formData)
+            .then(() => {
+                form.reset();
+                grecaptcha.reset();
+                window.recaptchaToken = null;
+                generateNewCSRFToken();
+                showSuccess();
+            })
+            .catch(error => {
+                console.error('Submission error:', error);
+                showError();
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            });
+
+        return false;
+    }
+}
+
+function checkRateLimit() {
+    const clientIP = 'client-ip'; // In real implementation, this would be server-side
+    const attempts = securityConfig.attempts.get(clientIP) || 0;
+    
+    if (securityConfig.bannedIPs.has(clientIP)) {
+        console.error('IP is temporarily banned');
+        return false;
+    }
+
+    if (attempts >= securityConfig.maxAttempts) {
+        securityConfig.bannedIPs.add(clientIP);
+        setTimeout(() => securityConfig.bannedIPs.delete(clientIP), 3600000); // 1 hour ban
+        return false;
+    }
+
+    return true;
+}
+
+function incrementAttempts() {
+    const clientIP = 'client-ip';
+    const attempts = (securityConfig.attempts.get(clientIP) || 0) + 1;
+    securityConfig.attempts.set(clientIP, attempts);
+}
+
+function checkMessageLength(message) {
+    if (message.length > securityConfig.maxMessageLength) {
+        alert('Message is too long. Please keep it under 1000 characters.');
+        return false;
+    }
+    return true;
+}
+
+function sanitizeFormData(data) {
+    const sanitized = {};
+    for (let [key, value] of Object.entries(data)) {
+        // Remove HTML tags and trim
+        sanitized[key] = value.toString()
+            .replace(/<[^>]*>/g, '')
+            .replace(/[^\w\s@.-]/gi, '')
+            .trim();
+    }
+    return sanitized;
+}
+
+function validateCSRFToken() {
+    const formToken = document.getElementById('csrf_token').value;
+    const storedToken = sessionStorage.getItem('csrf_token');
+    return formToken === storedToken;
+}
+
+function generateNewCSRFToken() {
+    const newToken = generateCSRFToken();
+    document.getElementById('csrf_token').value = newToken;
+    sessionStorage.setItem('csrf_token', newToken);
+}
+
+async function submitSecurely(formData) {
+    // In a real implementation, this would be an encrypted HTTPS POST request
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log('Secure form submission:', formData);
+            resolve();
+        }, 1000);
+    });
+}
+
+function showSuccess() {
+    alert('Thank you for your message! We will get back to you soon.');
+}
+
+function showError() {
+    alert('There was an error submitting your message. Please try again later.');
+}
+
+// Google Reviews Integration
+async function fetchGoogleReviews() {
+    // Note: This is a placeholder. You'll need to replace this with actual Google My Business API integration
+    try {
+        const response = await fetch('YOUR_GOOGLE_REVIEWS_ENDPOINT');
+        const reviews = await response.json();
+        updateTestimonials(reviews);
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+    }
+}
+
+function updateTestimonials(reviews) {
+    const slider = document.querySelector('.testimonials-slider');
+    const navigation = document.querySelector('.testimonial-navigation');
+    
+    if (slider && navigation) {
+        reviews.forEach((review, index) => {
+            const card = document.createElement('div');
+            card.className = 'testimonial-card';
+            card.innerHTML = `
+                <div class="testimonial-content">${review.text}</div>
+                <div class="testimonial-author">
+                    <img src="${review.authorImage || 'default-avatar.png'}" alt="${review.authorName}">
+                    <div class="author-info">
+                        <div class="author-name">${review.authorName}</div>
+                        <div class="author-rating">★★★★★</div>
+                    </div>
+                </div>
+            `;
+            slider.appendChild(card);
+            
+            const dot = document.createElement('div');
+            dot.className = 'testimonial-dot' + (index === 0 ? ' active' : '');
+            dot.addEventListener('click', () => showTestimonial(index));
+            navigation.appendChild(dot);
+        });
+    }
+}
+
+function showTestimonial(index) {
+    const slider = document.querySelector('.testimonials-slider');
+    if (slider) {
+        slider.style.transform = `translateX(-${index * 100}%)`;
+        
+        document.querySelectorAll('.testimonial-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    }
+}

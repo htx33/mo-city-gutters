@@ -580,8 +580,8 @@
                 <li><a href="#services">Services</a></li>
                 <li><a href="#gallery">Our Work</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="blog.html">Blog</a></li>    
-                <li><a href="estimate.html">Get Estimate</a></li>
+                <li><a href="public/blog.html">Blog</a></li>    
+                <li><a href="public/estimate.html">Get Estimate</a></li>
             </ul>
         </nav>
     </header>
@@ -592,7 +592,7 @@
         <div class="hero-content">
             <h1>Professional Gutter Solutions</h1>
             <p>Transform your home with Professional Seamless Gutters and Expert Remodeling Solutions.</p>
-            <a href="estimate.html" class="cta-button">Get Your Free Estimate</a>
+            <a href="public/estimate.html" class="cta-button">Get Your Free Estimate</a>
         </div>
     </section>
 
@@ -780,7 +780,7 @@
     <!-- HTML -->
 <div class="htb-container">
     <a href="https://www.htownbest.com/best-gutter-houston/" class="htb-link">
-        <img src="H Town Best_B-01.png" alt="H-Town Best HTB Logo" class="htb-logo">
+        <img src="public/H Town Best_B-01.png" alt="H-Town Best HTB Logo" class="htb-logo">
     </a>
 </div>
 
@@ -828,7 +828,7 @@
         <div class="container text-center">
             <h2>Ready to Transform Your Home?</h2>
             <p class="mb-4">Get a free, no-obligation quote for your gutter project today!</p>
-            <a href="estimate.html" class="cta-button">Get Your Free Quote</a>
+            <a href="public/estimate.html" class="cta-button">Get Your Free Quote</a>
         </div>
     </section>
 
@@ -872,7 +872,13 @@
 
     <script src="scripts/main.js"></script>
     <script src="widget/embed.js" defer></script>
-
+    <script src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
+    <script>
+        // Initialize polyfill
+        if ('scrollBehavior' in document.documentElement.style === false) {
+            smoothscroll.polyfill();
+        }
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const menuBtn = document.querySelector('.mobile-menu-btn');

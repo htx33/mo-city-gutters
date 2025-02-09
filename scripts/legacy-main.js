@@ -3,18 +3,18 @@ document.querySelectorAll('nav a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
         const section = document.querySelector(this.getAttribute('href'));
-        section.scrollIntoView({ behavior: 'smooth' });
+        section.scrollIntoView({ behavior:'smooth'});
     });
 });
 
 // Form submission handling
-document.querySelector('.contact-form').addEventListener('submit', function(e) {
+document.querySelector('.contact-form').addEventListener('submit', function(e)
+{
     e.preventDefault();
     // Here you would typically send the form data to your server
     alert('Thank you for your message! We will get back to you soon.');
     this.reset();
 });
-
 // Responsive navigation for mobile
 const nav = document.querySelector('nav ul');
 const logo = document.querySelector('.logo');
