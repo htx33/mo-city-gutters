@@ -1,3 +1,10 @@
-/blog      /blog.html      200
-/estimate  /estimate.html  200
-/*         /index.html     200
+# Handle clean URLs
+/blog        /blog.html        200
+/estimate    /estimate.html    200
+
+# Handle direct .html access
+/blog.html   /blog.html        200
+/estimate.html /estimate.html  200
+
+# Default fallback
+/*           /index.html       200
