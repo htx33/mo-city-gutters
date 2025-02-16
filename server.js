@@ -13,6 +13,7 @@ const securityConfig = require('./config/security');
 const securityMiddleware = require('./middleware/security');
 const apiRoutes = require('./routes/api');
 const estimatesRoutes = require('./routes/estimates');
+const quotesRoutes = require('./routes/quotes');
 
 const app = express();
 const PORT = process.env.NODE_ENV === 'production' ? (process.env.PORT || 443) : 3000;
@@ -118,6 +119,7 @@ app.use('/api', (req, res, next) => {
 // API Routes
 app.use('/api', apiRoutes);
 app.use('/api/estimates', estimatesRoutes);
+app.use('/api/quotes', quotesRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
