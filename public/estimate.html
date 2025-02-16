@@ -237,16 +237,54 @@
                         <!-- Hidden field to store the calculated estimate -->
                         <input type="hidden" id="calculatedEstimate" value="">
                         <!-- HubSpot Form -->
-                        <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
-                        <script>
-                          hbspt.forms.create({
-                            region: "na1",
-                            portalId: "48384794",
-                            formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
-                            target: '#hubspotForm'
-                          });
-                        </script>
                         <div id="hubspotForm"></div>
+                        <script>
+                            // Function to load HubSpot form script
+                            function loadHubSpotScript() {
+                                return new Promise((resolve, reject) => {
+                                    const script = document.createElement('script');
+                                    script.src = '//js.hsforms.net/forms/embed/v2.js';
+                                    script.charset = 'utf-8';
+                                    script.type = 'text/javascript';
+                                    script.onload = resolve;
+                                    script.onerror = reject;
+                                    document.head.appendChild(script);
+                                });
+                            }
+
+                            // Function to initialize HubSpot form
+                            window.initHubSpotForm = async function() {
+                                try {
+                                    // If script not loaded, load it
+                                    if (!window.hbspt) {
+                                        await loadHubSpotScript();
+                                    }
+
+                                    // Clear previous form if any
+                                    const formContainer = document.getElementById('hubspotForm');
+                                    formContainer.innerHTML = '';
+
+                                    // Create new form
+                                    hbspt.forms.create({
+                                        region: "na1",
+                                        portalId: "48384794",
+                                        formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
+                                        target: '#hubspotForm',
+                                        onFormReady: function($form) {
+                                            console.log('HubSpot form ready');
+                                        },
+                                        onFormSubmit: function($form) {
+                                            console.log('Form submitted');
+                                        }
+                                    });
+                                } catch (error) {
+                                    console.error('Error initializing HubSpot form:', error);
+                                }
+                            };
+
+                            // Initialize form when this script loads
+                            window.initHubSpotForm();
+                        </script>
                         <button type="button" class="btn btn-secondary mt-3" onclick="goBack()">Back</button>
                     </div>
                 </form>

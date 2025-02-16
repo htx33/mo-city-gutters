@@ -163,6 +163,20 @@ function validateAndCalculate() {
     // Show the HubSpot form
     document.getElementById('step1').classList.remove('active');
     document.getElementById('step2').classList.add('active');
+
+    // Reinitialize HubSpot form
+    try {
+        if (window.initHubSpotForm) {
+            // Wait a bit for the DOM to update before initializing the form
+            setTimeout(async () => {
+                await window.initHubSpotForm();
+            }, 100);
+        } else {
+            console.error('HubSpot form initialization function not found');
+        }
+    } catch (error) {
+        console.error('Error showing HubSpot form:', error);
+    }
 }
 
 // Helper function to go back to estimate form
