@@ -36,11 +36,23 @@ document.getElementById('estimateForm').addEventListener('submit', async (event)
     event.preventDefault();
     
     try {
+        // Validate form first
+        const form = event.target;
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
         // Get contact information
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const phone = document.getElementById('phone').value;
         const address = document.getElementById('address').value;
+
+        // Validate contact info
+        if (!name || !email || !phone || !address) {
+            throw new Error('Please fill in all contact information');
+        }
         
         // Get the estimate details from the page
         const gutterTypeElement = document.querySelector('input[name="gutterType"]:checked');
