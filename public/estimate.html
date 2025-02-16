@@ -264,17 +264,39 @@
                                     const formContainer = document.getElementById('hubspotForm');
                                     formContainer.innerHTML = '';
 
-                                    // Create new form
+                                    // Create new form with vanilla JS handlers
                                     hbspt.forms.create({
                                         region: "na1",
                                         portalId: "48384794",
                                         formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
                                         target: '#hubspotForm',
-                                        onFormReady: function($form) {
+                                        onFormReady: function(form) {
                                             console.log('HubSpot form ready');
                                         },
-                                        onFormSubmit: function($form) {
-                                            console.log('Form submitted');
+                                        onFormSubmit: function(form) {
+                                            console.log('Form submission started');
+                                            // Extract form data using vanilla JS
+                                            const formData = Array.from(form.getElementsByTagName('input')).reduce((acc, input) => {
+                                                if (input.name) {
+                                                    acc[input.name] = {
+                                                        name: input.name,
+                                                        value: input.value
+                                                    };
+                                                }
+                                                return acc;
+                                            }, {});
+
+                                            // Post message to parent window
+                                            window.parent.postMessage({
+                                                type: 'hsFormCallback',
+                                                eventName: 'onFormSubmitted',
+                                                data: {
+                                                    fields: formData
+                                                }
+                                            }, '*');
+                                        },
+                                        onFormSubmitted: function(form) {
+                                            console.log('Form submission completed');
                                         }
                                     });
                                 } catch (error) {
