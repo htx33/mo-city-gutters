@@ -60,7 +60,7 @@ window.addEventListener('message', async event => {
             const address = getFieldValue('address');
 
             console.log('Extracted form data:', { firstName, lastName, email, phone, address });
-        
+
             // Get the estimate details from the page
             const gutterTypeElement = document.querySelector('input[name="gutterType"]:checked');
             const linearFeetElement = document.getElementById('linearFeet');
@@ -119,23 +119,6 @@ window.addEventListener('message', async event => {
                 </div>
             `;
             estimateResult.style.display = 'block';
-            
-            // Clear form
-            document.getElementById('estimateForm').reset();
-            
-        } catch (error) {
-            console.error('Error submitting quote:', error);
-            
-            // Show error message
-            const estimateResult = document.getElementById('estimateResult');
-            const estimateAmount = estimateResult.querySelector('.estimate-amount');
-            estimateAmount.innerHTML = `
-                <div class="alert alert-danger">
-                    <h4>Error</h4>
-                    <p>${error.message || 'There was an error generating your quote. Please try again or contact us directly.'}</p>
-                </div>
-            `;
-            estimateResult.style.display = 'block';
         } catch (error) {
             console.error('Error processing form submission:', error);
             
@@ -159,6 +142,47 @@ function formatCurrency(amount) {
         style: 'currency',
         currency: 'USD'
     }).format(amount);
+}
+
+// Helper function to go back to estimate form
+function goBack() {
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
+}
+
+// Helper function to calculate total (should match your existing calculation logic)
+function calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning) {
+    // Base prices
+    const standardGutterPrice = 8.50;
+    const premiumGutterPrice = 12.00;
+    const standardGuardsPrice = 6.00;
+    const premiumGuardsPrice = 8.50;
+    const cleaningPrice = 2.00;
+
+    // Calculate base cost
+    let total = linearFeet * (gutterType === 'premium' ? premiumGutterPrice : standardGutterPrice);
+
+    // Add story multiplier
+    if (stories === 2) {
+        total *= 1.3; // 30% increase for 2 stories
+    } else if (stories === 3) {
+        total *= 1.6; // 60% increase for 3 stories
+    }
+
+    // Add gutter guards if selected
+    if (standardGuards) {
+        total += linearFeet * standardGuardsPrice;
+    }
+    if (premiumGuards) {
+        total += linearFeet * premiumGuardsPrice;
+    }
+
+    // Add cleaning if selected
+    if (cleaning) {
+        total += linearFeet * cleaningPrice;
+    }
+
+    return total;
 }
 
 // Function to validate and calculate estimate
@@ -215,45 +239,4 @@ function validateAndCalculate() {
     } catch (error) {
         console.error('Error showing HubSpot form:', error);
     }
-}
-
-// Helper function to go back to estimate form
-function goBack() {
-    document.getElementById('step2').classList.remove('active');
-    document.getElementById('step1').classList.add('active');
-}
-
-// Helper function to calculate total (should match your existing calculation logic)
-function calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning) {
-    // Base prices
-    const standardGutterPrice = 8.50;
-    const premiumGutterPrice = 12.00;
-    const standardGuardsPrice = 6.00;
-    const premiumGuardsPrice = 8.50;
-    const cleaningPrice = 2.00;
-
-    // Calculate base cost
-    let total = linearFeet * (gutterType === 'premium' ? premiumGutterPrice : standardGutterPrice);
-
-    // Add story multiplier
-    if (stories === 2) {
-        total *= 1.3; // 30% increase for 2 stories
-    } else if (stories === 3) {
-        total *= 1.6; // 60% increase for 3 stories
-    }
-
-    // Add gutter guards if selected
-    if (standardGuards) {
-        total += linearFeet * standardGuardsPrice;
-    }
-    if (premiumGuards) {
-        total += linearFeet * premiumGuardsPrice;
-    }
-
-    // Add cleaning if selected
-    if (cleaning) {
-        total += linearFeet * cleaningPrice;
-    }
-
-    return total;
 }
