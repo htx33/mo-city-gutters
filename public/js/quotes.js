@@ -13,8 +13,9 @@ async function getCsrfToken() {
 // Function to submit quote to the server
 async function submitQuote(quoteData) {
     try {
+        console.log('Submitting quote data:', quoteData);
         const csrfToken = await getCsrfToken();
-        const response = await fetch('/api/quotes', {
+        const response = await fetch('/api/estimate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -24,11 +25,14 @@ async function submitQuote(quoteData) {
             credentials: 'include'
         });
 
+        const responseData = await response.json();
+        console.log('Server response:', responseData);
+
         if (!response.ok) {
-            throw new Error('Failed to submit quote');
+            throw new Error(`Failed to submit quote: ${responseData.message || 'Unknown error'}`);
         }
 
-        return await response.json();
+        return responseData;
     } catch (error) {
         console.error('Error submitting quote:', error);
         throw error;
@@ -93,6 +97,10 @@ window.addEventListener('message', async event => {
             const premiumGuards = premiumGuardsElement?.checked || false;
             const cleaning = cleaningElement?.checked || false;
 
+            // Calculate the estimate amount
+            const estimateAmount = calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning);
+            console.log('Calculated estimate amount:', estimateAmount);
+
             // Create quote data
             const quoteData = {
                 name,
@@ -106,7 +114,8 @@ window.addEventListener('message', async event => {
                     ...(premiumGuards ? ['premiumGutterGuards'] : []),
                     ...(cleaning ? ['cleaningService'] : [])
                 ],
-                estimateAmount: calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning)
+                estimateAmount,
+                stories: stories // Add stories to the quote data
             };
 
             console.log('Submitting quote:', quoteData);

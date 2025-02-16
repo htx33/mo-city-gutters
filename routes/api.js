@@ -15,10 +15,11 @@ const estimateValidation = [
     body('email').isEmail().withMessage('Valid email is required'),
     body('phone').trim().notEmpty().withMessage('Phone number is required'),
     body('address').trim().notEmpty().withMessage('Address is required'),
-    body('linearFeet').isNumeric().withMessage('Linear feet must be a number'),
+    body('homeLength').isNumeric().withMessage('Home length must be a number'),
     body('stories').isNumeric().withMessage('Number of stories must be a number'),
-    body('gutterType').trim().notEmpty().withMessage('Gutter type is required'),
-    body('estimatedCost').isNumeric().withMessage('Estimated cost must be a number')
+    body('gutterType').isIn(['standard', 'premium']).withMessage('Invalid gutter type'),
+    body('estimateAmount').isNumeric().withMessage('Estimate amount must be a number'),
+    body('additionalServices').isArray().withMessage('Additional services must be an array')
 ];
 
 const contactValidation = [
@@ -30,14 +31,30 @@ const contactValidation = [
 // Submit estimate
 router.post('/estimate', estimateValidation, async (req, res) => {
     try {
+        console.log('Received estimate submission:', req.body);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            console.log('Validation errors:', errors.array());
             return res.status(400).json({ errors: errors.array() });
         }
 
         // Create estimate in MongoDB
-        const estimate = new Estimate(req.body);
+        const estimate = new Estimate({
+            name: req.body.name,
+            email: req.body.email,
+            phone: req.body.phone,
+            address: req.body.address,
+            homeLength: req.body.homeLength,
+            gutterType: req.body.gutterType,
+            additionalServices: req.body.additionalServices,
+            estimateAmount: req.body.estimateAmount,
+            stories: req.body.stories,
+            status: 'pending'
+        });
+
+        console.log('Creating estimate:', estimate);
         await estimate.save();
+        console.log('Estimate saved with ID:', estimate._id);
 
         // Sync with HubSpot
         try {
@@ -52,11 +69,15 @@ router.post('/estimate', estimateValidation, async (req, res) => {
         
         res.status(201).json({
             message: 'Estimate submitted successfully',
-            estimateId: estimate._id
+            estimateId: estimate._id,
+            estimate: estimate
         });
     } catch (error) {
         console.error('Error submitting estimate:', error);
-        res.status(500).json({ message: 'Error submitting estimate' });
+        res.status(500).json({ 
+            message: 'Error submitting estimate',
+            error: error.message 
+        });
     }
 });
 
