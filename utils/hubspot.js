@@ -18,6 +18,10 @@ class HubSpotService {
     // Create or update a deal in HubSpot
     async syncQuoteAsDeal(quote) {
         try {
+            console.log('Starting HubSpot sync for quote:', quote._id);
+            if (!HUBSPOT_API_KEY) {
+                throw new Error('HUBSPOT_API_KEY is not set in environment variables');
+            }
             // First, find or create contact
             const contact = await this.findOrCreateContact({
                 email: quote.email,
@@ -52,7 +56,12 @@ class HubSpotService {
 
             return dealResponse.data;
         } catch (error) {
-            console.error('Error syncing quote to HubSpot:', error.response?.data || error.message);
+            console.error('Error syncing quote to HubSpot:', {
+                message: error.message,
+                response: error.response?.data,
+                quote: quote._id,
+                stack: error.stack
+            });
             throw error;
         }
     }
