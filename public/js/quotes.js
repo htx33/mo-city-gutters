@@ -31,24 +31,37 @@ async function submitQuote(quoteData) {
     }
 }
 
-// Function to handle quote creation after HubSpot form submission
-window.addEventListener('message', async event => {
-    if (event.data.type === 'hsFormCallback' && event.data.eventName === 'onFormSubmitted') {
-        const formData = event.data.data;
-        
-        // Extract data from HubSpot form fields
-        const name = formData.find(field => field.name === 'firstname')?.value + ' ' + formData.find(field => field.name === 'lastname')?.value;
-        const email = formData.find(field => field.name === 'email')?.value;
-        const phone = formData.find(field => field.name === 'phone')?.value;
-        const address = formData.find(field => field.name === 'address')?.value;
+// Function to handle quote form submission
+document.getElementById('estimateForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    
+    try {
+        // Get contact information
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
         
         // Get the estimate details from the page
-        const gutterType = document.querySelector('input[name="gutterType"]:checked').value;
-        const linearFeet = parseFloat(document.getElementById('linearFeet').value);
-        const stories = parseInt(document.querySelector('input[name="stories"]:checked').value);
-        const standardGuards = document.getElementById('standardGuards').checked;
-        const premiumGuards = document.getElementById('premiumGuards').checked;
-        const cleaning = document.getElementById('cleaning').checked;
+        const gutterTypeElement = document.querySelector('input[name="gutterType"]:checked');
+        const linearFeetElement = document.getElementById('linearFeet');
+        const storiesElement = document.querySelector('input[name="stories"]:checked');
+        const standardGuardsElement = document.getElementById('standardGuards');
+        const premiumGuardsElement = document.getElementById('premiumGuards');
+        const cleaningElement = document.getElementById('cleaning');
+
+        // Check if all required elements exist
+        if (!gutterTypeElement || !linearFeetElement || !storiesElement) {
+            console.error('Missing required form elements');
+            throw new Error('Missing required form elements');
+        }
+
+        const gutterType = gutterTypeElement.value;
+        const linearFeet = parseFloat(linearFeetElement.value);
+        const stories = parseInt(storiesElement.value);
+        const standardGuards = standardGuardsElement?.checked || false;
+        const premiumGuards = premiumGuardsElement?.checked || false;
+        const cleaning = cleaningElement?.checked || false;
 
         // Create quote data combining HubSpot form data and estimate details
         const quoteData = {
@@ -67,7 +80,13 @@ window.addEventListener('message', async event => {
         };
 
         try {
+            // Validate required fields
+            if (!name || !email || !phone || !address) {
+                throw new Error('Please fill in all contact information');
+            }
+
             const quote = await submitQuote(quoteData);
+            
             // Show success message
             const estimateResult = document.getElementById('estimateResult');
             const estimateAmount = estimateResult.querySelector('.estimate-amount');
@@ -77,17 +96,24 @@ window.addEventListener('message', async event => {
                     <p>Total Estimate: $${quote.estimateAmount.toFixed(2)}</p>
                     <p>Quote ID: ${quote._id}</p>
                     <p>Valid until: ${new Date(quote.validUntil).toLocaleDateString()}</p>
+                    <p>We'll send a confirmation email to ${email}</p>
                 </div>
             `;
             estimateResult.style.display = 'block';
+            
+            // Clear form
+            document.getElementById('estimateForm').reset();
+            
         } catch (error) {
+            console.error('Error submitting quote:', error);
+            
             // Show error message
             const estimateResult = document.getElementById('estimateResult');
             const estimateAmount = estimateResult.querySelector('.estimate-amount');
             estimateAmount.innerHTML = `
                 <div class="alert alert-danger">
                     <h4>Error</h4>
-                    <p>There was an error generating your quote. Please try again or contact us directly.</p>
+                    <p>${error.message || 'There was an error generating your quote. Please try again or contact us directly.'}</p>
                 </div>
             `;
             estimateResult.style.display = 'block';
