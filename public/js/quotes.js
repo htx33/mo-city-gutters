@@ -36,6 +36,12 @@ window.addEventListener('message', async event => {
     if (event.data.type === 'hsFormCallback' && event.data.eventName === 'onFormSubmitted') {
         const formData = event.data.data;
         
+        // Extract data from HubSpot form fields
+        const name = formData.find(field => field.name === 'firstname')?.value + ' ' + formData.find(field => field.name === 'lastname')?.value;
+        const email = formData.find(field => field.name === 'email')?.value;
+        const phone = formData.find(field => field.name === 'phone')?.value;
+        const address = formData.find(field => field.name === 'address')?.value;
+        
         // Get the estimate details from the page
         const gutterType = document.querySelector('input[name="gutterType"]:checked').value;
         const linearFeet = parseFloat(document.getElementById('linearFeet').value);
@@ -46,10 +52,10 @@ window.addEventListener('message', async event => {
 
         // Create quote data combining HubSpot form data and estimate details
         const quoteData = {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            address: formData.address,
+            name: name,
+            email: email,
+            phone: phone,
+            address: address,
             homeLength: linearFeet,
             gutterType: gutterType === 'premium' ? 'premium' : 'standard',
             additionalServices: [
