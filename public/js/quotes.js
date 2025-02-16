@@ -31,28 +31,18 @@ async function submitQuote(quoteData) {
     }
 }
 
-// Function to handle quote form submission
-document.getElementById('estimateForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    
-    try {
-        // Validate form first
-        const form = event.target;
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        // Get contact information
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const address = document.getElementById('address').value;
-
-        // Validate contact info
-        if (!name || !email || !phone || !address) {
-            throw new Error('Please fill in all contact information');
-        }
+// Function to handle HubSpot form submission
+window.addEventListener('message', async event => {
+    if (event.data.type === 'hsFormCallback' && event.data.eventName === 'onFormSubmitted') {
+        const formData = event.data.data;
+        
+        // Extract data from HubSpot form fields
+        const firstName = formData.find(field => field.name === 'firstname')?.value || '';
+        const lastName = formData.find(field => field.name === 'lastname')?.value || '';
+        const name = `${firstName} ${lastName}`.trim();
+        const email = formData.find(field => field.name === 'email')?.value || '';
+        const phone = formData.find(field => field.name === 'phone')?.value || '';
+        const address = formData.find(field => field.name === 'address')?.value || '';
         
         // Get the estimate details from the page
         const gutterTypeElement = document.querySelector('input[name="gutterType"]:checked');
@@ -132,6 +122,54 @@ document.getElementById('estimateForm').addEventListener('submit', async (event)
         }
     }
 });
+
+// Function to validate and calculate estimate
+function validateAndCalculate() {
+    // Hide any previous error messages
+    const estimateResult = document.getElementById('estimateResult');
+    estimateResult.style.display = 'none';
+
+    // Get form values
+    const gutterType = document.querySelector('input[name="gutterType"]:checked')?.value;
+    const linearFeet = parseFloat(document.getElementById('linearFeet').value);
+    const stories = parseInt(document.querySelector('input[name="stories"]:checked')?.value);
+    const standardGuards = document.getElementById('standardGuards').checked;
+    const premiumGuards = document.getElementById('premiumGuards').checked;
+    const cleaning = document.getElementById('cleaning').checked;
+
+    // Validate required fields
+    if (!gutterType || isNaN(linearFeet) || isNaN(stories)) {
+        alert('Please fill in all required fields');
+        return;
+    }
+
+    // Calculate estimate
+    const estimate = calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning);
+    
+    // Store estimate for form submission
+    document.getElementById('calculatedEstimate').value = estimate.toFixed(2);
+
+    // Show estimate preview
+    const estimateAmount = estimateResult.querySelector('.estimate-amount');
+    estimateAmount.innerHTML = `
+        <div class="alert alert-info">
+            <h4>Your Estimate</h4>
+            <p>Total Estimate: $${estimate.toFixed(2)}</p>
+            <p>Please fill out the form below to receive your detailed quote.</p>
+        </div>
+    `;
+    estimateResult.style.display = 'block';
+
+    // Show the HubSpot form
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+}
+
+// Helper function to go back to estimate form
+function goBack() {
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
+}
 
 // Helper function to calculate total (should match your existing calculation logic)
 function calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning) {
