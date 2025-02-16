@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
-const quotesRoutes = require('./routes/quotes');
+const apiRoutes = require('./routes/api');
 
 const app = express();
 const PORT = 3000;
@@ -25,7 +25,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/api/quotes', quotesRoutes);
+app.use('/api', apiRoutes);
 
 // Start server
 app.listen(PORT, () => {

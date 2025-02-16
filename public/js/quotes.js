@@ -50,14 +50,10 @@ window.addEventListener('message', async event => {
                 throw new Error('Invalid form data received');
             }
 
-            // Extract data from form fields
-            const getFieldValue = (name) => {
+            // Get quote details from hidden fields
+            const getHiddenField = (name) => {
                 const field = formData.fields[name];
-                if (!field) {
-                    console.warn(`Field ${name} not found in form data`);
-                    return '';
-                }
-                return field.value || '';
+                return field ? field.value : null;
             };
 
             // Get contact information
@@ -68,6 +64,15 @@ window.addEventListener('message', async event => {
             const phone = getFieldValue('phone');
             const address = getFieldValue('address');
 
+            // Get quote details from hidden fields
+            const gutterType = getHiddenField('gutter_type');
+            const homeLength = parseFloat(getHiddenField('linear_feet'));
+            const stories = parseInt(getHiddenField('number_of_stories'));
+            const standardGuards = getHiddenField('standard_guards') === 'Yes';
+            const premiumGuards = getHiddenField('premium_guards') === 'Yes';
+            const cleaning = getHiddenField('cleaning_service') === 'Yes';
+            const estimateAmount = parseFloat(getHiddenField('quote_amount'));
+
             // Validate contact info
             if (!firstName) throw new Error('First name is required');
             if (!lastName) throw new Error('Last name is required');
@@ -77,60 +82,38 @@ window.addEventListener('message', async event => {
 
             console.log('Contact info:', { name, email, phone, address });
 
-            // Get estimate details
-            const gutterTypeElement = document.querySelector('input[name="gutterType"]:checked');
-            const linearFeetElement = document.getElementById('linearFeet');
-            const storiesElement = document.querySelector('input[name="stories"]:checked');
-            const standardGuardsElement = document.getElementById('standardGuards');
-            const premiumGuardsElement = document.getElementById('premiumGuards');
-            const cleaningElement = document.getElementById('cleaning');
-
-            // Validate estimate details
-            if (!gutterTypeElement) throw new Error('Please select a gutter type');
-            if (!linearFeetElement?.value) throw new Error('Please enter the linear feet');
-            if (!storiesElement) throw new Error('Please select the number of stories');
-
-            const gutterType = gutterTypeElement.value;
-            const linearFeet = parseFloat(linearFeetElement.value);
-            const stories = parseInt(storiesElement.value);
-            const standardGuards = standardGuardsElement?.checked || false;
-            const premiumGuards = premiumGuardsElement?.checked || false;
-            const cleaning = cleaningElement?.checked || false;
-
-            // Calculate the estimate amount
-            const estimateAmount = calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning);
-            console.log('Calculated estimate amount:', estimateAmount);
-
-            // Create quote data
+            // Create quote data using hidden fields
             const quoteData = {
                 name,
                 email,
                 phone,
                 address,
-                homeLength: linearFeet,
-                gutterType: gutterType === 'premium' ? 'premium' : 'standard',
+                homeLength,
+                gutterType,
                 additionalServices: [
                     ...(standardGuards ? ['gutterGuards'] : []),
                     ...(premiumGuards ? ['premiumGutterGuards'] : []),
                     ...(cleaning ? ['cleaningService'] : [])
                 ],
                 estimateAmount,
-                stories: stories // Add stories to the quote data
+                stories
             };
 
             console.log('Submitting quote:', quoteData);
 
             // Submit quote
+            console.log('Submitting quote data:', quoteData);
             const quote = await submitQuote(quoteData);
+            console.log('Quote submission response:', quote);
             
             // Show success message
             const estimateResult = document.getElementById('estimateResult');
             if (!estimateResult) throw new Error('Could not find result container');
 
-            const estimateAmount = estimateResult.querySelector('.estimate-amount');
-            if (!estimateAmount) throw new Error('Could not find amount container');
+            const amountContainer = estimateResult.querySelector('.estimate-amount');
+            if (!amountContainer) throw new Error('Could not find amount container');
 
-            estimateAmount.innerHTML = `
+            amountContainer.innerHTML = `
                 <div class="alert alert-success">
                     <h4>Quote Generated Successfully!</h4>
                     <p>Total Estimate: $${quote.estimateAmount.toFixed(2)}</p>
@@ -144,6 +127,11 @@ window.addEventListener('message', async event => {
 
         } catch (error) {
             console.error('Error processing form submission:', error);
+            console.error('Error details:', {
+                message: error.message,
+                stack: error.stack,
+                name: error.name
+            });
             const errorElement = document.getElementById('hubspotFormError') || document.createElement('div');
             errorElement.id = 'hubspotFormError';
             errorElement.className = 'mt-3';

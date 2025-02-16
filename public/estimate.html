@@ -255,52 +255,170 @@
                             // Function to initialize HubSpot form
                             window.initHubSpotForm = async function() {
                                 try {
+                                    console.log('Initializing HubSpot form...');
                                     // If script not loaded, load it
                                     if (!window.hbspt) {
+                                        console.log('Loading HubSpot script...');
                                         await loadHubSpotScript();
+                                        console.log('HubSpot script loaded successfully');
                                     }
 
                                     // Clear previous form if any
                                     const formContainer = document.getElementById('hubspotForm');
+                                    if (!formContainer) {
+                                        throw new Error('HubSpot form container not found');
+                                    }
                                     formContainer.innerHTML = '';
 
+                                    console.log('Creating HubSpot form...');
                                     // Create new form with vanilla JS handlers
+                                    // Get quote details from the form
+                                    const gutterType = document.querySelector('input[name="gutterType"]:checked')?.value || '';
+                                    const linearFeet = document.getElementById('linearFeet')?.value || '';
+                                    const stories = document.querySelector('input[name="stories"]:checked')?.value || '';
+                                    const standardGuards = document.getElementById('standardGuards')?.checked || false;
+                                    const premiumGuards = document.getElementById('premiumGuards')?.checked || false;
+                                    const cleaning = document.getElementById('cleaning')?.checked || false;
+
+                                    // Calculate total
+                                    const total = calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning);
+
+                                    // Create HubSpot form with hidden fields
                                     hbspt.forms.create({
                                         region: "na1",
                                         portalId: "48384794",
                                         formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07",
                                         target: '#hubspotForm',
+                                        inlineMessage: 'Submitting your quote...',
+                                        onBeforeFormInit: function(ctx) {
+                                            // Add hidden fields for quote details
+                                            ctx.globalObjectKey = Date.now();
+                                            window[ctx.globalObjectKey] = {
+                                                gutterType,
+                                                linearFeet,
+                                                stories,
+                                                standardGuards,
+                                                premiumGuards,
+                                                cleaning,
+                                                total
+                                            };
+                                        },
+                                        // Map fields to HubSpot properties
+                                        onFormSubmit: function(form) {
+                                            console.log('Form submission starting with quote details:', {
+                                                gutterType,
+                                                linearFeet,
+                                                stories,
+                                                standardGuards,
+                                                premiumGuards,
+                                                cleaning,
+                                                total
+                                            });
+
+                                            try {
+                                                // Add quote details to the submission
+                                                const fields = {
+                                                    'gutter_type': gutterType,
+                                                    'linear_feet': linearFeet.toString(),
+                                                    'number_of_stories': stories.toString(),
+                                                    'standard_guards': standardGuards ? 'true' : 'false',
+                                                    'premium_guards': premiumGuards ? 'true' : 'false',
+                                                    'cleaning_service': cleaning ? 'true' : 'false',
+                                                    'quote_amount': total.toFixed(2)
+                                                };
+
+                                                // Set each field and log
+                                                Object.entries(fields).forEach(([key, value]) => {
+                                                    console.log(`Setting HubSpot field: ${key} = ${value}`);
+                                                    form.setFieldValue(key, value);
+                                                });
+
+                                                // Create deal description
+                                                const dealDescription = `
+                                                    Gutter Quote Details:
+                                                    - Type: ${gutterType}
+                                                    - Length: ${linearFeet} feet
+                                                    - Stories: ${stories}
+                                                    - Standard Guards: ${standardGuards ? 'Yes' : 'No'}
+                                                    - Premium Guards: ${premiumGuards ? 'Yes' : 'No'}
+                                                    - Cleaning Service: ${cleaning ? 'Yes' : 'No'}
+                                                    - Total Quote: $${total.toFixed(2)}
+                                                `;
+                                                console.log('Setting deal description:', dealDescription);
+                                                form.setFieldValue('deal_description', dealDescription);
+
+                                                // Add quote amount as deal value
+                                                console.log('Setting deal amount:', total.toFixed(2));
+                                                form.setFieldValue('deal_amount', total.toFixed(2));
+                                            } catch (error) {
+                                                console.error('Error setting form fields:', error);
+                                                alert('There was an error preparing your quote. Please try again.');
+                                                throw error;
+                                            }
+                                        },
                                         onFormReady: function(form) {
                                             console.log('HubSpot form ready');
+                                            // Add custom validation
+                                            form.addEventListener('submit', function(e) {
+                                                const inputs = form.getElementsByTagName('input');
+                                                const requiredFields = ['firstname', 'lastname', 'email', 'phone'];
+                                                for (const field of requiredFields) {
+                                                    const input = Array.from(inputs).find(i => i.name === field);
+                                                    if (!input || !input.value) {
+                                                        console.error(`Required field ${field} is missing or empty`);
+                                                        e.preventDefault();
+                                                        return false;
+                                                    }
+                                                }
+                                            });
                                         },
                                         onFormSubmit: function(form) {
                                             console.log('Form submission started');
                                             // Extract form data using vanilla JS
-                                            const formData = Array.from(form.getElementsByTagName('input')).reduce((acc, input) => {
+                                            const formData = {};
+                                            const inputs = form.getElementsByTagName('input');
+                                            for (const input of inputs) {
                                                 if (input.name) {
-                                                    acc[input.name] = {
+                                                    console.log(`Form field: ${input.name} = ${input.value}`);
+                                                    formData[input.name] = {
                                                         name: input.name,
                                                         value: input.value
                                                     };
                                                 }
-                                                return acc;
-                                            }, {});
+                                            }
 
                                             // Post message to parent window
-                                            window.parent.postMessage({
+                                            const message = {
                                                 type: 'hsFormCallback',
                                                 eventName: 'onFormSubmitted',
                                                 data: {
                                                     fields: formData
                                                 }
-                                            }, '*');
+                                            };
+                                            console.log('Posting form data:', message);
+                                            window.parent.postMessage(message, '*');
                                         },
                                         onFormSubmitted: function(form) {
-                                            console.log('Form submission completed');
+                                            console.log('Form submission completed successfully');
                                         }
                                     });
                                 } catch (error) {
                                     console.error('Error initializing HubSpot form:', error);
+                                    console.error('Error details:', {
+                                        message: error.message,
+                                        stack: error.stack,
+                                        name: error.name
+                                    });
+                                    const formContainer = document.getElementById('hubspotForm');
+                                    if (formContainer) {
+                                        formContainer.innerHTML = `
+                                            <div class="alert alert-danger">
+                                                <h4>Error</h4>
+                                                <p>There was an error loading the form. Please refresh the page and try again.</p>
+                                                <p>Error: ${error.message}</p>
+                                            </div>
+                                        `;
+                                    }
                                 }
                             };
 
