@@ -8,6 +8,7 @@ const calculateExpirationDate = () => {
 };
 
 const estimateSchema = new mongoose.Schema({
+    // Schema definition here
     name: {
         type: String,
         required: true,
@@ -65,6 +66,8 @@ const estimateSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true
+}, {
+    collection: 'quotes' // Explicitly set collection name
 });
 
-module.exports = mongoose.model('Estimate', estimateSchema);
+module.exports = mongoose.model('Estimate', estimateSchema, 'quotes');
