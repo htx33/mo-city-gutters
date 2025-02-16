@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 
+// Calculate expiration date (30 days from now)
+const calculateExpirationDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 30);
+    return date;
+};
+
 const estimateSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -44,7 +51,15 @@ const estimateSchema = new mongoose.Schema({
         enum: ['pending', 'contacted', 'scheduled', 'completed', 'cancelled'],
         default: 'pending'
     },
-    date: {
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    validUntil: {
+        type: Date,
+        default: calculateExpirationDate
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

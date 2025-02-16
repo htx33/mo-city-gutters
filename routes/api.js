@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 const Estimate = require('../models/Estimate');
 const Contact = require('../models/Contact');
 const authRoutes = require('./auth');
+const hubspot = require('../utils/hubspot');
 
 // Mount auth routes
 router.use('/auth', authRoutes);
@@ -34,8 +35,18 @@ router.post('/estimate', estimateValidation, async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
+        // Create estimate in MongoDB
         const estimate = new Estimate(req.body);
         await estimate.save();
+
+        // Sync with HubSpot
+        try {
+            const hubspotDeal = await hubspot.syncQuoteAsDeal(estimate);
+            console.log('Successfully synced with HubSpot:', hubspotDeal.id);
+        } catch (hubspotError) {
+            console.error('Error syncing with HubSpot:', hubspotError);
+            // Don't fail the request if HubSpot sync fails
+        }
 
         // Send email notification (implement this later)
         
