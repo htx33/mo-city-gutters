@@ -156,6 +156,12 @@ function calculateTotal(gutterType, linearFeet, stories, standardGuards, premium
         throw new Error('Missing required estimate parameters');
     }
 
+    // Ensure linearFeet is a positive number
+    linearFeet = Math.abs(parseFloat(linearFeet));
+    if (isNaN(linearFeet)) {
+        throw new Error('Invalid linear feet value');
+    }
+
     // Base prices
     const standardGutterPrice = 9.50;
     const premiumGutterPrice = 12.00;
@@ -164,38 +170,34 @@ function calculateTotal(gutterType, linearFeet, stories, standardGuards, premium
     const cleaningPrice = 2.00;
     const minimumCharge = 350.00; // Minimum charge for any service
 
-    // Calculate individual service costs
-    const gutterCost = linearFeet * (gutterType === 'premium' ? premiumGutterPrice : standardGutterPrice);
-    let guardsCost = 0;
-    let cleaningCost = 0;
+    // Calculate base gutter cost
+    let total = linearFeet * (gutterType === 'premium' ? premiumGutterPrice : standardGutterPrice);
 
-    // Calculate guards cost if selected
+    // Add guards cost if selected
     if (standardGuards) {
-        guardsCost = Math.max(minimumCharge, linearFeet * standardGuardsPrice);
+        total += linearFeet * standardGuardsPrice;
     }
     if (premiumGuards) {
-        guardsCost = Math.max(minimumCharge, linearFeet * premiumGuardsPrice);
+        total += linearFeet * premiumGuardsPrice;
     }
 
-    // Calculate cleaning cost if selected
+    // Add cleaning cost if selected
     if (cleaning) {
-        cleaningCost = Math.max(minimumCharge, linearFeet * cleaningPrice);
+        total += linearFeet * cleaningPrice;
     }
 
-    // Calculate base gutter installation cost with minimum charge
-    let total = Math.max(minimumCharge, gutterCost);
-
-    // Add story multiplier to gutter cost only
+    // Apply story multiplier to total cost
     if (stories === 2) {
         total *= 1.3; // 30% increase for 2 stories
     } else if (stories === 3) {
         total *= 1.6; // 60% increase for 3 stories
     }
 
-    // Add additional services costs
-    total += guardsCost + cleaningCost;
+    // Apply minimum charge to final total
+    total = Math.max(minimumCharge, total);
 
-    return total;
+    // Round to 2 decimal places
+    return Math.round(total * 100) / 100;
 }
 
 // Function to validate and calculate estimate
