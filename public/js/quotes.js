@@ -34,58 +34,75 @@ async function submitQuote(quoteData) {
 // Function to handle HubSpot form submission
 window.addEventListener('message', async event => {
     if (event.data.type === 'hsFormCallback' && event.data.eventName === 'onFormSubmitted') {
-        const formData = event.data.data;
-        
-        // Extract data from HubSpot form fields
-        const firstName = formData.find(field => field.name === 'firstname')?.value || '';
-        const lastName = formData.find(field => field.name === 'lastname')?.value || '';
-        const name = `${firstName} ${lastName}`.trim();
-        const email = formData.find(field => field.name === 'email')?.value || '';
-        const phone = formData.find(field => field.name === 'phone')?.value || '';
-        const address = formData.find(field => field.name === 'address')?.value || '';
-        
-        // Get the estimate details from the page
-        const gutterTypeElement = document.querySelector('input[name="gutterType"]:checked');
-        const linearFeetElement = document.getElementById('linearFeet');
-        const storiesElement = document.querySelector('input[name="stories"]:checked');
-        const standardGuardsElement = document.getElementById('standardGuards');
-        const premiumGuardsElement = document.getElementById('premiumGuards');
-        const cleaningElement = document.getElementById('cleaning');
-
-        // Check if all required elements exist
-        if (!gutterTypeElement || !linearFeetElement || !storiesElement) {
-            console.error('Missing required form elements');
-            throw new Error('Missing required form elements');
-        }
-
-        const gutterType = gutterTypeElement.value;
-        const linearFeet = parseFloat(linearFeetElement.value);
-        const stories = parseInt(storiesElement.value);
-        const standardGuards = standardGuardsElement?.checked || false;
-        const premiumGuards = premiumGuardsElement?.checked || false;
-        const cleaning = cleaningElement?.checked || false;
-
-        // Create quote data combining HubSpot form data and estimate details
-        const quoteData = {
-            name: name,
-            email: email,
-            phone: phone,
-            address: address,
-            homeLength: linearFeet,
-            gutterType: gutterType === 'premium' ? 'premium' : 'standard',
-            additionalServices: [
-                ...(standardGuards ? ['gutterGuards'] : []),
-                ...(premiumGuards ? ['premiumGutterGuards'] : []),
-                ...(cleaning ? ['cleaningService'] : [])
-            ],
-            estimateAmount: calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning)
-        };
-
         try {
+            console.log('Form submission data:', event.data);
+            const formData = event.data.data;
+            
+            if (!formData) {
+                throw new Error('Invalid form data received');
+            }
+
+            // Extract data from HubSpot form fields
+            const getFieldValue = (name) => {
+                try {
+                    return formData[name] || '';
+                } catch (error) {
+                    console.error(`Error getting field ${name}:`, error);
+                    return '';
+                }
+            };
+
+            const firstName = getFieldValue('firstname');
+            const lastName = getFieldValue('lastname');
+            const name = `${firstName} ${lastName}`.trim();
+            const email = getFieldValue('email');
+            const phone = getFieldValue('phone');
+            const address = getFieldValue('address');
+
+            console.log('Extracted form data:', { firstName, lastName, email, phone, address });
+        
+            // Get the estimate details from the page
+            const gutterTypeElement = document.querySelector('input[name="gutterType"]:checked');
+            const linearFeetElement = document.getElementById('linearFeet');
+            const storiesElement = document.querySelector('input[name="stories"]:checked');
+            const standardGuardsElement = document.getElementById('standardGuards');
+            const premiumGuardsElement = document.getElementById('premiumGuards');
+            const cleaningElement = document.getElementById('cleaning');
+
+            // Check if all required elements exist
+            if (!gutterTypeElement || !linearFeetElement || !storiesElement) {
+                throw new Error('Please complete the estimate form first');
+            }
+
+            const gutterType = gutterTypeElement.value;
+            const linearFeet = parseFloat(linearFeetElement.value);
+            const stories = parseInt(storiesElement.value);
+            const standardGuards = standardGuardsElement?.checked || false;
+            const premiumGuards = premiumGuardsElement?.checked || false;
+            const cleaning = cleaningElement?.checked || false;
+
             // Validate required fields
             if (!name || !email || !phone || !address) {
                 throw new Error('Please fill in all contact information');
             }
+
+            // Create quote data combining HubSpot form data and estimate details
+            const quoteData = {
+                name: name,
+                email: email,
+                phone: phone,
+                address: address,
+                homeLength: linearFeet,
+                gutterType: gutterType === 'premium' ? 'premium' : 'standard',
+                additionalServices: [
+                    ...(standardGuards ? ['gutterGuards'] : []),
+                    ...(premiumGuards ? ['premiumGutterGuards'] : []),
+                    ...(cleaning ? ['cleaningService'] : [])
+                ],
+                estimateAmount: calculateTotal(gutterType, linearFeet, stories, standardGuards, premiumGuards, cleaning)
+            };
+
+            console.log('Submitting quote data:', quoteData);
 
             const quote = await submitQuote(quoteData);
             
@@ -119,9 +136,30 @@ window.addEventListener('message', async event => {
                 </div>
             `;
             estimateResult.style.display = 'block';
+        } catch (error) {
+            console.error('Error processing form submission:', error);
+            
+            // Show error message
+            const estimateResult = document.getElementById('estimateResult');
+            const estimateAmount = estimateResult.querySelector('.estimate-amount');
+            estimateAmount.innerHTML = `
+                <div class="alert alert-danger">
+                    <h4>Error</h4>
+                    <p>${error.message || 'There was an error processing your quote. Please try again.'}</p>
+                </div>
+            `;
+            estimateResult.style.display = 'block';
         }
     }
 });
+
+// Helper function to format currency
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(amount);
+}
 
 // Function to validate and calculate estimate
 function validateAndCalculate() {
