@@ -157,10 +157,10 @@ function calculateTotal(gutterType, linearFeet, stories, standardGuards, premium
     }
 
     // Base prices
-    const standardGutterPrice = 8.50;
+    const standardGutterPrice = 9.50;
     const premiumGutterPrice = 12.00;
-    const standardGuardsPrice = 6.00;
-    const premiumGuardsPrice = 8.50;
+    const standardGuardsPrice = 8.00;
+    const premiumGuardsPrice = 14.50;
     const cleaningPrice = 2.00;
     const minimumCharge = 350.00; // Minimum charge for any service
 
