@@ -162,29 +162,38 @@ function calculateTotal(gutterType, linearFeet, stories, standardGuards, premium
     const standardGuardsPrice = 6.00;
     const premiumGuardsPrice = 8.50;
     const cleaningPrice = 2.00;
+    const minimumCharge = 350.00; // Minimum charge for any service
 
-    // Calculate base cost
-    let total = linearFeet * (gutterType === 'premium' ? premiumGutterPrice : standardGutterPrice);
+    // Calculate individual service costs
+    const gutterCost = linearFeet * (gutterType === 'premium' ? premiumGutterPrice : standardGutterPrice);
+    let guardsCost = 0;
+    let cleaningCost = 0;
 
-    // Add story multiplier
+    // Calculate guards cost if selected
+    if (standardGuards) {
+        guardsCost = Math.max(minimumCharge, linearFeet * standardGuardsPrice);
+    }
+    if (premiumGuards) {
+        guardsCost = Math.max(minimumCharge, linearFeet * premiumGuardsPrice);
+    }
+
+    // Calculate cleaning cost if selected
+    if (cleaning) {
+        cleaningCost = Math.max(minimumCharge, linearFeet * cleaningPrice);
+    }
+
+    // Calculate base gutter installation cost with minimum charge
+    let total = Math.max(minimumCharge, gutterCost);
+
+    // Add story multiplier to gutter cost only
     if (stories === 2) {
         total *= 1.3; // 30% increase for 2 stories
     } else if (stories === 3) {
         total *= 1.6; // 60% increase for 3 stories
     }
 
-    // Add gutter guards if selected
-    if (standardGuards) {
-        total += linearFeet * standardGuardsPrice;
-    }
-    if (premiumGuards) {
-        total += linearFeet * premiumGuardsPrice;
-    }
-
-    // Add cleaning if selected
-    if (cleaning) {
-        total += linearFeet * cleaningPrice;
-    }
+    // Add additional services costs
+    total += guardsCost + cleaningCost;
 
     return total;
 }
