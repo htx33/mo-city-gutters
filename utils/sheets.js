@@ -60,6 +60,8 @@ class GoogleSheetsService {
 
     async appendQuote(quote) {
         try {
+            console.log('Starting Google Sheets append with quote:', quote);
+            console.log('Using spreadsheet ID:', this.spreadsheetId);
             const date = new Date().toLocaleDateString();
             const time = new Date().toLocaleTimeString();
 

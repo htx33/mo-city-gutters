@@ -50,6 +50,47 @@ window.addEventListener('message', async event => {
                 throw new Error('Invalid form data received');
             }
 
+            // Get form values
+            const getFieldValue = (name) => {
+                const field = formData.fields[name];
+                return field ? field.value : '';
+            };
+
+            // Create quote data
+            const quoteData = {
+                name: `${getFieldValue('firstname')} ${getFieldValue('lastname')}`.trim(),
+                email: getFieldValue('email'),
+                phone: getFieldValue('phone'),
+                address: getFieldValue('address'),
+                gutterType: document.getElementById('gutterType').value,
+                homeLength: parseFloat(document.getElementById('linearFeet').value),
+                stories: parseInt(document.getElementById('stories').value),
+                additionalServices: [
+                    ...(document.getElementById('standardGuards').checked ? ['gutterGuards'] : []),
+                    ...(document.getElementById('premiumGuards').checked ? ['premiumGutterGuards'] : []),
+                    ...(document.getElementById('cleaning').checked ? ['cleaningService'] : [])
+                ],
+                estimateAmount: parseFloat(document.getElementById('calculatedEstimate').value)
+            };
+
+            console.log('Sending quote data to backend:', quoteData);
+
+            // Send to our backend
+            const response = await fetch('/api/estimate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(quoteData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save quote');
+            }
+
+            const result = await response.json();
+            console.log('Quote saved successfully:', result);
+
             // Get quote details from hidden fields
             const getHiddenField = (name) => {
                 const field = formData.fields[name];
