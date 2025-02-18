@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
-const excel = require('../utils/excel');
+const sheets = require('../utils/sheets');
 const hubspot = require('../utils/hubspot');
 
 // Mount auth routes
@@ -36,7 +36,7 @@ router.post('/estimate', estimateValidation, async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        // Add quote to Excel file
+        // Add quote to Google Sheets
         const quote = {
             name: req.body.name,
             email: req.body.email,
@@ -49,9 +49,9 @@ router.post('/estimate', estimateValidation, async (req, res) => {
             stories: req.body.stories
         };
 
-        console.log('Adding quote to Excel:', quote);
-        await excel.appendQuote(quote);
-        console.log('Quote added to Excel file');
+        console.log('Adding quote to Google Sheets:', quote);
+        await sheets.appendQuote(quote);
+        console.log('Quote added to Google Sheets');
 
         // Sync with HubSpot
         try {
