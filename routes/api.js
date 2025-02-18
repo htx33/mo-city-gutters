@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
-const Estimate = require('../models/Estimate');
-const Contact = require('../models/Contact');
-const authRoutes = require('./auth');
+const excel = require('../utils/excel');
 const hubspot = require('../utils/hubspot');
 
 // Mount auth routes
@@ -38,8 +36,8 @@ router.post('/estimate', estimateValidation, async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        // Create estimate in MongoDB
-        const estimate = new Estimate({
+        // Add quote to Excel file
+        const quote = {
             name: req.body.name,
             email: req.body.email,
             phone: req.body.phone,
@@ -48,17 +46,16 @@ router.post('/estimate', estimateValidation, async (req, res) => {
             gutterType: req.body.gutterType,
             additionalServices: req.body.additionalServices,
             estimateAmount: req.body.estimateAmount,
-            stories: req.body.stories,
-            status: 'pending'
-        });
+            stories: req.body.stories
+        };
 
-        console.log('Creating estimate:', estimate);
-        await estimate.save();
-        console.log('Estimate saved with ID:', estimate._id);
+        console.log('Adding quote to Excel:', quote);
+        await excel.appendQuote(quote);
+        console.log('Quote added to Excel file');
 
         // Sync with HubSpot
         try {
-            const hubspotDeal = await hubspot.syncQuoteAsDeal(estimate);
+            const hubspotDeal = await hubspot.syncQuoteAsDeal(quote);
             console.log('Successfully synced with HubSpot:', hubspotDeal.id);
         } catch (hubspotError) {
             console.error('Error syncing with HubSpot:', hubspotError);

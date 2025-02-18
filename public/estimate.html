@@ -337,6 +337,7 @@
                                         // Map fields to HubSpot properties
                                         onFormSubmit: function(form) {
                                             console.log('Form submission starting...');
+                                            
                                             // Create deal description
                                             const dealDescription = `
                                                 Gutter Quote Details:
@@ -354,6 +355,39 @@
                                             if (descField) {
                                                 descField.val(dealDescription);
                                             }
+                                            
+                                            // Also send to our backend
+                                            const quoteData = {
+                                                name: form.find('input[name="firstname"]').val() + ' ' + form.find('input[name="lastname"]').val(),
+                                                email: form.find('input[name="email"]').val(),
+                                                phone: form.find('input[name="phone"]').val(),
+                                                address: form.find('input[name="address"]').val(),
+                                                homeLength: linearFeet,
+                                                gutterType: gutterType,
+                                                stories: stories,
+                                                additionalServices: [
+                                                    ...(standardGuards ? ['gutterGuards'] : []),
+                                                    ...(premiumGuards ? ['premiumGutterGuards'] : []),
+                                                    ...(cleaning ? ['cleaningService'] : [])
+                                                ],
+                                                estimateAmount: total
+                                            };
+
+                                            // Send to our API
+                                            fetch('/api/estimate', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify(quoteData)
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                console.log('Success:', data);
+                                            })
+                                            .catch((error) => {
+                                                console.error('Error:', error);
+                                            });
                                             
                                             return true;
                                         },
