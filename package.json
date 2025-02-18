@@ -8,8 +8,7 @@
     "dev": "nodemon server.js",
     "test": "jest",
     "lint": "eslint .",
-    "build": "wrangler deploy",
-    "dev:worker": "wrangler dev"
+    "build": "echo 'Building...'"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
