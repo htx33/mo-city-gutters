@@ -207,9 +207,9 @@ function validateAndCalculate() {
         }
 
         // Get and validate form values
-        const gutterType = document.querySelector('input[name="gutterType"]:checked')?.value;
+        const gutterType = document.getElementById('gutterType')?.value;
         const linearFeet = document.getElementById('linearFeet')?.value;
-        const stories = document.querySelector('input[name="stories"]:checked')?.value;
+        const stories = document.getElementById('stories')?.value;
 
         if (!gutterType) throw new Error('Please select a gutter type');
         if (!linearFeet) throw new Error('Please enter the linear feet');

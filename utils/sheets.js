@@ -1,13 +1,55 @@
 const { google } = require('googleapis');
-require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
+
+// Load environment variables directly from .env file
+const envPath = path.join(__dirname, '..', '.env');
+const envConfig = {};
+
+if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    envContent.split('\n').forEach(line => {
+        const [key, ...valueParts] = line.split('=');
+        if (key && valueParts.length > 0) {
+            envConfig[key.trim()] = valueParts.join('=').trim();
+        }
+    });
+}
+
+// Set environment variables
+Object.assign(process.env, envConfig);
+
+console.log('Loaded environment variables:', Object.keys(envConfig));
 
 class GoogleSheetsService {
     constructor() {
+        // Debug: Check environment variables
+        console.log('Loading environment variables...');
+        console.log('GOOGLE_SHEETS_CLIENT_EMAIL:', process.env.GOOGLE_SHEETS_CLIENT_EMAIL ? 'Set' : 'Not set');
+        console.log('GOOGLE_SHEETS_PRIVATE_KEY:', process.env.GOOGLE_SHEETS_PRIVATE_KEY ? 'Set' : 'Not set');
+        console.log('GOOGLE_SHEETS_SPREADSHEET_ID:', process.env.GOOGLE_SHEETS_SPREADSHEET_ID ? 'Set' : 'Not set');
+
         // Configure Google Sheets credentials
+        // Check for required environment variables
+        if (!process.env.GOOGLE_SHEETS_CLIENT_EMAIL) {
+            throw new Error('GOOGLE_SHEETS_CLIENT_EMAIL is not set in environment variables');
+        }
+        if (!process.env.GOOGLE_SHEETS_PRIVATE_KEY) {
+            throw new Error('GOOGLE_SHEETS_PRIVATE_KEY is not set in environment variables');
+        }
+        if (!process.env.GOOGLE_SHEETS_SPREADSHEET_ID) {
+            throw new Error('GOOGLE_SHEETS_SPREADSHEET_ID is not set in environment variables');
+        }
+
+        // Format private key - handle both \n and actual newlines
+        const privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY
+            .replace(/\\n/g, '\n')  // Handle escaped newlines
+            .replace(/"|'/g, '');    // Remove any quotes
+
         this.auth = new google.auth.GoogleAuth({
             credentials: {
                 client_email: process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
-                private_key: process.env.GOOGLE_SHEETS_PRIVATE_KEY.replace(/\\n/g, '\n'),
+                private_key: privateKey,
             },
             scopes: ['https://www.googleapis.com/auth/spreadsheets'],
         });

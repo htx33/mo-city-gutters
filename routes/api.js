@@ -4,9 +4,6 @@ const { body, validationResult } = require('express-validator');
 const sheets = require('../utils/sheets');
 const hubspot = require('../utils/hubspot');
 
-// Mount auth routes
-router.use('/auth', authRoutes);
-
 // Validation middleware
 const estimateValidation = [
     body('name').trim().notEmpty().withMessage('Name is required'),

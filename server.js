@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const apiRoutes = require('./routes/api');
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mo-city-gutters';
 
 // Connect to MongoDB

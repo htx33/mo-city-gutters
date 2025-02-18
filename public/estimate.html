@@ -273,9 +273,9 @@
                                     console.log('Creating HubSpot form...');
                                     // Create new form with vanilla JS handlers
                                     // Get quote details from the form
-                                    const gutterType = document.querySelector('input[name="gutterType"]:checked')?.value || '';
+                                    const gutterType = document.getElementById('gutterType')?.value || '';
                                     const linearFeet = document.getElementById('linearFeet')?.value || '';
-                                    const stories = document.querySelector('input[name="stories"]:checked')?.value || '';
+                                    const stories = document.getElementById('stories')?.value || '';
                                     const standardGuards = document.getElementById('standardGuards')?.checked || false;
                                     const premiumGuards = document.getElementById('premiumGuards')?.checked || false;
                                     const cleaning = document.getElementById('cleaning')?.checked || false;
