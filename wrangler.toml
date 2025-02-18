@@ -1,12 +1,12 @@
-name = "mo-city-gutters"
+name = "mo-city-gutters-api"
 main = "src/worker.js"
 compatibility_date = "2024-02-17"
 
-[site]
-bucket = "./public"
-
 [vars]
 GOOGLE_SHEETS_SPREADSHEET_ID = "1VJYPSEtsSmN9yeW1t27iwnZKDusVY9DwbuocN9tVPpA"
+GOOGLE_SHEETS_CLIENT_EMAIL = "quotes-service@mcg-website-443005.iam.gserviceaccount.com"
 
 [env.production]
-route = "mocitygutters.com/*"
+routes = ["mocitygutters.com/api/*"]
+
+# Don't put private key here - it should be set via wrangler secret
