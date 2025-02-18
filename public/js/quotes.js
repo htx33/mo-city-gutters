@@ -76,7 +76,10 @@ window.addEventListener('message', async event => {
             console.log('Sending quote data to backend:', quoteData);
 
             // Send to our backend
-            const response = await fetch('/api/estimate', {
+            const apiUrl = window.location.hostname === 'localhost' 
+                ? '/api/estimate'
+                : '/api/estimate';  // In production, Cloudflare Pages will handle this path
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
