@@ -78,7 +78,7 @@ window.addEventListener('message', async event => {
             // Send to our backend
             const apiUrl = window.location.hostname === 'localhost' 
                 ? '/api/estimate'
-                : '/api/estimate';  // In production, Cloudflare Pages will handle this path
+                : 'https://mo-city-gutters.jobin-abraham33.workers.dev/api/estimate';
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
