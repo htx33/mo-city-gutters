@@ -15,7 +15,7 @@ const PRICING = {
     additionalServices: {
         cleaning: 2.00     // Price per linear foot for cleaning
     },
-    minimumQuote: 300.00  // Minimum quote amount
+    minimumQuote: 500.00  // Minimum quote amount
 };
 
 document.addEventListener('DOMContentLoaded', function() {

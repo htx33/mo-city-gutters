@@ -14,15 +14,18 @@ async function getCsrfToken() {
 async function submitQuote(quoteData) {
     try {
         console.log('Submitting quote data:', quoteData);
-        const csrfToken = await getCsrfToken();
-        const response = await fetch('/api/estimate', {
+        
+        // Use AWS API Gateway endpoint
+        const apiUrl = 'https://ud5vq54745.execute-api.us-east-1.amazonaws.com/prod/estimate';
+            
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'CSRF-Token': csrfToken
+                'Origin': window.location.origin
             },
-            body: JSON.stringify(quoteData),
-            credentials: 'include'
+            mode: 'cors',
+            body: JSON.stringify(quoteData)
         });
 
         const responseData = await response.json();
@@ -76,22 +79,7 @@ window.addEventListener('message', async event => {
             console.log('Sending quote data to backend:', quoteData);
 
             // Send to our backend
-            const apiUrl = window.location.hostname === 'localhost' 
-                ? '/api/estimate'
-                : 'https://mocitygutters.com/api/estimate';
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(quoteData)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to save quote');
-            }
-
-            const result = await response.json();
+            const result = await submitQuote(quoteData);
             console.log('Quote saved successfully:', result);
 
             // Get quote details from hidden fields
