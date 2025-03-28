@@ -127,6 +127,9 @@ function calculateEstimate() {
             totalCost += PRICING.additionalServices[service].base;
         }
     });
+    
+    // Apply minimum quote of $500
+    totalCost = Math.max(totalCost, 500);
 
     // Display results
     document.getElementById('estimateAmount').textContent = `$${totalCost.toFixed(2)}`;
