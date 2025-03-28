@@ -317,8 +317,12 @@
                 if (cleaning) {
                     let cleaningCost = 1.82 * linearFeet;  // $1.82 per foot
                     // If cleaning cost is less than $300, set it to the minimum
+ 
                     cleaningCost = Math.max(cleaningCost, 300);
                     totalCost += cleaningCost;
+                    
+                    // Apply minimum quote amount of $500
+                    totalCost = Math.max(totalCost, 500);
                 }
 
                 // Format the total cost
