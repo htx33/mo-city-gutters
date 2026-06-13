@@ -444,26 +444,29 @@
                 onFormSubmit: function ($form) {
                     try {
                         if (!quote) return true;
+                        var f = ($form instanceof Element) ? $form : $form[0];
+                        var val = function(sel) { var el = f.querySelector(sel); return el ? el.value : ''; };
                         var rangeText = fmtMoney(quote.lowDisplay) + ' – ' + fmtMoney(quote.highDisplay);
                         var desc = 'REMODEL Ballpark — ' + quote.category + '\n' +
                                    '- Details: ' + quote.detailsText + '\n' +
                                    '- Range shown: ' + rangeText +
                                    (quote.note ? '\n- Note: ' + quote.note : '');
-                        var descField = $form.find('textarea[name="message"]');
-                        if (descField && descField.length) descField.val(desc);
-                        $form.find('input[name="estimate_amount"]').val(rangeText);
+                        var descField = f.querySelector('textarea[name="message"]');
+                        if (descField) descField.value = desc;
+                        var estimateField = f.querySelector('input[name="estimate_amount"]');
+                        if (estimateField) estimateField.value = rangeText;
 
-                        // Log to backend sheet (reuses gutter columns: type=category, length=units)
-                        var first = $form.find('input[name="firstname"]').val() || '';
-                        var last = $form.find('input[name="lastname"]').val() || '';
+                        var first = val('input[name="firstname"]');
+                        var last = val('input[name="lastname"]');
+                        var phone = val('input[name="phone"]');
                         fetch('/api/estimate', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 name: (first + ' ' + last).trim(),
-                                email: $form.find('input[name="email"]').val() || '',
-                                phone: $form.find('input[name="phone"]').val() || '',
-                                address: $form.find('input[name="address"]').val() || '',
+                                email: val('input[name="email"]'),
+                                phone: phone,
+                                address: val('input[name="address"]'),
                                 homeLength: quote.units,
                                 gutterType: 'REMODEL: ' + quote.category,
                                 stories: 0,
@@ -475,10 +478,7 @@
                         fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-remodel', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                firstname: first,
-                                phone: $form.find('input[name="phone"]').val() || ''
-                            })
+                            body: JSON.stringify({ firstname: first, phone: phone })
                         }).catch(function (err) { console.error('n8n webhook error:', err); });
                     } catch (err) { console.error('Quote mapping error:', err); }
                     return true;
