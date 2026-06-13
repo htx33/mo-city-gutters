@@ -289,6 +289,40 @@
         <p class="foot-note">Gutters instead? <a href="/estimate.html">Get a gutter ballpark here</a> &middot; Questions? Text <a href="sms:+12812014870">(281) 201-4870</a></p>
     </main>
 
+    <script>
+        (function() {
+            var _origSend = XMLHttpRequest.prototype.send;
+            XMLHttpRequest.prototype.send = function(body) {
+                if (body && typeof body === 'string' && body.indexOf('hsforms.com') === -1) {
+                    try {
+                        var data = JSON.parse(body);
+                        if (data && data.fields) {
+                            data.fields.forEach(function(field) {
+                                if (field.name === 'mobilephone' || field.name === 'phone') window._remodelPhone = field.value;
+                                if (field.name === 'firstname') window._remodelFirst = field.value;
+                            });
+                        }
+                    } catch(e) {}
+                }
+                return _origSend.apply(this, arguments);
+            };
+            var _origFetch = window.fetch;
+            window.fetch = function(url, opts) {
+                if (opts && opts.body && typeof opts.body === 'string' && String(url).indexOf('hsforms.com') > -1) {
+                    try {
+                        var data = JSON.parse(opts.body);
+                        if (data && data.fields) {
+                            data.fields.forEach(function(field) {
+                                if (field.name === 'mobilephone' || field.name === 'phone') window._remodelPhone = field.value;
+                                if (field.name === 'firstname') window._remodelFirst = field.value;
+                            });
+                        }
+                    } catch(e) {}
+                }
+                return _origFetch.apply(this, arguments);
+            };
+        })();
+    </script>
     <script src="//js.hsforms.net/forms/embed/v2.js" charset="utf-8" type="text/javascript"></script>
     <script>
         /* ============================================================
@@ -466,9 +500,10 @@
                         var estimateField = f.querySelector('input[name="estimate_amount"]');
                         if (estimateField) estimateField.value = rangeText;
 
-                        var first = val('input[name="firstname"]');
+                        var first = window._remodelFirst || val('input[name="firstname"]');
                         var last = val('input[name="lastname"]');
-                        var phone = window._remodelPhone || val('input[name="mobilephone"]') || val('input[name="phone"]');
+                        var rawPhone = window._remodelPhone || val('input[name="mobilephone"]') || val('input[name="phone"]');
+                        var phone = rawPhone ? '+1' + rawPhone.replace(/\D/g, '').slice(-10) : '';
                         fetch('/api/estimate', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
