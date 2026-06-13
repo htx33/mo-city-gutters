@@ -458,7 +458,7 @@
 
                         var first = val('input[name="firstname"]');
                         var last = val('input[name="lastname"]');
-                        var phone = val('input[name="phone"]');
+                        var phone = val('input[name="mobilephone"]') || val('input[name="phone"]');
                         fetch('/api/estimate', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
