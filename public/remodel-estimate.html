@@ -441,6 +441,16 @@
                 portalId: HUBSPOT.portalId,
                 formId: HUBSPOT.formId,
                 target: "#hubspotForm",
+                onFormReady: function ($form) {
+                    var f = ($form instanceof Element) ? $form : ($form[0] || $form);
+                    var watchField = function(sel) {
+                        var el = f.querySelector(sel);
+                        if (el) el.addEventListener('change', function() { window._remodelPhone = this.value; });
+                        if (el) el.addEventListener('input', function() { window._remodelPhone = this.value; });
+                    };
+                    watchField('input[name="mobilephone"]');
+                    watchField('input[name="phone"]');
+                },
                 onFormSubmit: function ($form) {
                     try {
                         if (!quote) return true;
@@ -458,7 +468,7 @@
 
                         var first = val('input[name="firstname"]');
                         var last = val('input[name="lastname"]');
-                        var phone = val('input[name="mobilephone"]') || val('input[name="phone"]');
+                        var phone = window._remodelPhone || val('input[name="mobilephone"]') || val('input[name="phone"]');
                         fetch('/api/estimate', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
