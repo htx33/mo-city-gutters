@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="light only">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flooring, Painting & Siding Ballpark Prices — Mo City Gutters & Remodeling</title>
+    <meta name="description" content="Get a free ballpark price for flooring, interior painting, or siding in Missouri City, Sugar Land & Fort Bend County. Enter your square footage and see a range in about a minute.">
+    <link rel="canonical" href="https://mocitygutters.com/remodel-estimate.html">
+    <link rel="icon" href="/images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: only light;
+            --storm: #16242E; --storm-2: #1F3441; --rain: #8FB3C7; --rain-deep: #3E708C;
+            --copper: #B25A2B; --copper-d: #8E4519; --paper: #FBFAF8; --mist: #EEF1F1;
+            --ink: #22313B; --ink-soft: #51626E; --line: #DBE1E3; --white: #fff;
+            --font-display: 'Archivo', sans-serif; --font-body: 'Public Sans', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--mist); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        img { max-width: 100%; display: block; }
+
+        .top { background: var(--paper); border-bottom: 1px solid var(--line); }
+        .top-inner { max-width: 880px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 12px; }
+        .top img { width: 40px; height: 40px; border-radius: 8px; }
+        .top a { text-decoration: none; }
+        .brand-name { font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--storm); }
+        .top-phone { margin-left: auto; font-family: var(--font-mono); font-size: 13.5px; font-weight: 600; color: var(--storm); }
+        .coil-strip { display: flex; height: 6px; }
+        .coil-strip span { flex: 1; }
+
+        .page { max-width: 880px; margin: 0 auto; padding: 40px 24px 80px; }
+        .page-head { text-align: center; max-width: 580px; margin: 0 auto 28px; }
+        .eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--rain-deep); display: block; margin-bottom: 10px; }
+        h1 { font-family: var(--font-display); font-size: clamp(28px, 4.5vw, 38px); font-weight: 900; color: var(--storm); letter-spacing: -0.015em; line-height: 1.1; }
+        .page-head p { margin-top: 12px; color: var(--ink-soft); font-size: 16px; }
+
+        .cat-tabs { display: flex; justify-content: center; gap: 8px; margin: 26px 0; flex-wrap: wrap; }
+        .cat-tabs button {
+            font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+            background: var(--white); color: var(--ink-soft); border: 1px solid var(--line); border-radius: 100px; padding: 10px 20px; cursor: pointer;
+        }
+        .cat-tabs button.active { background: var(--storm); color: #fff; border-color: var(--storm); }
+
+        .card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 34px rgba(22,36,46,.08); padding: 40px; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+        .stage { display: none; }
+        .stage.active { display: block; }
+
+        label { display: block; font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--storm); margin: 22px 0 8px; }
+        label:first-of-type { margin-top: 0; }
+        .hint { font-size: 13.5px; color: var(--ink-soft); margin-top: 6px; }
+        select, input[type="number"] {
+            width: 100%; padding: 13px 14px; font-family: var(--font-body); font-size: 16px; color: var(--ink);
+            border: 1.5px solid var(--line); border-radius: 8px; background: var(--paper);
+        }
+        select:focus, input:focus { outline: none; border-color: var(--rain-deep); }
+        .is-invalid { border-color: #C0392B !important; }
+
+        .checks { display: grid; gap: 10px; margin-top: 4px; }
+        .check {
+            display: flex; align-items: flex-start; gap: 12px; border: 1.5px solid var(--line); border-radius: 8px;
+            padding: 14px; cursor: pointer; background: var(--paper);
+        }
+        .check:has(input:checked) { border-color: var(--copper); background: #FBF3EC; }
+        .check input { margin-top: 4px; accent-color: var(--copper); width: 16px; height: 16px; }
+        .check b { font-family: var(--font-display); font-size: 15px; color: var(--storm); display: block; }
+        .check small { color: var(--ink-soft); font-size: 13px; }
+
+        .measure-tip { border-left: 3px solid var(--copper); background: #FBF3EC; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13.5px; color: var(--ink-soft); margin-top: 8px; }
+        .measure-tip b { color: var(--storm); }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+            font-family: var(--font-display); font-weight: 700; font-size: 16px; padding: 15px 28px;
+            border-radius: 8px; border: 2px solid transparent; text-decoration: none; transition: background .15s ease;
+        }
+        .btn:focus-visible { outline: 3px solid var(--rain-deep); outline-offset: 2px; }
+        .btn-copper { background: var(--copper); color: #fff; }
+        .btn-copper:hover { background: var(--copper-d); }
+        .btn-ghost { border-color: var(--line); color: var(--storm); background: var(--white); }
+        .btn-ghost:hover { border-color: var(--storm); }
+        .actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+
+        .reassure {
+            display: flex; gap: 10px; align-items: flex-start; background: var(--mist); border: 1px solid var(--line);
+            border-radius: 8px; padding: 14px 16px; margin-top: 26px; font-size: 14px; color: var(--ink-soft);
+        }
+        .reassure b { color: var(--storm); }
+
+        .result { text-align: center; padding: 16px 0; }
+        .result .eyebrow { color: var(--copper); }
+        .amount { font-family: var(--font-mono); font-weight: 600; font-size: clamp(30px, 6.5vw, 44px); color: var(--storm); margin: 10px 0 4px; }
+        .result p { color: var(--ink-soft); max-width: 480px; margin: 14px auto 0; }
+        .next-up { text-align: left; max-width: 460px; margin: 28px auto 0; background: var(--mist); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; }
+        .next-up h3 { font-family: var(--font-display); font-size: 15px; color: var(--storm); margin-bottom: 10px; }
+        .next-up li { font-size: 14px; color: var(--ink-soft); margin-left: 18px; margin-bottom: 6px; }
+
+        #hubspotForm { margin-top: 8px; }
+        .foot-note { text-align: center; margin-top: 28px; font-size: 13.5px; color: var(--ink-soft); }
+        .foot-note a { color: var(--rain-deep); }
+        @media (max-width: 560px) { .card { padding: 26px 20px; } }
+    
+        /* ---- Dark-mode-proofing: force real colors, no variables ---- */
+        html, body { background:#FBFAF8 !important; color:#22313B !important; }
+        .section, .included, .related, .lead, .faq-wrap, article, .page, main { background-color:#FBFAF8; }
+        .included, .related { background-color:#EEF1F1 !important; }
+        .section h2, .lead h2, article h1, article h2, article h3,
+        .feature h3, .step h3, summary, .post-card h2, h1, h2, h3 { color:#16242E !important; }
+        .lead p, .feature p, .step p, article p, details p, .post-card p,
+        .post-card .date, .hint, .inc-item, .inc-item b { color:#22313B !important; }
+        .inc-item b, summary { color:#16242E !important; }
+        details, .faq-wrap details { background-color:#FBFAF8 !important; }
+        summary::after { color:#B25A2B !important; }
+        .eyebrow { color:#3E708C !important; }
+        /* keep intentionally dark sections dark with light text */
+        .hero, .cta-band, .site-footer { background-color:#16242E !important; }
+        .hero h1, .cta-band h2 { color:#fff !important; }
+        .hero .eyebrow, .cta-band .eyebrow, .on-dark .eyebrow { color:#8FB3C7 !important; }
+        .hero-sub, .cta-band p, .hero-trust { color:#C7D4DC !important; }
+        .remodel, .areas { background-color:#1F3441 !important; }
+        .remodel h2, .areas h2 { color:#fff !important; }
+
+        /* ---- Dark-mode hardening v2: literal colors, max reach ---- */
+        body .section { background-color:#FBFAF8 !important; }
+        body .section.included, body .section.related, body section.included, body section.related { background-color:#EEF1F1 !important; }
+        body .section.cta-band { background-color:#16242E !important; }
+        body .faq-wrap, body .faq-wrap details, body details, body .feature, body .post-card { background-color:#FBFAF8 !important; }
+        body .section.included .feature { background-color:#FBFAF8 !important; }
+        /* literal text colors */
+        body .section h2, body .lead h2, body .feature h3, body .step h3,
+        body summary, body .faq-wrap summary, body article h1, body article h2, body article h3,
+        body .post-card h2 { color:#16242E !important; -webkit-text-fill-color:#16242E !important; }
+        body .lead p, body .feature p, body .step p, body details p, body .faq-wrap p,
+        body .inc-item, body .post-card p, body .post-card .date, body article p,
+        body article li { color:#22313B !important; -webkit-text-fill-color:#22313B !important; }
+        body .inc-item b, body .inc-item .ck { color:#16242E !important; -webkit-text-fill-color:#16242E !important; }
+        body .inc-item .ck { color:#B25A2B !important; -webkit-text-fill-color:#B25A2B !important; }
+        body .eyebrow { color:#3E708C !important; -webkit-text-fill-color:#3E708C !important; }
+        body summary::after { color:#B25A2B !important; -webkit-text-fill-color:#B25A2B !important; }
+        /* dark sections keep light text */
+        body .hero, body .cta-band, body .site-footer, body .remodel, body .areas { }
+        body .hero h1, body .cta-band h2, body .remodel h2, body .areas h2,
+        body .hero h1 em { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+        body .hero h1 em { color:#8FB3C7 !important; -webkit-text-fill-color:#8FB3C7 !important; }
+        body .hero-sub, body .cta-band p, body .hero-trust,
+        body .remodel p, body .remodel li, body .areas p { color:#C7D4DC !important; -webkit-text-fill-color:#C7D4DC !important; }
+        body .hero .eyebrow, body .cta-band .eyebrow, body .on-dark .eyebrow { color:#8FB3C7 !important; -webkit-text-fill-color:#8FB3C7 !important; }
+</style>
+</head>
+<body>
+    <header class="top">
+        <div class="top-inner">
+            <a href="/"><img src="/images/logo.png" alt="Mo City Gutters & Remodeling logo"></a>
+            <a href="/" style="text-decoration:none"><span class="brand-name">Mo City Gutters &amp; Remodeling</span></a>
+            <a class="top-phone" href="tel:+12812014870">(281) 201-4870</a>
+        </div>
+        <div class="coil-strip" aria-hidden="true">
+            <span style="background:#F4F4F1"></span><span style="background:#EFE4C9"></span><span style="background:#D6C7A8"></span><span style="background:#C9BFA3"></span><span style="background:#97999B"></span><span style="background:#555B5E"></span><span style="background:#54707F"></span><span style="background:#4A3B2A"></span><span style="background:#44342A"></span><span style="background:#1F1F1D"></span>
+        </div>
+    </header>
+
+    <main class="page">
+        <div class="page-head">
+            <span class="eyebrow">Remodeling ballparks</span>
+            <h1>Flooring, painting &amp; siding — priced in a minute.</h1>
+            <p>Pick your project, enter your square footage, and see an honest ballpark range. Every job is confirmed with a free on-site visit.</p>
+        </div>
+
+        <div class="cat-tabs" role="tablist" aria-label="Project type">
+            <button class="active" data-cat="flooring">Flooring</button>
+            <button data-cat="painting">Painting</button>
+            <button data-cat="siding">Siding &amp; Fascia</button>
+        </div>
+
+        <div class="card">
+            <!-- STAGE 1: project inputs -->
+            <div class="stage active" id="stage1">
+
+                <!-- FLOORING -->
+                <div class="panel active" id="panel-flooring">
+                    <label for="fl-type">Flooring type</label>
+                    <select id="fl-type">
+                        <option value="lvp">Luxury vinyl plank (LVP)</option>
+                        <option value="carpet">Carpet</option>
+                    </select>
+
+                    <label for="fl-sqft">Square footage</label>
+                    <input type="number" id="fl-sqft" min="50" max="20000" inputmode="numeric" placeholder="e.g. 1200">
+                    <div class="measure-tip"><b>How to measure:</b> for each room, multiply length &times; width in feet, then add the rooms together. Closets count. Don't subtract for furniture or fixtures.</div>
+
+                    <div id="fl-stairs-wrap" style="display:none">
+                        <label for="fl-stairs">Number of stairs (if any)</label>
+                        <input type="number" id="fl-stairs" min="0" max="60" inputmode="numeric" placeholder="e.g. 16">
+                    </div>
+
+                    <label>Everything's included — one price, no surprise add-ons</label>
+                    <div class="checks" id="fl-included">
+                        <div class="check" style="cursor:default;border-color:var(--copper);background:#FBF3EC" id="fl-inc-material"><span style="color:var(--copper);font-weight:700">&#10003;</span><span><b>Flooring material &amp; moisture barrier</b><small>The LVP and moisture barrier are included, not billed separately</small></span></div>
+                        <div class="check" style="cursor:default;border-color:var(--copper);background:#FBF3EC"><span style="color:var(--copper);font-weight:700">&#10003;</span><span><b>Tear-out &amp; haul-off</b><small>We remove and dispose of your old flooring</small></span></div>
+                        <div class="check" style="cursor:default;border-color:var(--copper);background:#FBF3EC" id="fl-inc-level"><span style="color:var(--copper);font-weight:700">&#10003;</span><span><b>Floor prep &amp; leveling</b><small>Dips and uneven slab handled before install</small></span></div>
+                        <div class="check" style="cursor:default;border-color:var(--copper);background:#FBF3EC" id="fl-inc-trim"><span style="color:var(--copper);font-weight:700">&#10003;</span><span><b>New quarter round / trim</b><small>Finished edges, not an upcharge</small></span></div>
+                        <div class="check" style="cursor:default;border-color:var(--copper);background:#FBF3EC"><span style="color:var(--copper);font-weight:700">&#10003;</span><span><b>Professional installation</b><small>Post-work cleanup — we leave it move-in ready</small></span></div>
+                    </div>
+                </div>
+
+                <!-- PAINTING -->
+                <div class="panel" id="panel-painting">
+                    <label for="pt-scope">What are we painting?</label>
+                    <select id="pt-scope">
+                        <option value="full">Full interior — walls, ceilings, trim &amp; doors</option>
+                        <option value="wallsceil">Walls &amp; ceilings</option>
+                        <option value="walls">Walls only</option>
+                    </select>
+
+                    <label for="pt-sqft">Home square footage (livable area)</label>
+                    <input type="number" id="pt-sqft" min="300" max="15000" inputmode="numeric" placeholder="e.g. 2400">
+                    <div class="measure-tip"><b>Tip:</b> this is your home's floor area — the number on your appraisal, listing, or HCAD/FBCAD record. Painting just a few rooms? Enter those rooms' square footage instead.</div>
+
+                    <label>Options</label>
+                    <div class="checks">
+                        <label class="check"><input type="checkbox" id="pt-doors"><span><b>Refinish exterior doors</b><small>Front and back doors, prepped and painted</small></span></label>
+                        <label class="check"><input type="checkbox" id="pt-accent"><span><b>Accent walls / dark colors</b><small>Bold colors need extra coats for full coverage</small></span></label>
+                        <label class="check"><input type="checkbox" id="pt-wallpaper"><span><b>Wallpaper removal</b><small>We'll measure the affected walls on-site</small></span></label>
+                    </div>
+                </div>
+
+                <!-- SIDING -->
+                <div class="panel" id="panel-siding">
+                    <label for="sd-material">Siding material</label>
+                    <select id="sd-material">
+                        <option value="hardie">Hardie / fiber cement (most popular in Houston)</option>
+                        <option value="lp">LP SmartSide (engineered wood)</option>
+                        <option value="vinyl">Vinyl</option>
+                        <option value="cedar">Cedar / real wood</option>
+                    </select>
+
+                    <label for="sd-sqft">Square footage of siding to replace</label>
+                    <input type="number" id="sd-sqft" min="20" max="8000" inputmode="numeric" placeholder="e.g. 280">
+                    <div class="measure-tip"><b>How to measure:</b> for each affected wall section, multiply width &times; height in feet and add them up. Replacing one rotted section? Just measure that area. Not sure? Enter your best guess — we measure precisely on-site.</div>
+
+                    <label for="sd-fascia">Fascia / trim board to replace (linear feet, optional)</label>
+                    <input type="number" id="sd-fascia" min="0" max="1000" inputmode="numeric" placeholder="e.g. 40">
+                    <div class="hint">Fascia is the board behind your gutters. Rotted fascia is the most common find on gutter jobs — measure the length of the bad section.</div>
+                </div>
+
+                <div class="actions">
+                    <button type="button" class="btn btn-copper" onclick="calcAndContinue()">See my ballpark range</button>
+                </div>
+                <div class="reassure">💬&nbsp;<span><b>No spam, no pressure.</b> Your range appears on the next screen, and you'll get one text from our team to schedule a free on-site visit and firm quote.</span></div>
+            </div>
+
+            <!-- STAGE 2: contact -->
+            <div class="stage" id="stage2">
+                <label style="margin-top:0">Almost there — where should we text your ballpark?</label>
+                <p class="hint" style="margin-bottom:14px">Your range is calculated and waiting on the next screen. Our team will text you to talk through the details and set up a free on-site visit.</p>
+                <div id="hubspotForm"></div>
+                <div class="actions">
+                    <button type="button" class="btn btn-ghost" onclick="backToStage1()">&larr; Back to project details</button>
+                </div>
+            </div>
+
+            <!-- STAGE 3: result -->
+            <div class="stage" id="stage3">
+                <div class="result">
+                    <span class="eyebrow">Your ballpark range</span>
+                    <div class="amount" id="rangeDisplay"></div>
+                    <p id="rangeNote">Based on mid-grade materials and the measurements you entered. Your firm quote comes after a free on-site visit — material choices move the number, and we'll walk you through options at every price point.</p>
+                    <div class="next-up">
+                        <h3>What happens next</h3>
+                        <ol>
+                            <li>You'll get a text from our team shortly.</li>
+                            <li>We schedule a free on-site visit and firm quote.</li>
+                            <li>You pick materials — we handle everything else.</li>
+                        </ol>
+                    </div>
+                    <div class="actions" style="justify-content:center">
+                        <button type="button" class="btn btn-ghost" onclick="startOver()">Price another project</button>
+                        <a class="btn btn-copper" href="/">Back to home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="foot-note">Gutters instead? <a href="/estimate.html">Get a gutter ballpark here</a> &middot; Questions? Text <a href="sms:+12812014870">(281) 201-4870</a></p>
+    </main>
+
+    <script src="//js.hsforms.net/forms/embed/v2.js" charset="utf-8" type="text/javascript"></script>
+    <script>
+        /* ============================================================
+           CUSTOMER PRICING — final price ranges only.
+           Edit these if your pricing changes. (Per-sqft / per-unit,
+           shown to the customer as a low–high range.)
+        ============================================================ */
+        var RATES = {
+            flooring: {
+                // ALL-IN pricing: per-sqft rate + fixed allowance that covers
+                // tear-out/haul-off, floor prep/leveling, and trim automatically.
+                lvp:    { rate: { low: 6.50, high: 7.75 }, fixed: { low: 2800, high: 3300 } },
+                carpet: { rate: { low: 5.00, high: 6.00 }, fixed: { low: 575,  high: 700 } },  // includes tear-out & haul
+                stair:  { low: 36, high: 45 }          // per step (carpet)
+            },
+            painting: {
+                full:      { low: 3.25, high: 3.90 }, // $/sqft of floor area
+                wallsceil: { low: 2.60, high: 3.10 },
+                walls:     { low: 2.00, high: 2.40 },
+                doors:     { low: 725,  high: 875 },
+                accent:    { low: 430,  high: 520 }
+                // wallpaper removal: measured on-site, flagged in lead notes
+            },
+            siding: {
+                hardie: { low: 21.50, high: 25.75 },  // $/sqft installed
+                lp:     { low: 17.25, high: 20.50 },
+                vinyl:  { low: 11.50, high: 13.75 },
+                cedar:  { low: 25.75, high: 31.00 },
+                fascia: { low: 26.50, high: 31.75 }   // $/linear ft installed
+            }
+        };
+
+        var HUBSPOT = { region: "na1", portalId: "48384794", formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07" };
+
+        var activeCat = 'flooring';
+        var quote = null; // { category, detailsText, low, high, units }
+
+        // Tabs
+        document.querySelectorAll('.cat-tabs button').forEach(function (b) {
+            b.addEventListener('click', function () {
+                document.querySelectorAll('.cat-tabs button').forEach(function (x) { x.classList.remove('active'); });
+                b.classList.add('active');
+                activeCat = b.dataset.cat;
+                document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+                document.getElementById('panel-' + activeCat).classList.add('active');
+            });
+        });
+
+        // Carpet shows stairs; leveling only for hard flooring
+        document.getElementById('fl-type').addEventListener('change', function () {
+            var carpet = this.value === 'carpet';
+            document.getElementById('fl-stairs-wrap').style.display = carpet ? '' : 'none';
+            document.getElementById('fl-inc-material').style.display = carpet ? 'none' : '';
+            document.getElementById('fl-inc-level').style.display = carpet ? 'none' : '';
+            document.getElementById('fl-inc-trim').style.display = carpet ? 'none' : '';
+        });
+
+        function roundTo(n, step) { return Math.round(n / step) * step; }
+        function fmtMoney(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+
+        function calcQuote() {
+            if (activeCat === 'flooring') {
+                var sqft = parseFloat(document.getElementById('fl-sqft').value);
+                if (!sqft || sqft <= 0) return invalid('fl-sqft');
+                var type = document.getElementById('fl-type').value;
+                var r = RATES.flooring[type];
+                var low = sqft * r.rate.low + r.fixed.low;
+                var high = sqft * r.rate.high + r.fixed.high;
+                var parts = [(type === 'lvp' ? 'LVP' : 'Carpet') + ' — ' + sqft + ' sqft, ALL-IN (demo/haul' + (type === 'lvp' ? ', leveling, trim' : '') + ' included)'];
+                if (type === 'carpet') {
+                    var stairs = parseFloat(document.getElementById('fl-stairs').value) || 0;
+                    if (stairs > 0) { low += stairs * RATES.flooring.stair.low; high += stairs * RATES.flooring.stair.high; parts.push(stairs + ' stairs'); }
+                }
+                var flNote = type === 'lvp'
+                    ? 'Flooring material, moisture barrier, tear-out, prep, and trim are already included in this range — one number, no surprise add-ons once work begins.'
+                    : 'Carpet, pad, tear-out, and haul-off are already included in this range — one number, no surprise add-ons once work begins.';
+                return { category: 'Flooring', detailsText: parts.join(', '), low: low, high: high, units: sqft, note: flNote };
+            }
+            if (activeCat === 'painting') {
+                var psqft = parseFloat(document.getElementById('pt-sqft').value);
+                if (!psqft || psqft <= 0) return invalid('pt-sqft');
+                var scope = document.getElementById('pt-scope').value;
+                var pr = RATES.painting[scope];
+                var plow = psqft * pr.low, phigh = psqft * pr.high;
+                var scopeLabels = { full: 'Full interior', wallsceil: 'Walls & ceilings', walls: 'Walls only' };
+                var pparts = [scopeLabels[scope] + ' — ' + psqft + ' sqft'];
+                if (document.getElementById('pt-doors').checked) { plow += RATES.painting.doors.low; phigh += RATES.painting.doors.high; pparts.push('exterior doors'); }
+                if (document.getElementById('pt-accent').checked) { plow += RATES.painting.accent.low; phigh += RATES.painting.accent.high; pparts.push('accent/dark colors'); }
+                if (document.getElementById('pt-wallpaper').checked) { pparts.push('WALLPAPER REMOVAL — measure on-site, quote extra'); }
+                return { category: 'Painting', detailsText: pparts.join(', '), low: plow, high: phigh, units: psqft,
+                         note: document.getElementById('pt-wallpaper').checked ? 'Wallpaper removal is measured and priced on-site, on top of this range.' : null };
+            }
+            // siding
+            var ssqft = parseFloat(document.getElementById('sd-sqft').value);
+            var fascia = parseFloat(document.getElementById('sd-fascia').value) || 0;
+            if ((!ssqft || ssqft <= 0) && fascia <= 0) return invalid('sd-sqft');
+            ssqft = ssqft || 0;
+            var mat = document.getElementById('sd-material').value;
+            var sr = RATES.siding[mat];
+            var slow = ssqft * sr.low, shigh = ssqft * sr.high;
+            var matLabels = { hardie: 'Hardie/fiber cement', lp: 'LP SmartSide', vinyl: 'Vinyl', cedar: 'Cedar' };
+            var sparts = [];
+            if (ssqft > 0) sparts.push(matLabels[mat] + ' siding — ' + ssqft + ' sqft');
+            if (fascia > 0) { slow += fascia * RATES.siding.fascia.low; shigh += fascia * RATES.siding.fascia.high; sparts.push('fascia — ' + fascia + ' ln ft'); }
+            return { category: 'Siding & Fascia', detailsText: sparts.join(', '), low: slow, high: shigh, units: ssqft || fascia };
+        }
+
+        function invalid(id) {
+            var el = document.getElementById(id);
+            el.classList.add('is-invalid');
+            el.focus();
+            setTimeout(function () { el.classList.remove('is-invalid'); }, 2500);
+            return null;
+        }
+
+        function calcAndContinue() {
+            var q = calcQuote();
+            if (!q) return;
+            // Round the displayed range to friendly numbers
+            q.lowDisplay = roundTo(q.low, q.low > 4000 ? 250 : 100);
+            q.highDisplay = roundTo(q.high, q.high > 4000 ? 250 : 100);
+            quote = q;
+            setStage(2);
+            createHubSpotForm();
+        }
+
+        function setStage(n) {
+            [1, 2, 3].forEach(function (i) {
+                document.getElementById('stage' + i).classList.toggle('active', i === n);
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function backToStage1() { setStage(1); }
+
+        function startOver() {
+            quote = null;
+            setStage(1);
+        }
+
+        function createHubSpotForm() {
+            if (window.hubspotFormCreated) return;
+            if (!window.hbspt) {
+                document.getElementById('hubspotForm').innerHTML =
+                    '<p style="color:#C0392B">The contact form couldn\'t load. Please refresh, or text us your project at (281) 201-4870.</p>';
+                return;
+            }
+            hbspt.forms.create({
+                region: HUBSPOT.region,
+                portalId: HUBSPOT.portalId,
+                formId: HUBSPOT.formId,
+                target: "#hubspotForm",
+                onFormSubmit: function ($form) {
+                    try {
+                        if (!quote) return true;
+                        var rangeText = fmtMoney(quote.lowDisplay) + ' – ' + fmtMoney(quote.highDisplay);
+                        var desc = 'REMODEL Ballpark — ' + quote.category + '\n' +
+                                   '- Details: ' + quote.detailsText + '\n' +
+                                   '- Range shown: ' + rangeText +
+                                   (quote.note ? '\n- Note: ' + quote.note : '');
+                        var descField = $form.find('textarea[name="message"]');
+                        if (descField && descField.length) descField.val(desc);
+                        $form.find('input[name="estimate_amount"]').val(rangeText);
+
+                        // Log to backend sheet (reuses gutter columns: type=category, length=units)
+                        var first = $form.find('input[name="firstname"]').val() || '';
+                        var last = $form.find('input[name="lastname"]').val() || '';
+                        fetch('/api/estimate', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                name: (first + ' ' + last).trim(),
+                                email: $form.find('input[name="email"]').val() || '',
+                                phone: $form.find('input[name="phone"]').val() || '',
+                                address: $form.find('input[name="address"]').val() || '',
+                                homeLength: quote.units,
+                                gutterType: 'REMODEL: ' + quote.category,
+                                stories: 0,
+                                additionalServices: [],
+                                estimateAmount: (quote.lowDisplay + quote.highDisplay) / 2
+                            })
+                        }).catch(function (err) { console.error('Sheet logging error:', err); });
+                    } catch (err) { console.error('Quote mapping error:', err); }
+                    return true;
+                },
+                onFormSubmitted: function () {
+                    if (quote) {
+                        document.getElementById('rangeDisplay').textContent =
+                            fmtMoney(quote.lowDisplay) + ' – ' + fmtMoney(quote.highDisplay);
+                        document.getElementById('rangeNote').textContent =
+                            (quote.note ? quote.note + ' ' : '') +
+                            'Based on mid-grade materials and the measurements you entered. Your firm quote comes after a free on-site visit.';
+                    }
+                    setStage(3);
+                }
+            });
+            window.hubspotFormCreated = true;
+        }
+    </script>
+</body>
+</html>

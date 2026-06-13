@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="light only">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trace Your Roofline on Satellite — Mo City Gutters | Missouri City, TX</title>
+    <meta name="description" content="Type your address, see your home on satellite, and trace your roofline to measure linear feet for gutters — then get a free ballpark estimate. Mo City Gutters, Missouri City TX.">
+    <link rel="canonical" href="https://mocitygutters.com/trace.html">
+    <link rel="icon" href="/images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: only light;
+            --storm: #16242E; --storm-2: #1F3441; --rain: #8FB3C7; --rain-deep: #3E708C;
+            --copper: #B25A2B; --copper-d: #8E4519; --copper-bright: #E8854A;
+            --paper: #FBFAF8; --mist: #EEF1F1;
+            --ink: #22313B; --ink-soft: #51626E; --line: #DBE1E3; --white: #fff;
+            --font-display: 'Archivo', sans-serif; --font-body: 'Public Sans', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--mist); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        img { max-width: 100%; display: block; }
+
+        .top { background: var(--paper); border-bottom: 1px solid var(--line); }
+        .top-inner { max-width: 880px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 12px; }
+        .top img { width: 40px; height: 40px; border-radius: 8px; }
+        .top a { text-decoration: none; }
+        .brand-name { font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--storm); }
+        .top-phone { margin-left: auto; font-family: var(--font-mono); font-size: 13.5px; font-weight: 600; color: var(--storm); }
+        .coil-strip { display: flex; height: 6px; }
+        .coil-strip span { flex: 1; }
+
+        .page { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+        .page-head { text-align: center; max-width: 560px; margin: 0 auto 28px; }
+        .eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--rain-deep); display: block; margin-bottom: 10px; }
+        h1 { font-family: var(--font-display); font-size: clamp(28px, 4.5vw, 38px); font-weight: 900; color: var(--storm); letter-spacing: -0.015em; line-height: 1.1; }
+        .page-head p { margin-top: 12px; color: var(--ink-soft); font-size: 16px; }
+
+        .card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 34px rgba(22,36,46,.08); padding: 32px; margin-bottom: 18px; }
+
+        label { display: block; font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--storm); margin-bottom: 8px; }
+        input[type="text"] {
+            width: 100%; padding: 13px 14px; font-family: var(--font-body); font-size: 16px; color: var(--ink);
+            border: 1.5px solid var(--line); border-radius: 8px; background: var(--paper);
+        }
+        input:focus { outline: none; border-color: var(--rain-deep); }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+            font-family: var(--font-display); font-weight: 700; font-size: 16px; padding: 15px 28px;
+            border-radius: 8px; border: 2px solid transparent; text-decoration: none; transition: background .15s ease;
+        }
+        .btn:focus-visible { outline: 3px solid var(--rain-deep); outline-offset: 2px; }
+        .btn-copper { background: var(--copper); color: #fff; }
+        .btn-copper:hover { background: var(--copper-d); }
+        .btn-copper:disabled { opacity: .6; cursor: default; }
+        .btn-ghost { border-color: var(--line); color: var(--storm); background: var(--white); }
+        .btn-ghost:hover { border-color: var(--storm); }
+        .btn-block { width: 100%; margin-top: 16px; }
+
+        .error { margin-top: 14px; padding: 12px 14px; background: #FDF0EE; border: 1px solid #E8C2BB; border-radius: 8px; color: #9B3A2A; font-size: 14px; }
+
+        .addr-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; font-size: 14px; color: var(--ink-soft); }
+        .addr-bar b { color: var(--storm); }
+        .addr-bar button { margin-left: auto; background: none; border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; font-size: 12.5px; color: var(--ink-soft); cursor: pointer; }
+
+        .total-bar {
+            display: flex; align-items: baseline; justify-content: space-between;
+            background: var(--storm); border-radius: 10px; padding: 16px 20px; margin-bottom: 14px;
+        }
+        .total-bar span { font-family: var(--font-display); font-weight: 700; color: var(--rain); font-size: 14px; }
+        .total-bar b { font-family: var(--font-mono); font-weight: 600; font-size: 30px; color: #fff; }
+        .total-bar b small { font-size: 14px; color: var(--rain); }
+
+        .trace-wrap { border-radius: 12px; overflow: hidden; border: 2px solid var(--storm); background: #000; position: relative; }
+        .trace-wrap img { width: 100%; user-select: none; -webkit-user-drag: none; }
+        .trace-wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; touch-action: manipulation; }
+
+        .controls { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .controls button {
+            flex: 1; min-width: 90px; padding: 12px; font-family: var(--font-display); font-weight: 700; font-size: 13.5px;
+            background: var(--white); border: 1.5px solid var(--line); border-radius: 8px; color: var(--ink-soft); cursor: pointer;
+        }
+        .controls button.primary { border-color: var(--copper); color: var(--copper); background: #FBF3EC; }
+        .controls button:disabled { opacity: .45; cursor: default; }
+
+        .how { border-left: 3px solid var(--copper); background: #FBF3EC; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13.5px; color: var(--ink-soft); margin-top: 14px; }
+        .how b { color: var(--storm); }
+
+        .hidden { display: none; }
+        .foot-note { text-align: center; margin-top: 28px; font-size: 13.5px; color: var(--ink-soft); }
+        .foot-note a { color: var(--rain-deep); }
+        @media (max-width: 560px) { .card { padding: 24px 18px; } }
+    
+        /* ---- Dark-mode-proofing: force real colors, no variables ---- */
+        html, body { background:#FBFAF8 !important; color:#22313B !important; }
+        .section, .included, .related, .lead, .faq-wrap, article, .page, main { background-color:#FBFAF8; }
+        .included, .related { background-color:#EEF1F1 !important; }
+        .section h2, .lead h2, article h1, article h2, article h3,
+        .feature h3, .step h3, summary, .post-card h2, h1, h2, h3 { color:#16242E !important; }
+        .lead p, .feature p, .step p, article p, details p, .post-card p,
+        .post-card .date, .hint, .inc-item, .inc-item b { color:#22313B !important; }
+        .inc-item b, summary { color:#16242E !important; }
+        details, .faq-wrap details { background-color:#FBFAF8 !important; }
+        summary::after { color:#B25A2B !important; }
+        .eyebrow { color:#3E708C !important; }
+        /* keep intentionally dark sections dark with light text */
+        .hero, .cta-band, .site-footer { background-color:#16242E !important; }
+        .hero h1, .cta-band h2 { color:#fff !important; }
+        .hero .eyebrow, .cta-band .eyebrow, .on-dark .eyebrow { color:#8FB3C7 !important; }
+        .hero-sub, .cta-band p, .hero-trust { color:#C7D4DC !important; }
+        .remodel, .areas { background-color:#1F3441 !important; }
+        .remodel h2, .areas h2 { color:#fff !important; }
+
+        /* ---- Dark-mode hardening v2: literal colors, max reach ---- */
+        body .section { background-color:#FBFAF8 !important; }
+        body .section.included, body .section.related, body section.included, body section.related { background-color:#EEF1F1 !important; }
+        body .section.cta-band { background-color:#16242E !important; }
+        body .faq-wrap, body .faq-wrap details, body details, body .feature, body .post-card { background-color:#FBFAF8 !important; }
+        body .section.included .feature { background-color:#FBFAF8 !important; }
+        /* literal text colors */
+        body .section h2, body .lead h2, body .feature h3, body .step h3,
+        body summary, body .faq-wrap summary, body article h1, body article h2, body article h3,
+        body .post-card h2 { color:#16242E !important; -webkit-text-fill-color:#16242E !important; }
+        body .lead p, body .feature p, body .step p, body details p, body .faq-wrap p,
+        body .inc-item, body .post-card p, body .post-card .date, body article p,
+        body article li { color:#22313B !important; -webkit-text-fill-color:#22313B !important; }
+        body .inc-item b, body .inc-item .ck { color:#16242E !important; -webkit-text-fill-color:#16242E !important; }
+        body .inc-item .ck { color:#B25A2B !important; -webkit-text-fill-color:#B25A2B !important; }
+        body .eyebrow { color:#3E708C !important; -webkit-text-fill-color:#3E708C !important; }
+        body summary::after { color:#B25A2B !important; -webkit-text-fill-color:#B25A2B !important; }
+        /* dark sections keep light text */
+        body .hero, body .cta-band, body .site-footer, body .remodel, body .areas { }
+        body .hero h1, body .cta-band h2, body .remodel h2, body .areas h2,
+        body .hero h1 em { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+        body .hero h1 em { color:#8FB3C7 !important; -webkit-text-fill-color:#8FB3C7 !important; }
+        body .hero-sub, body .cta-band p, body .hero-trust,
+        body .remodel p, body .remodel li, body .areas p { color:#C7D4DC !important; -webkit-text-fill-color:#C7D4DC !important; }
+        body .hero .eyebrow, body .cta-band .eyebrow, body .on-dark .eyebrow { color:#8FB3C7 !important; -webkit-text-fill-color:#8FB3C7 !important; }
+</style>
+</head>
+<body>
+    <header class="top">
+        <div class="top-inner">
+            <a href="/"><img src="/images/logo.png" alt="Mo City Gutters & Remodeling logo"></a>
+            <a href="/" style="text-decoration:none"><span class="brand-name">Mo City Gutters &amp; Remodeling</span></a>
+            <a class="top-phone" href="tel:+12812014870">(281) 201-4870</a>
+        </div>
+        <div class="coil-strip" aria-hidden="true">
+            <span style="background:#F4F4F1"></span><span style="background:#EFE4C9"></span><span style="background:#D6C7A8"></span><span style="background:#C9BFA3"></span><span style="background:#97999B"></span><span style="background:#555B5E"></span><span style="background:#54707F"></span><span style="background:#4A3B2A"></span><span style="background:#44342A"></span><span style="background:#1F1F1D"></span>
+        </div>
+    </header>
+
+    <main class="page">
+        <div class="page-head">
+            <span class="eyebrow">Satellite measuring</span>
+            <h1>Trace your roofline. We'll do the math.</h1>
+            <p>Type your address, then tap along your roof edges on the satellite photo. Your linear feet flow straight into your ballpark estimate.</p>
+        </div>
+
+        <!-- Not configured notice -->
+        <div class="card hidden" id="notConfigured">
+            <p style="color:var(--ink-soft)">This tool is getting its finishing touches. In the meantime, our <a href="/measure.html" style="color:var(--rain-deep)">step-by-step measuring guide</a> takes about 10 minutes — or text us at <a href="sms:+12812014870" style="color:var(--rain-deep)">(281) 201-4870</a> and we'll measure for free on-site.</p>
+        </div>
+
+        <!-- STEP 1: address -->
+        <div class="card" id="addressCard">
+            <label for="address">Your address</label>
+            <input type="text" id="address" placeholder="123 Main St, Missouri City, TX" autocomplete="street-address">
+            <div class="error hidden" id="addrError"></div>
+            <button class="btn btn-copper btn-block" id="findBtn" onclick="findHome()">Find my home &rarr;</button>
+        </div>
+
+        <!-- STEP 2: trace -->
+        <div class="card hidden" id="traceCard">
+            <div class="addr-bar">
+                <span>📍 <b id="foundAddr"></b></span>
+                <button onclick="resetAll()">New address</button>
+            </div>
+
+            <div class="total-bar">
+                <span>Traced so far</span>
+                <b><span id="tracedFt">0</span> <small>linear ft</small></b>
+            </div>
+
+            <div class="trace-wrap" id="traceWrap">
+                <img id="satImg" alt="Satellite view of your home — tap along the roof edges to trace" draggable="false">
+                <svg id="traceSvg" viewBox="0 0 640 400" preserveAspectRatio="none"></svg>
+            </div>
+
+            <div class="controls">
+                <button onclick="undoPoint()">&#8630; Undo</button>
+                <button class="primary" id="endRunBtn" onclick="endRun()" disabled>&#10003; Finish this edge</button>
+                <button onclick="clearAll()">&#10005; Clear</button>
+            </div>
+
+            <div class="how">
+                <b>How to trace:</b> tap each corner along a roof edge that needs a gutter — straight edges only need 2 taps. Tap <b>Finish this edge</b>, then start the next one. Only trace the bottom (horizontal) roof edges where gutters hang, not the slanted ends. Close is good enough — we confirm exact measurements on-site for free.
+            </div>
+
+            <a class="btn btn-copper btn-block" id="useBtn" href="/estimate.html">Use this in my ballpark estimate &rarr;</a>
+        </div>
+
+        <p class="foot-note">Prefer a tape measure? <a href="/measure.html">Use the step-by-step guide</a> &middot; Or text <a href="sms:+12812014870">(281) 201-4870</a> and we'll measure for free.</p>
+    </main>
+
+    <script>
+        /* ============================================================
+           CONFIG — paste your Google Cloud API key below.
+           Required APIs: Geocoding API, Maps Static API.
+           IMPORTANT: in Google Cloud Console, restrict the key to
+           HTTP referrers  https://mocitygutters.com/*  and to only
+           those two APIs, so it can't be abused if someone copies it.
+        ============================================================ */
+        var GOOGLE_MAPS_API_KEY = "PASTE_YOUR_API_KEY_HERE";
+
+        var MAP_ZOOM = 20, MAP_W = 640, MAP_H = 400;
+        var state = { lat: null, runs: [], current: [] };
+
+        // Show fallback card if the key was never configured
+        if (!GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY.indexOf('PASTE_') === 0) {
+            document.getElementById('notConfigured').classList.remove('hidden');
+            document.getElementById('addressCard').classList.add('hidden');
+        }
+
+        function metersPerPixel(lat, zoom) {
+            return (156543.03392 * Math.cos((lat * Math.PI) / 180)) / Math.pow(2, zoom);
+        }
+        var M_TO_FT = 3.28084;
+
+        function showError(msg) {
+            var el = document.getElementById('addrError');
+            el.textContent = msg;
+            el.classList.remove('hidden');
+        }
+
+        async function findHome() {
+            var addr = document.getElementById('address').value.trim();
+            document.getElementById('addrError').classList.add('hidden');
+            if (!addr) return showError('Please enter your address.');
+            var btn = document.getElementById('findBtn');
+            btn.disabled = true; btn.textContent = 'Finding your home…';
+            try {
+                var res = await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' +
+                    encodeURIComponent(addr) + '&key=' + GOOGLE_MAPS_API_KEY);
+                var data = await res.json();
+                if (data.status !== 'OK' || !data.results.length) {
+                    throw new Error("We couldn't find that address — try adding the city and ZIP.");
+                }
+                var loc = data.results[0].geometry.location;
+                state.lat = loc.lat;
+                state.runs = []; state.current = [];
+                document.getElementById('foundAddr').textContent = data.results[0].formatted_address;
+                document.getElementById('satImg').src =
+                    'https://maps.googleapis.com/maps/api/staticmap?center=' + loc.lat + ',' + loc.lng +
+                    '&zoom=' + MAP_ZOOM + '&size=' + MAP_W + 'x' + MAP_H + '&maptype=satellite&key=' + GOOGLE_MAPS_API_KEY;
+                document.getElementById('addressCard').classList.add('hidden');
+                document.getElementById('traceCard').classList.remove('hidden');
+                render();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (e) {
+                showError(e.message || 'Something went wrong — please try again, or text us and we\'ll measure for free.');
+            } finally {
+                btn.disabled = false; btn.textContent = 'Find my home →';
+            }
+        }
+
+        function resetAll() {
+            state = { lat: null, runs: [], current: [] };
+            document.getElementById('traceCard').classList.add('hidden');
+            document.getElementById('addressCard').classList.remove('hidden');
+            document.getElementById('address').value = '';
+        }
+
+        // ---- Tracing ----
+        document.getElementById('traceSvg').addEventListener('click', function (e) {
+            var rect = this.getBoundingClientRect();
+            var x = ((e.clientX - rect.left) / rect.width) * MAP_W;
+            var y = ((e.clientY - rect.top) / rect.height) * MAP_H;
+            state.current.push({ x: x, y: y });
+            render();
+        });
+
+        function undoPoint() {
+            if (state.current.length > 0) {
+                state.current.pop();
+            } else if (state.runs.length > 0) {
+                state.current = state.runs.pop();
+            }
+            render();
+        }
+
+        function endRun() {
+            if (state.current.length >= 2) state.runs.push(state.current);
+            state.current = [];
+            render();
+        }
+
+        function clearAll() {
+            state.runs = []; state.current = [];
+            render();
+        }
+
+        function runLengthM(points) {
+            if (state.lat == null || points.length < 2) return 0;
+            var mpp = metersPerPixel(state.lat, MAP_ZOOM);
+            var total = 0;
+            for (var i = 1; i < points.length; i++) {
+                var dx = points[i].x - points[i - 1].x;
+                var dy = points[i].y - points[i - 1].y;
+                total += Math.sqrt(dx * dx + dy * dy) * mpp;
+            }
+            return total;
+        }
+
+        function render() {
+            var svg = document.getElementById('traceSvg');
+            var html = '';
+            var all = state.runs.concat(state.current.length >= 1 ? [state.current] : []);
+            all.forEach(function (run, idx) {
+                var isCurrent = (idx === all.length - 1) && state.current.length >= 1 && run === state.current;
+                var pts = run.map(function (p) { return p.x + ',' + p.y; }).join(' ');
+                if (run.length >= 2) {
+                    html += '<polyline points="' + pts + '" fill="none" stroke="#E8854A" stroke-width="3.5"' +
+                            (isCurrent ? ' stroke-dasharray="7 5"' : '') +
+                            ' stroke-linecap="round" stroke-linejoin="round"/>';
+                }
+                run.forEach(function (p) {
+                    html += '<circle cx="' + p.x + '" cy="' + p.y + '" r="' + (isCurrent ? 5.5 : 4.5) +
+                            '" fill="#E8854A" stroke="#fff" stroke-width="1.5"/>';
+                });
+            });
+            svg.innerHTML = html;
+
+            var totalM = 0;
+            state.runs.forEach(function (r) { totalM += runLengthM(r); });
+            if (state.current.length >= 2) totalM += runLengthM(state.current);
+            var totalFt = Math.round(totalM * M_TO_FT);
+            document.getElementById('tracedFt').textContent = totalFt;
+            document.getElementById('useBtn').href = totalFt > 0 ? '/estimate.html?lf=' + totalFt : '/estimate.html';
+            document.getElementById('endRunBtn').disabled = state.current.length < 2;
+            var btn = document.getElementById('endRunBtn');
+            btn.textContent = state.current.length >= 2
+                ? '✓ Finish this edge (' + (runLengthM(state.current) * M_TO_FT).toFixed(0) + ' ft)'
+                : '✓ Finish this edge';
+        }
+    </script>
+</body>
+</html>

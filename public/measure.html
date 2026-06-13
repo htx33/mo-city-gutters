@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="light only">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Measure Your Home for Gutters — Mo City Gutters | Missouri City, TX</title>
+    <meta name="description" content="A simple step-by-step guide to measuring your home for seamless gutters. Add up your sides with our calculator and get a free ballpark estimate — Mo City Gutters, Missouri City TX.">
+    <link rel="canonical" href="https://mocitygutters.com/measure.html">
+    <link rel="icon" href="/images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: only light;
+            --storm: #16242E; --storm-2: #1F3441; --rain: #8FB3C7; --rain-deep: #3E708C;
+            --copper: #B25A2B; --copper-d: #8E4519; --paper: #FBFAF8; --mist: #EEF1F1;
+            --ink: #22313B; --ink-soft: #51626E; --line: #DBE1E3; --white: #fff;
+            --font-display: 'Archivo', sans-serif; --font-body: 'Public Sans', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--mist); color: var(--ink); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+        img { max-width: 100%; display: block; }
+
+        .top { background: var(--paper); border-bottom: 1px solid var(--line); }
+        .top-inner { max-width: 880px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 12px; }
+        .top img { width: 40px; height: 40px; border-radius: 8px; }
+        .top a { text-decoration: none; }
+        .brand-name { font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--storm); }
+        .top-phone { margin-left: auto; font-family: var(--font-mono); font-size: 13.5px; font-weight: 600; color: var(--storm); }
+        .coil-strip { display: flex; height: 6px; }
+        .coil-strip span { flex: 1; }
+
+        .page { max-width: 760px; margin: 0 auto; padding: 44px 24px 80px; }
+        .eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--rain-deep); display: block; margin-bottom: 10px; }
+        h1 { font-family: var(--font-display); font-size: clamp(30px, 5vw, 42px); font-weight: 900; color: var(--storm); letter-spacing: -0.015em; line-height: 1.08; }
+        .lede { margin-top: 14px; color: var(--ink-soft); font-size: 17px; max-width: 580px; }
+        h2 { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--storm); margin: 44px 0 12px; }
+        p { color: var(--ink-soft); }
+
+        .card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 34px rgba(22,36,46,.08); padding: 32px; margin-top: 18px; }
+
+        .steps { counter-reset: s; list-style: none; display: grid; gap: 18px; margin-top: 8px; }
+        .steps li { display: flex; gap: 16px; align-items: flex-start; }
+        .steps li::before {
+            counter-increment: s; content: counter(s);
+            font-family: var(--font-mono); font-weight: 600; font-size: 14px; color: var(--copper);
+            background: #F7EDE5; border: 1px solid #EAD5C3; border-radius: 100px;
+            min-width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+        }
+        .steps b { color: var(--storm); }
+        .steps span { font-size: 15px; padding-top: 3px; }
+
+        .tip { border-left: 3px solid var(--copper); background: #FBF3EC; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 14px; color: var(--ink-soft); margin-top: 18px; }
+        .tip b { color: var(--storm); }
+
+        .diagram { background: var(--storm); border-radius: 12px; padding: 26px; margin-top: 18px; }
+        .diagram svg { width: 100%; height: auto; display: block; }
+        .diagram-caption { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--rain); margin-top: 14px; text-align: center; }
+
+        /* Calculator */
+        .calc-rows { display: grid; gap: 10px; margin-top: 6px; }
+        .calc-row { display: flex; gap: 10px; align-items: center; }
+        .calc-row label { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--ink-soft); min-width: 56px; text-transform: uppercase; letter-spacing: .06em; }
+        .calc-row input {
+            flex: 1; padding: 12px 14px; font-family: var(--font-body); font-size: 16px; color: var(--ink);
+            border: 1.5px solid var(--line); border-radius: 8px; background: var(--paper);
+        }
+        .calc-row input:focus { outline: none; border-color: var(--rain-deep); }
+        .calc-row button { background: none; border: none; color: var(--ink-soft); font-size: 20px; cursor: pointer; padding: 6px; }
+        .add-side { background: none; border: 1.5px dashed var(--line); border-radius: 8px; width: 100%; padding: 12px; margin-top: 10px; font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--rain-deep); cursor: pointer; }
+        .add-side:hover { border-color: var(--rain-deep); }
+        .total { display: flex; align-items: baseline; justify-content: space-between; border-top: 1px solid var(--line); margin-top: 22px; padding-top: 18px; }
+        .total span { font-family: var(--font-display); font-weight: 700; color: var(--storm); }
+        .total b { font-family: var(--font-mono); font-weight: 600; font-size: 32px; color: var(--storm); }
+        .total b small { font-size: 15px; color: var(--ink-soft); }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+            font-family: var(--font-display); font-weight: 700; font-size: 16px; padding: 15px 28px;
+            border-radius: 8px; border: 2px solid transparent; text-decoration: none; transition: background .15s ease;
+        }
+        .btn:focus-visible { outline: 3px solid var(--rain-deep); outline-offset: 2px; }
+        .btn-copper { background: var(--copper); color: #fff; width: 100%; margin-top: 18px; }
+        .btn-copper:hover { background: var(--copper-d); }
+
+        .faq-mini { margin-top: 10px; }
+        details { border-bottom: 1px solid var(--line); }
+        summary { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--storm); padding: 18px 30px 18px 0; cursor: pointer; list-style: none; position: relative; }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: "+"; position: absolute; right: 4px; top: 16px; font-size: 20px; color: var(--copper); }
+        details[open] summary::after { content: "–"; }
+        details p { padding: 0 0 18px; font-size: 15px; }
+
+        .foot-note { text-align: center; margin-top: 32px; font-size: 13.5px; color: var(--ink-soft); }
+        .foot-note a { color: var(--rain-deep); }
+        @media (max-width: 560px) { .card { padding: 24px 18px; } }
+    
+        /* ---- Dark-mode-proofing: force real colors, no variables ---- */
+        html, body { background:#FBFAF8 !important; color:#22313B !important; }
+        .section, .included, .related, .lead, .faq-wrap, article, .page, main { background-color:#FBFAF8; }
+        .included, .related { background-color:#EEF1F1 !important; }
+        .section h2, .lead h2, article h1, article h2, article h3,
+        .feature h3, .step h3, summary, .post-card h2, h1, h2, h3 { color:#16242E !important; }
+        .lead p, .feature p, .step p, article p, details p, .post-card p,
+        .post-card .date, .hint, .inc-item, .inc-item b { color:#22313B !important; }
+        .inc-item b, summary { color:#16242E !important; }
+        details, .faq-wrap details { background-color:#FBFAF8 !important; }
+        summary::after { color:#B25A2B !important; }
+        .eyebrow { color:#3E708C !important; }
+        /* keep intentionally dark sections dark with light text */
+        .hero, .cta-band, .site-footer { background-color:#16242E !important; }
+        .hero h1, .cta-band h2 { color:#fff !important; }
+        .hero .eyebrow, .cta-band .eyebrow, .on-dark .eyebrow { color:#8FB3C7 !important; }
+        .hero-sub, .cta-band p, .hero-trust { color:#C7D4DC !important; }
+        .remodel, .areas { background-color:#1F3441 !important; }
+        .remodel h2, .areas h2 { color:#fff !important; }
+
+        /* ---- Dark-mode hardening v2: literal colors, max reach ---- */
+        body .section { background-color:#FBFAF8 !important; }
+        body .section.included, body .section.related, body section.included, body section.related { background-color:#EEF1F1 !important; }
+        body .section.cta-band { background-color:#16242E !important; }
+        body .faq-wrap, body .faq-wrap details, body details, body .feature, body .post-card { background-color:#FBFAF8 !important; }
+        body .section.included .feature { background-color:#FBFAF8 !important; }
+        /* literal text colors */
+        body .section h2, body .lead h2, body .feature h3, body .step h3,
+        body summary, body .faq-wrap summary, body article h1, body article h2, body article h3,
+        body .post-card h2 { color:#16242E !important; -webkit-text-fill-color:#16242E !important; }
+        body .lead p, body .feature p, body .step p, body details p, body .faq-wrap p,
+        body .inc-item, body .post-card p, body .post-card .date, body article p,
+        body article li { color:#22313B !important; -webkit-text-fill-color:#22313B !important; }
+        body .inc-item b, body .inc-item .ck { color:#16242E !important; -webkit-text-fill-color:#16242E !important; }
+        body .inc-item .ck { color:#B25A2B !important; -webkit-text-fill-color:#B25A2B !important; }
+        body .eyebrow { color:#3E708C !important; -webkit-text-fill-color:#3E708C !important; }
+        body summary::after { color:#B25A2B !important; -webkit-text-fill-color:#B25A2B !important; }
+        /* dark sections keep light text */
+        body .hero, body .cta-band, body .site-footer, body .remodel, body .areas { }
+        body .hero h1, body .cta-band h2, body .remodel h2, body .areas h2,
+        body .hero h1 em { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+        body .hero h1 em { color:#8FB3C7 !important; -webkit-text-fill-color:#8FB3C7 !important; }
+        body .hero-sub, body .cta-band p, body .hero-trust,
+        body .remodel p, body .remodel li, body .areas p { color:#C7D4DC !important; -webkit-text-fill-color:#C7D4DC !important; }
+        body .hero .eyebrow, body .cta-band .eyebrow, body .on-dark .eyebrow { color:#8FB3C7 !important; -webkit-text-fill-color:#8FB3C7 !important; }
+</style>
+</head>
+<body>
+    <header class="top">
+        <div class="top-inner">
+            <a href="/"><img src="/images/logo.png" alt="Mo City Gutters & Remodeling logo"></a>
+            <a href="/" style="text-decoration:none"><span class="brand-name">Mo City Gutters &amp; Remodeling</span></a>
+            <a class="top-phone" href="tel:+12812014870">(281) 201-4870</a>
+        </div>
+        <div class="coil-strip" aria-hidden="true">
+            <span style="background:#F4F4F1"></span><span style="background:#EFE4C9"></span><span style="background:#D6C7A8"></span><span style="background:#C9BFA3"></span><span style="background:#97999B"></span><span style="background:#555B5E"></span><span style="background:#54707F"></span><span style="background:#4A3B2A"></span><span style="background:#44342A"></span><span style="background:#1F1F1D"></span>
+        </div>
+    </header>
+
+    <main class="page">
+        <span class="eyebrow">Measuring guide</span>
+        <h1>How to measure your home for gutters.</h1>
+        <p class="lede">It takes about 10 minutes, you only need a tape measure, and close is good enough — we always confirm exact measurements on-site before fabricating anything.</p>
+
+        <h2>What you're measuring</h2>
+        <p>Gutters are priced by <b style="color:var(--storm)">linear feet</b> — the total length of roof edge that needs a gutter. Not square feet, not the size of your house. Just the length of the edges where rainwater runs off.</p>
+
+        <div class="diagram" role="img" aria-label="Top-down diagram of a house showing sides A, B, C, and D measured along the roof edges">
+            <svg viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Mono', monospace">
+                <!-- house footprint -->
+                <path d="M120 60 L440 60 L440 170 L350 170 L350 260 L120 260 Z" fill="#1F3441" stroke="#8FB3C7" stroke-width="3"/>
+                <!-- roof ridge hint -->
+                <path d="M150 90 L410 90 M150 230 L320 230" stroke="#2A4356" stroke-width="2" stroke-dasharray="6 6"/>
+                <!-- measured edges -->
+                <path d="M120 44 L440 44" stroke="#B25A2B" stroke-width="4" stroke-linecap="round"/>
+                <path d="M456 60 L456 170" stroke="#B25A2B" stroke-width="4" stroke-linecap="round"/>
+                <path d="M120 276 L350 276" stroke="#B25A2B" stroke-width="4" stroke-linecap="round"/>
+                <path d="M104 60 L104 260" stroke="#B25A2B" stroke-width="4" stroke-linecap="round"/>
+                <!-- labels -->
+                <text x="280" y="32" fill="#F4F4F1" font-size="16" text-anchor="middle" font-weight="600">A · 52 ft</text>
+                <text x="498" y="120" fill="#F4F4F1" font-size="16" text-anchor="middle" font-weight="600">B · 24 ft</text>
+                <text x="235" y="302" fill="#F4F4F1" font-size="16" text-anchor="middle" font-weight="600">C · 38 ft</text>
+                <text x="62" y="165" fill="#F4F4F1" font-size="16" text-anchor="middle" font-weight="600">D · 42 ft</text>
+                <text x="280" y="172" fill="#8FB3C7" font-size="14" text-anchor="middle">A + B + C + D = 156 linear ft</text>
+            </svg>
+            <div class="diagram-caption">Measure each roof edge at ground level, then add them up</div>
+        </div>
+
+        <h2>Step by step</h2>
+        <div class="card">
+            <ol class="steps">
+                <li><span><b>Walk around your house</b> and note each side where a gutter is needed (or where an old one hangs now). Most homes have 2–6 runs, including the garage.</span></li>
+                <li><span><b>Measure each side at ground level</b>, directly below the roof edge. No ladder needed — the ground distance is close enough.</span></li>
+                <li><span><b>Round up to the nearest foot</b> and write each side down. If a wall steps in or out, just measure the overall end-to-end length.</span></li>
+                <li><span><b>Add the sides together</b> — or type them into the calculator below and we'll do it for you.</span></li>
+            </ol>
+            <div class="tip"><b>Don't stress precision.</b> If you're within a few feet, your ballpark will be useful. Downspouts are calculated for you automatically, and we re-measure everything in person before any work begins.</div>
+            <div class="tip" style="margin-top:10px"><b>No tape measure?</b> Pace it off — one big step is roughly 3 feet — or count brick lengths (about 3 bricks per 2 feet). Close enough for a ballpark.</div>
+        </div>
+
+        <div class="tip" style="margin-top:24px"><b>Don't want to go outside?</b> <a href="/trace.html" style="color:var(--rain-deep)">Trace your roofline on a satellite photo instead</a> — type your address, tap along the roof edges, done.</div>
+
+        <h2>Add up your sides</h2>
+        <div class="card">
+            <div class="calc-rows" id="calcRows">
+                <div class="calc-row"><label>Side A</label><input type="number" min="0" max="500" inputmode="numeric" placeholder="ft" oninput="recalc()"><button type="button" aria-label="Remove side" onclick="removeRow(this)">×</button></div>
+                <div class="calc-row"><label>Side B</label><input type="number" min="0" max="500" inputmode="numeric" placeholder="ft" oninput="recalc()"><button type="button" aria-label="Remove side" onclick="removeRow(this)">×</button></div>
+                <div class="calc-row"><label>Side C</label><input type="number" min="0" max="500" inputmode="numeric" placeholder="ft" oninput="recalc()"><button type="button" aria-label="Remove side" onclick="removeRow(this)">×</button></div>
+                <div class="calc-row"><label>Side D</label><input type="number" min="0" max="500" inputmode="numeric" placeholder="ft" oninput="recalc()"><button type="button" aria-label="Remove side" onclick="removeRow(this)">×</button></div>
+            </div>
+            <button type="button" class="add-side" onclick="addRow()">+ Add another side</button>
+            <div class="total"><span>Total linear feet</span><b><span id="totalFt">0</span> <small>ft</small></b></div>
+            <a class="btn btn-copper" id="useBtn" href="/estimate.html">Use this in my ballpark estimate &rarr;</a>
+        </div>
+
+        <h2>Common questions</h2>
+        <div class="faq-mini">
+            <details>
+                <summary>Do I count downspouts?</summary>
+                <p>No — just the horizontal roof edges. Our estimate tool adds downspouts automatically based on your total length and number of stories.</p>
+            </details>
+            <details>
+                <summary>My house is two stories. Does that change how I measure?</summary>
+                <p>Measure the same way, at ground level. Just select "2 stories" in the estimate tool — second-story work takes more time and equipment, and the tool accounts for that.</p>
+            </details>
+            <details>
+                <summary>What if I only need gutters on part of the house?</summary>
+                <p>Only measure the sides that need them. Many homeowners start with the front and the sides over walkways and doors.</p>
+            </details>
+            <details>
+                <summary>What's a typical total?</summary>
+                <p>Most single-story homes land between 100 and 160 linear feet. Larger two-story homes commonly run 150 to 250.</p>
+            </details>
+        </div>
+
+        <p class="foot-note">Rather have us handle it? Call or text <a href="sms:+12812014870">(281) 201-4870</a> and we'll measure for free on-site.</p>
+    </main>
+
+    <script>
+        var labels = 'ABCDEFGHIJKLMNOP';
+
+        function recalc() {
+            var total = 0;
+            document.querySelectorAll('#calcRows input').forEach(function (i) {
+                var v = parseFloat(i.value);
+                if (!isNaN(v) && v > 0) total += v;
+            });
+            total = Math.round(total);
+            document.getElementById('totalFt').textContent = total;
+            var btn = document.getElementById('useBtn');
+            btn.href = total > 0 ? '/estimate.html?lf=' + total : '/estimate.html';
+        }
+
+        function relabel() {
+            document.querySelectorAll('#calcRows .calc-row label').forEach(function (l, i) {
+                l.textContent = 'Side ' + (labels[i] || (i + 1));
+            });
+        }
+
+        function addRow() {
+            var rows = document.getElementById('calcRows');
+            var row = document.createElement('div');
+            row.className = 'calc-row';
+            row.innerHTML = '<label></label><input type="number" min="0" max="500" inputmode="numeric" placeholder="ft" oninput="recalc()"><button type="button" aria-label="Remove side" onclick="removeRow(this)">×</button>';
+            rows.appendChild(row);
+            relabel();
+            row.querySelector('input').focus();
+        }
+
+        function removeRow(btn) {
+            var rows = document.getElementById('calcRows');
+            if (rows.children.length > 1) { btn.parentElement.remove(); relabel(); recalc(); }
+            else { btn.parentElement.querySelector('input').value = ''; recalc(); }
+        }
+    </script>
+</body>
+</html>
