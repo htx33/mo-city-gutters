@@ -471,6 +471,15 @@
                                 estimateAmount: (quote.lowDisplay + quote.highDisplay) / 2
                             })
                         }).catch(function (err) { console.error('Sheet logging error:', err); });
+
+                        fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-remodel', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                firstname: first,
+                                phone: $form.find('input[name="phone"]').val() || ''
+                            })
+                        }).catch(function (err) { console.error('n8n webhook error:', err); });
                     } catch (err) { console.error('Quote mapping error:', err); }
                     return true;
                 },
