@@ -290,38 +290,25 @@
     </main>
 
     <script>
-        (function() {
-            var _origSend = XMLHttpRequest.prototype.send;
-            XMLHttpRequest.prototype.send = function(body) {
-                if (body && typeof body === 'string' && body.indexOf('hsforms.com') === -1) {
-                    try {
-                        var data = JSON.parse(body);
-                        if (data && data.fields) {
-                            data.fields.forEach(function(field) {
-                                if (field.name === 'mobilephone' || field.name === 'phone') window._remodelPhone = field.value;
-                                if (field.name === 'firstname') window._remodelFirst = field.value;
-                            });
-                        }
-                    } catch(e) {}
-                }
-                return _origSend.apply(this, arguments);
-            };
-            var _origFetch = window.fetch;
-            window.fetch = function(url, opts) {
-                if (opts && opts.body && typeof opts.body === 'string' && String(url).indexOf('hsforms.com') > -1) {
-                    try {
-                        var data = JSON.parse(opts.body);
-                        if (data && data.fields) {
-                            data.fields.forEach(function(field) {
-                                if (field.name === 'mobilephone' || field.name === 'phone') window._remodelPhone = field.value;
-                                if (field.name === 'firstname') window._remodelFirst = field.value;
-                            });
-                        }
-                    } catch(e) {}
-                }
-                return _origFetch.apply(this, arguments);
-            };
-        })();
+        window.addEventListener('message', function(event) {
+            try {
+                var msg = (typeof event.data === 'string') ? JSON.parse(event.data) : event.data;
+                if (!msg || msg.type !== 'hsFormCallback') return;
+                if (msg.id !== '535b34c9-2a6e-4ff6-8db1-2a18607fe976') return;
+                if (msg.eventName !== 'onFormSubmit' && msg.eventName !== 'onFormSubmitted') return;
+                var fields = {};
+                (msg.data || []).forEach(function(f) { fields[f.name] = f.value; });
+                var rawPhone = fields.mobilephone || fields.phone || '';
+                if (!rawPhone) return;
+                var phone = '+1' + rawPhone.replace(/\D/g, '').slice(-10);
+                var firstname = fields.firstname || '';
+                fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-remodel', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({firstname: firstname, phone: phone})
+                }).catch(function(e) { console.error('n8n error:', e); });
+            } catch(e) {}
+        });
     </script>
     <script src="//js.hsforms.net/forms/embed/v2.js" charset="utf-8" type="text/javascript"></script>
     <script>
@@ -520,11 +507,6 @@
                             })
                         }).catch(function (err) { console.error('Sheet logging error:', err); });
 
-                        fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-remodel', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ firstname: first, phone: phone })
-                        }).catch(function (err) { console.error('n8n webhook error:', err); });
                     } catch (err) { console.error('Quote mapping error:', err); }
                     return true;
                 },
