@@ -302,10 +302,11 @@
                 if (!rawPhone) return;
                 var phone = '+1' + rawPhone.replace(/\D/g, '').slice(-10);
                 var firstname = fields.firstname || '';
+                var message = fields.message || '';
                 fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-remodel', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({firstname: firstname, phone: phone})
+                    body: JSON.stringify({firstname: firstname, phone: phone, message: message})
                 }).catch(function(e) { console.error('n8n error:', e); });
             } catch(e) {}
         });

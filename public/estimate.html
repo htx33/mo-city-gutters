@@ -350,6 +350,7 @@
 
         function createHubSpotForm(quote) {
             if (window.hubspotFormCreated) return;
+            window._gutterQuote = quote;
             if (!window.hbspt) {
                 document.getElementById('hubspotForm').innerHTML =
                     '<p style="color:#C0392B">The contact form couldn\'t load. Please refresh the page, or text us your estimate request at (281) 201-4870.</p>';
@@ -439,6 +440,38 @@
             setProgress(1);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+    </script>
+
+    <script>
+        window.addEventListener('message', function(event) {
+            try {
+                var msg = (typeof event.data === 'string') ? JSON.parse(event.data) : event.data;
+                if (!msg || msg.type !== 'hsFormCallback') return;
+                if (msg.id !== '7f60e194-301c-4b67-b9f5-2a25f16aae07') return;
+                if (msg.eventName !== 'onFormSubmit' && msg.eventName !== 'onFormSubmitted') return;
+                var fields = {};
+                (msg.data || []).forEach(function(f) { fields[f.name] = f.value; });
+                var rawPhone = fields.phone || fields.mobilephone || '';
+                if (!rawPhone) return;
+                var phone = '+1' + rawPhone.replace(/\D/g, '').slice(-10);
+                var q = window._gutterQuote || {};
+                var guards = q.premiumGuards ? 'premium guards' : (q.standardGuards ? 'standard guards' : 'no guards');
+                fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-gutter', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        firstname: fields.firstname || '',
+                        phone: phone,
+                        estimateAmount: q.formattedTotal || '',
+                        gutterType: q.gutterType || '',
+                        linearFeet: q.linearFeet || '',
+                        stories: q.stories || '',
+                        guards: guards,
+                        cleaning: q.cleaning ? 'yes' : 'no'
+                    })
+                }).catch(function(e) { console.error('n8n error:', e); });
+            } catch(e) {}
+        });
     </script>
 </body>
 </html>
