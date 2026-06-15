@@ -303,10 +303,20 @@
                 var phone = '+1' + rawPhone.replace(/\D/g, '').slice(-10);
                 var firstname = fields.firstname || '';
                 var message = fields.message || '';
+                var rq = window._remodelQuote || {};
+                var estimateRange = (rq.lowDisplay && rq.highDisplay)
+                    ? '$' + rq.lowDisplay.toLocaleString() + ' – $' + rq.highDisplay.toLocaleString()
+                    : '';
                 fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-remodel', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({firstname: firstname, phone: phone, message: message})
+                    body: JSON.stringify({
+                        firstname: firstname,
+                        phone: phone,
+                        message: message,
+                        service: rq.category || '',
+                        estimateRange: estimateRange
+                    })
                 }).catch(function(e) { console.error('n8n error:', e); });
             } catch(e) {}
         });
@@ -433,6 +443,7 @@
             q.lowDisplay = roundTo(q.low, q.low > 4000 ? 250 : 100);
             q.highDisplay = roundTo(q.high, q.high > 4000 ? 250 : 100);
             quote = q;
+            window._remodelQuote = q;
             setStage(2);
             createHubSpotForm();
         }
