@@ -152,8 +152,14 @@
         .nav a { text-decoration: none; font-weight: 600; font-size: 15px; color: var(--ink-soft); }
         .nav a:hover { color: var(--storm); }
         .header-phone { font-family: var(--font-mono); font-weight: 600; font-size: 14px; color: var(--storm); text-decoration: none; white-space: nowrap; }
-        .header-cta { padding: 11px 18px; font-size: 14px; }
+        .header-cta { padding: 11px 18px; font-size: 14px; cursor: pointer; border: none; font-family: var(--font-body); font-weight: 700; letter-spacing: .01em; }
         .nav-toggle { display: none; background: none; border: 1px solid var(--line); border-radius: 8px; padding: 8px 11px; font-size: 18px; color: var(--storm); cursor: pointer; }
+        .header-cta-wrap { position: relative; }
+        .cta-dropdown { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,.13); min-width: 190px; z-index: 200; overflow: hidden; }
+        .cta-dropdown a { display: block; padding: 13px 18px; font-weight: 600; font-size: 14px; color: var(--storm); text-decoration: none; border-bottom: 1px solid var(--line); }
+        .cta-dropdown a:last-child { border-bottom: none; }
+        .cta-dropdown a:hover { background: var(--surface); }
+        .header-cta-wrap.open .cta-dropdown { display: block; }
 
         /* Hero */
         .hero { background: var(--storm); color: #fff; position: relative; overflow: hidden; }
@@ -420,9 +426,17 @@
                 <a href="#areas">Service Area</a>
                 <a href="#faq">FAQ</a>
                 <a href="/measure.html">How to Measure</a>
+                <a href="/estimate.html">Gutter Estimate</a>
+                <a href="/remodel-estimate.html">Remodel Estimate</a>
             </nav>
             <a class="header-phone" href="tel:+12812014870">(281) 201-4870</a>
-            <a class="btn btn-copper header-cta" href="/estimate.html">Free estimate</a>
+            <div class="header-cta-wrap" id="ctaWrap">
+                <button class="btn btn-copper header-cta" onclick="document.getElementById('ctaWrap').classList.toggle('open')">Free estimate ▾</button>
+                <div class="cta-dropdown">
+                    <a href="/estimate.html">Gutter Estimate</a>
+                    <a href="/remodel-estimate.html">Remodel Estimate</a>
+                </div>
+            </div>
             <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('nav').classList.toggle('open')">☰</button>
         </div>
         <div class="coil-strip" aria-hidden="true">
@@ -850,6 +864,13 @@
         // Close mobile nav on link tap
         document.querySelectorAll('#nav a').forEach(function (a) {
             a.addEventListener('click', function () { document.getElementById('nav').classList.remove('open'); });
+        });
+
+        // Close estimate dropdown on outside click
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('#ctaWrap')) {
+                document.getElementById('ctaWrap').classList.remove('open');
+            }
         });
     </script>
 </body>
