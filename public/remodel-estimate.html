@@ -315,7 +315,8 @@
                         phone: phone,
                         message: message,
                         service: rq.category || '',
-                        estimateRange: estimateRange
+                        estimateRange: estimateRange,
+                        details: rq.detailsText || ''
                     })
                 }).catch(function(e) { console.error('n8n error:', e); });
             } catch(e) {}
