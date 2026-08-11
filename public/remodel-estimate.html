@@ -289,39 +289,6 @@
         <p class="foot-note">Gutters instead? <a href="/estimate.html">Get a gutter ballpark here</a> &middot; Questions? Text <a href="sms:+12812014870">(281) 201-4870</a></p>
     </main>
 
-    <script>
-        window.addEventListener('message', function(event) {
-            try {
-                var msg = (typeof event.data === 'string') ? JSON.parse(event.data) : event.data;
-                if (!msg || msg.type !== 'hsFormCallback') return;
-                if (msg.id !== '535b34c9-2a6e-4ff6-8db1-2a18607fe976') return;
-                if (msg.eventName !== 'onFormSubmit' && msg.eventName !== 'onFormSubmitted') return;
-                var fields = {};
-                (msg.data || []).forEach(function(f) { fields[f.name] = f.value; });
-                var rawPhone = fields.mobilephone || fields.phone || '';
-                if (!rawPhone) return;
-                var phone = '+1' + rawPhone.replace(/\D/g, '').slice(-10);
-                var firstname = fields.firstname || '';
-                var message = fields.message || '';
-                var rq = window._remodelQuote || {};
-                var estimateRange = (rq.lowDisplay && rq.highDisplay)
-                    ? '$' + rq.lowDisplay.toLocaleString() + ' – $' + rq.highDisplay.toLocaleString()
-                    : '';
-                fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-remodel', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        firstname: firstname,
-                        phone: phone,
-                        message: message,
-                        service: rq.category || '',
-                        estimateRange: estimateRange,
-                        details: rq.detailsText || ''
-                    })
-                }).catch(function(e) { console.error('n8n error:', e); });
-            } catch(e) {}
-        });
-    </script>
     <script src="//js.hsforms.net/forms/embed/v2.js" charset="utf-8" type="text/javascript"></script>
     <script>
         /* ============================================================
@@ -354,7 +321,7 @@
             }
         };
 
-        var HUBSPOT = { region: "na1", portalId: "48384794", formId: "535b34c9-2a6e-4ff6-8db1-2a18607fe976" };
+        var HUBSPOT = { region: "na1", portalId: "48384794", formId: "7f60e194-301c-4b67-b9f5-2a25f16aae07" };
 
         var activeCat = 'flooring';
         var quote = null; // { category, detailsText, low, high, units }
@@ -444,7 +411,6 @@
             q.lowDisplay = roundTo(q.low, q.low > 4000 ? 250 : 100);
             q.highDisplay = roundTo(q.high, q.high > 4000 ? 250 : 100);
             quote = q;
-            window._remodelQuote = q;
             setStage(2);
             createHubSpotForm();
         }
@@ -475,43 +441,29 @@
                 portalId: HUBSPOT.portalId,
                 formId: HUBSPOT.formId,
                 target: "#hubspotForm",
-                onFormReady: function ($form) {
-                    var f = ($form instanceof Element) ? $form : ($form[0] || $form);
-                    var watchField = function(sel) {
-                        var el = f.querySelector(sel);
-                        if (el) el.addEventListener('change', function() { window._remodelPhone = this.value; });
-                        if (el) el.addEventListener('input', function() { window._remodelPhone = this.value; });
-                    };
-                    watchField('input[name="mobilephone"]');
-                    watchField('input[name="phone"]');
-                },
                 onFormSubmit: function ($form) {
                     try {
                         if (!quote) return true;
-                        var f = ($form instanceof Element) ? $form : $form[0];
-                        var val = function(sel) { var el = f.querySelector(sel); return el ? el.value : ''; };
                         var rangeText = fmtMoney(quote.lowDisplay) + ' – ' + fmtMoney(quote.highDisplay);
                         var desc = 'REMODEL Ballpark — ' + quote.category + '\n' +
                                    '- Details: ' + quote.detailsText + '\n' +
                                    '- Range shown: ' + rangeText +
                                    (quote.note ? '\n- Note: ' + quote.note : '');
-                        var descField = f.querySelector('textarea[name="message"]');
-                        if (descField) descField.value = desc;
-                        var estimateField = f.querySelector('input[name="estimate_amount"]');
-                        if (estimateField) estimateField.value = rangeText;
+                        var descField = $form.find('textarea[name="message"]');
+                        if (descField && descField.length) descField.val(desc);
+                        $form.find('input[name="estimate_amount"]').val(rangeText);
 
-                        var first = window._remodelFirst || val('input[name="firstname"]');
-                        var last = val('input[name="lastname"]');
-                        var rawPhone = window._remodelPhone || val('input[name="mobilephone"]') || val('input[name="phone"]');
-                        var phone = rawPhone ? '+1' + rawPhone.replace(/\D/g, '').slice(-10) : '';
+                        // Log to backend sheet (reuses gutter columns: type=category, length=units)
+                        var first = $form.find('input[name="firstname"]').val() || '';
+                        var last = $form.find('input[name="lastname"]').val() || '';
                         fetch('/api/estimate', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 name: (first + ' ' + last).trim(),
-                                email: val('input[name="email"]'),
-                                phone: phone,
-                                address: val('input[name="address"]'),
+                                email: $form.find('input[name="email"]').val() || '',
+                                phone: $form.find('input[name="phone"]').val() || '',
+                                address: $form.find('input[name="address"]').val() || '',
                                 homeLength: quote.units,
                                 gutterType: 'REMODEL: ' + quote.category,
                                 stories: 0,
@@ -519,7 +471,6 @@
                                 estimateAmount: (quote.lowDisplay + quote.highDisplay) / 2
                             })
                         }).catch(function (err) { console.error('Sheet logging error:', err); });
-
                     } catch (err) { console.error('Quote mapping error:', err); }
                     return true;
                 },
