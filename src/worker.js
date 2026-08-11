@@ -81,8 +81,61 @@ async function getAccessToken(clientEmail, privateKey) {
   return data.access_token;
 }
 
+function toE164(raw) {
+  const digits = (raw || '').replace(/\D/g, '');
+  if (!digits) return '';
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
+  if (raw && raw.startsWith('+')) return raw;
+  return `+${digits}`;
+}
+
+function guardsLabel(services) {
+  if (!services) return 'no guards';
+  if (services.includes('premiumGutterGuards')) return 'premium guards';
+  if (services.includes('gutterGuards')) return 'standard guards';
+  return 'no guards';
+}
+
+// Sends the lead straight to the n8n "hubspot-gutter" webhook so the quote
+// text goes out even if the HubSpot workflow that used to relay this is
+// paused/unlicensed. Fire-and-forget via ctx.waitUntil so it never blocks
+// or breaks the Google Sheets logging below.
+function notifyN8n(data, ctx) {
+  // Remodel submissions also hit this endpoint (gutterType prefixed
+  // "REMODEL: ..."), but they need the separate hubspot-remodel webhook
+  // and its own message template — not wired up yet, so skip them here
+  // rather than send a garbled gutter-flavored text.
+  if (!data.gutterType || data.gutterType.indexOf('REMODEL:') === 0) return;
+
+  const phone = toE164(data.phone);
+  if (!phone) return;
+
+  const payload = {
+    firstname: (data.name || '').trim().split(' ')[0] || 'there',
+    phone,
+    estimateAmount: '$' + Number(data.estimateAmount).toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }),
+    gutterType: data.gutterType,
+    linearFeet: data.homeLength,
+    stories: data.stories,
+    guards: guardsLabel(data.additionalServices),
+    cleaning: (data.additionalServices || []).includes('cleaningService') ? 'yes' : 'no',
+  };
+
+  ctx.waitUntil(
+    fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-gutter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).catch((err) => console.error('n8n webhook error:', err.message))
+  );
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     try {
       // Handle CORS preflight
       if (request.method === 'OPTIONS') {
@@ -102,7 +155,10 @@ export default {
 
       // Parse request body
       const data = await request.json();
-      
+
+      // Trigger the lead-text automation directly, independent of HubSpot Workflows
+      notifyN8n(data, ctx);
+
       // Format data for sheet
       const row = [
         new Date().toLocaleDateString(),    // Date
