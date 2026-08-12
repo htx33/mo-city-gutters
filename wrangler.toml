@@ -9,4 +9,8 @@ GOOGLE_SHEETS_CLIENT_EMAIL = "quotes-service@mcg-website-443005.iam.gserviceacco
 [env.production]
 routes = ["mocitygutters.com/api/*"]
 
+[env.production.vars]
+GOOGLE_SHEETS_SPREADSHEET_ID = "1VJYPSEtsSmN9yeW1t27iwnZKDusVY9DwbuocN9tVPpA"
+GOOGLE_SHEETS_CLIENT_EMAIL = "quotes-service@mcg-website-443005.iam.gserviceaccount.com"
+
 # Don't put private key here - it should be set via wrangler secret
