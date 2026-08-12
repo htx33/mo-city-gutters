@@ -468,7 +468,11 @@
                                 gutterType: 'REMODEL: ' + quote.category,
                                 stories: 0,
                                 additionalServices: [],
-                                estimateAmount: (quote.lowDisplay + quote.highDisplay) / 2
+                                estimateAmount: (quote.lowDisplay + quote.highDisplay) / 2,
+                                message: desc,
+                                service: quote.category,
+                                estimateRange: rangeText,
+                                details: quote.detailsText
                             })
                         }).catch(function (err) { console.error('Sheet logging error:', err); });
                     } catch (err) { console.error('Quote mapping error:', err); }

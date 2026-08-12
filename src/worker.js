@@ -97,17 +97,12 @@ function guardsLabel(services) {
   return 'no guards';
 }
 
-// Sends the lead straight to the n8n "hubspot-gutter" webhook so the quote
-// text goes out even if the HubSpot workflow that used to relay this is
-// paused/unlicensed. Fire-and-forget via ctx.waitUntil so it never blocks
-// or breaks the Google Sheets logging below.
-function notifyN8n(data, ctx) {
-  // Remodel submissions also hit this endpoint (gutterType prefixed
-  // "REMODEL: ..."), but they need the separate hubspot-remodel webhook
-  // and its own message template — not wired up yet, so skip them here
-  // rather than send a garbled gutter-flavored text.
-  if (!data.gutterType || data.gutterType.indexOf('REMODEL:') === 0) return;
-
+// Moved here from a client-side postMessage listener (removed from
+// estimate.html / remodel-estimate.html in the "redesign" pass) that used
+// to fire these webhooks directly from the browser. Doing it server-side
+// instead so it can't be lost again in a front-end cleanup, and doesn't
+// depend on the visitor's browser actually running the listener.
+function notifyN8nGutter(data, ctx) {
   const phone = toE164(data.phone);
   if (!phone) return;
 
@@ -130,8 +125,38 @@ function notifyN8n(data, ctx) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-    }).catch((err) => console.error('n8n webhook error:', err.message))
+    }).catch((err) => console.error('n8n gutter webhook error:', err.message))
   );
+}
+
+function notifyN8nRemodel(data, ctx) {
+  const phone = toE164(data.phone);
+  if (!phone) return;
+
+  const payload = {
+    firstname: (data.name || '').trim().split(' ')[0] || 'there',
+    phone,
+    message: data.message || '',
+    service: data.service || '',
+    estimateRange: data.estimateRange || '',
+    details: data.details || '',
+  };
+
+  ctx.waitUntil(
+    fetch('https://n8n.srv1115960.hstgr.cloud/webhook/hubspot-remodel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).catch((err) => console.error('n8n remodel webhook error:', err.message))
+  );
+}
+
+function notifyN8n(data, ctx) {
+  if (data.gutterType && data.gutterType.indexOf('REMODEL:') === 0) {
+    notifyN8nRemodel(data, ctx);
+  } else if (data.gutterType) {
+    notifyN8nGutter(data, ctx);
+  }
 }
 
 export default {
