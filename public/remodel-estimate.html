@@ -429,6 +429,29 @@
             setStage(1);
         }
 
+        /* HubSpot's onFormSubmit hands back either a jQuery object or a plain
+           DOM element depending on the embed build. These helpers work with
+           both and never throw, so one bad selector can't stop the lead from
+           reaching /api/estimate. */
+        function formEl($form) {
+            if (!$form) return null;
+            if ($form.jquery || (typeof $form.length === 'number' && !$form.querySelector)) return $form[0] || null;
+            return $form;
+        }
+        function getVal(f, sel) {
+            try { var el = f && f.querySelector(sel); return el && el.value ? el.value : ''; }
+            catch (e) { return ''; }
+        }
+        function setVal(f, sel, v) {
+            try { var el = f && f.querySelector(sel); if (el) el.value = v; }
+            catch (e) { /* field not present on this form — ignore */ }
+        }
+        // HubSpot forms use either "phone" or "mobilephone" depending on setup.
+        // The backend skips the text entirely when phone is blank, so check both.
+        function getPhone(f) {
+            return getVal(f, 'input[name="phone"]') || getVal(f, 'input[name="mobilephone"]');
+        }
+
         function createHubSpotForm() {
             if (window.hubspotFormCreated) return;
             if (!window.hbspt) {
@@ -442,28 +465,35 @@
                 formId: HUBSPOT.formId,
                 target: "#hubspotForm",
                 onFormSubmit: function ($form) {
-                    try {
-                        if (!quote) return true;
-                        var rangeText = fmtMoney(quote.lowDisplay) + ' – ' + fmtMoney(quote.highDisplay);
-                        var desc = 'REMODEL Ballpark — ' + quote.category + '\n' +
-                                   '- Details: ' + quote.detailsText + '\n' +
-                                   '- Range shown: ' + rangeText +
-                                   (quote.note ? '\n- Note: ' + quote.note : '');
-                        var descField = $form.find('textarea[name="message"]');
-                        if (descField && descField.length) descField.val(desc);
-                        $form.find('input[name="estimate_amount"]').val(rangeText);
+                    if (!quote) return true;
+                    // See formEl() — $form may be jQuery or a plain DOM element.
+                    var f = formEl($form);
+                    var rangeText = fmtMoney(quote.lowDisplay) + ' – ' + fmtMoney(quote.highDisplay);
+                    var desc = 'REMODEL Ballpark — ' + quote.category + '\n' +
+                               '- Details: ' + quote.detailsText + '\n' +
+                               '- Range shown: ' + rangeText +
+                               (quote.note ? '\n- Note: ' + quote.note : '');
 
-                        // Log to backend sheet (reuses gutter columns: type=category, length=units)
-                        var first = $form.find('input[name="firstname"]').val() || '';
-                        var last = $form.find('input[name="lastname"]').val() || '';
+                    // Cosmetic HubSpot field population — must not block the lead below.
+                    try {
+                        setVal(f, 'textarea[name="message"]', desc);
+                        setVal(f, 'input[name="estimate_amount"]', rangeText);
+                    } catch (err) { console.error('Quote mapping error:', err); }
+
+                    // Send the lead to our backend, which fires the n8n remodel text
+                    // webhook and logs to Google Sheets (reuses gutter columns:
+                    // type=category, length=units).
+                    try {
+                        var first = getVal(f, 'input[name="firstname"]');
+                        var last = getVal(f, 'input[name="lastname"]');
                         fetch('/api/estimate', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 name: (first + ' ' + last).trim(),
-                                email: $form.find('input[name="email"]').val() || '',
-                                phone: $form.find('input[name="phone"]').val() || '',
-                                address: $form.find('input[name="address"]').val() || '',
+                                email: getVal(f, 'input[name="email"]'),
+                                phone: getPhone(f),
+                                address: getVal(f, 'input[name="address"]'),
                                 homeLength: quote.units,
                                 gutterType: 'REMODEL: ' + quote.category,
                                 stories: 0,
@@ -474,8 +504,8 @@
                                 estimateRange: rangeText,
                                 details: quote.detailsText
                             })
-                        }).catch(function (err) { console.error('Sheet logging error:', err); });
-                    } catch (err) { console.error('Quote mapping error:', err); }
+                        }).catch(function (err) { console.error('Lead POST error:', err); });
+                    } catch (err) { console.error('Lead POST setup error:', err); }
                     return true;
                 },
                 onFormSubmitted: function () {
