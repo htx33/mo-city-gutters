@@ -1,3 +1,11 @@
+function pemToBinary(privateKey) {
+  const normalized = (privateKey || '').replace(/\\n/g, '\n');
+  const match = normalized.match(/-----BEGIN [^-]+-----([\s\S]*?)-----END [^-]+-----/);
+  const body = (match ? match[1] : normalized).replace(/\s/g, '');
+  if (!body) throw new Error('GOOGLE_SHEETS_PRIVATE_KEY is empty or malformed');
+  return Uint8Array.from(atob(body), (c) => c.charCodeAt(0));
+}
+
 async function getAccessToken(clientEmail, privateKey) {
   // Create JWT header
   const header = {
@@ -28,16 +36,10 @@ async function getAccessToken(clientEmail, privateKey) {
   // Create signature input
   const signatureInput = `${base64Header}.${base64ClaimSet}`;
 
-  // Prepare private key
-  const pemHeader = '-----BEGIN PRIVATE KEY-----';
-  const pemFooter = '-----END PRIVATE KEY-----';
-  const pemContents = privateKey
-    .replace(pemHeader, '')
-    .replace(pemFooter, '')
-    .replace(/\s/g, '');
-
-  // Convert PEM to binary
-  const binaryKey = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+  // Convert PEM to binary. The key is commonly copied straight out of the
+  // service-account JSON, where newlines are escaped as literal "\n" — those
+  // survive a /\s/ strip and make atob() throw, so unescape them first.
+  const binaryKey = pemToBinary(privateKey);
 
   // Import key
   const key = await crypto.subtle.importKey(
